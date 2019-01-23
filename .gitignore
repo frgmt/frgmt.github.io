@@ -1,0 +1,5 @@
+_posts.tmp
+.ruby-version
+.sass-cache
+.jekyll-metadata
+Gemfile.lock
