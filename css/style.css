@@ -1,0 +1,68 @@
+@charset "UTF-8";
+
+/* リセット */
+html, body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, dl, dt, dd, form, address, strong, em, table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    vertical-align: baseline;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 100%;
+}
+
+img {
+    border: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    min-width: 400px; /*中央配置するボックスの横幅*/
+    min-height: 50px; /*中央配置するボックス縦幅*/
+    background-color: #FFF;
+}
+
+.clearfix:before, .clearfix:after {
+    content: "";
+    display: table;
+}
+.clearfix:after {
+    clear: both;
+}
+.clearfix {
+    zoom: 1;
+}
+
+div {
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-size: 30px;
+    font-family: 'Rock Salt', cursive;
+    /*font-family: 'Oleo Script Swash Caps', cursive;
+    font-family: 'Gloria Hallelujah', cursive;
+    font-family: 'UnifrakturCook', cursive;
+    font-family: 'Monofett', cursive;
+    font-family: 'Monoton', cursive;
+    font-family: 'Rock Salt', cursive;
+    font-family: 'Leckerli One', cursive;
+    font-family: 'Nova Square', cursive;*/
+}
+
+#wrapper {
+    margin: -50px 0 0 -200px; /*縦横の半分をネガティブマージンでずらす*/
+    position: absolute; /*body要素に対して絶対配置*/
+    top: 50%; /*上端を中央に*/
+    left: 50%; /*左端を中央に*/
+    width: 400px; /*横幅*/
+    height: 50px; /*縦幅*/
+    text-align: center;
+}
