@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support - My Recipe</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 50%, #c44569 100%);
+            padding: 6rem 0 4rem;
+            color: white;
+            text-align: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 400px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Support Section */
+        .support-section {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #2d3748;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #718096;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Contact Card */
+        .contact-card {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 4rem;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        }
+
+        .contact-card h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-card p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .contact-email {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .contact-email:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 4rem 0;
+            background: #f8fafc;
+        }
+
+        .faq-grid {
+            display: grid;
+            gap: 1.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+
+        .faq-question {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .faq-question i {
+            color: #ff6b6b;
+        }
+
+        .faq-answer {
+            color: #718096;
+            line-height: 1.8;
+        }
+
+        .faq-answer ul {
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .faq-answer li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Resources Section */
+        .resources-section {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .resource-card {
+            background: #f8fafc;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .resource-card:hover {
+            border-color: #ff6b6b;
+            transform: translateY(-5px);
+        }
+
+        .resource-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .resource-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #2d3748;
+        }
+
+        .resource-card p {
+            color: #718096;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .resource-link {
+            display: inline-block;
+            color: #ff6b6b;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .resource-link:hover {
+            color: #ee5a6f;
+        }
+
+        /* Footer */
+        .footer {
+            background: #2d3748;
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #ff6b6b;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #a0aec0;
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .footer-section a:hover {
+            color: #ff6b6b;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #4a5568;
+            padding-top: 2rem;
+            color: #a0aec0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .contact-card {
+                padding: 2rem;
+            }
+
+            .contact-email {
+                font-size: 1rem;
+                padding: 0.8rem 1.5rem;
+            }
+
+            .faq-question {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <a href="index_en.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <h1>Support</h1>
+            <p class="subtitle">
+                If you have questions or need help with My Recipe, please check here.
+            </p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="support-section">
+        <div class="container">
+            <div class="contact-card">
+                <h3><i class="fas fa-envelope"></i> Contact Us</h3>
+                <p>
+                    For questions about the app, bug reports, or feature requests,<br>
+                    please feel free to reach out.
+                </p>
+                <a href="mailto:support@fragment.co.jp" class="contact-email">
+                    <i class="fas fa-paper-plane"></i>
+                    support@fragment.co.jp
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <p class="section-subtitle">
+                Here are answers to common questions about using My Recipe.
+            </p>
+
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-question-circle"></i>
+                        What is My Recipe?
+                    </div>
+                    <div class="faq-answer">
+                        My Recipe is a recipe management app powered by AI technology. Simply enter a URL, and the AI will automatically extract recipe information and save it in a beautifully organized format.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-question-circle"></i>
+                        How do I add a recipe?
+                    </div>
+                    <div class="faq-answer">
+                        You can add recipes by following these steps:
+                        <ul>
+                            <li>Tap the "+" button at the bottom right of the home screen</li>
+                            <li>Enter the URL of the recipe page</li>
+                            <li>AI will automatically extract the title, ingredients, and cooking steps</li>
+                            <li>Add images if needed</li>
+                            <li>Select a category and save</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-question-circle"></i>
+                        Can I save recipes directly from Safari?
+                    </div>
+                    <div class="faq-answer">
+                        Yes, you can (iOS only). Open the recipe page in Safari, tap the share button, and select "Save to My Recipe" from the action area at the bottom. The app will automatically launch with the URL pre-filled in the recipe addition screen.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-question-circle"></i>
+                        How do I edit or delete a recipe?
+                    </div>
+                    <div class="faq-answer">
+                        Swipe left on a recipe from the home screen to reveal the edit and delete buttons. You can also edit from the edit button in the top right corner of the recipe detail screen.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-question-circle"></i>
+                        What should I do if a recipe isn't parsed correctly?
+                    </div>
+                    <div class="faq-answer">
+                        Some websites may not be parsed correctly. In that case, you can manually edit the parsed results, or please contact us with the URL through the contact form and we will work to improve it.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-question-circle"></i>
+                        Is there a data backup?
+                    </div>
+                    <div class="faq-answer">
+                        Yes, your recipe data is securely stored in the Supabase cloud. If you log in with the same account, you can access your data from a different device.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-question-circle"></i>
+                        What's the difference between the free and paid plans?
+                    </div>
+                    <div class="faq-answer">
+                        The free plan allows up to 5 AI recipe analyses per month. With the paid plan (Pro monthly plan), AI analysis is unlimited.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-question-circle"></i>
+                        How do I cancel my subscription?
+                    </div>
+                    <div class="faq-answer">
+                        You can manage your subscription from the App Store (iOS) or Google Play (Android) settings.
+                        <ul>
+                            <li><strong>iOS:</strong> Settings app → [Your Name] → Subscriptions → My Recipe Pro</li>
+                            <li><strong>Android:</strong> Google Play Store → Menu → Subscriptions → My Recipe Pro</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section class="resources-section">
+        <div class="container">
+            <h2 class="section-title">Other Resources</h2>
+            <p class="section-subtitle">
+                Additional information about using the app
+            </p>
+
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <div class="resource-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>Privacy Policy</h4>
+                    <p>About handling of personal information</p>
+                    <a href="privacy_policy_en.html" class="resource-link">
+                        View Details <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-icon">
+                        <i class="fas fa-file-contract"></i>
+                    </div>
+                    <h4>Terms of Use</h4>
+                    <p>Terms for using the service</p>
+                    <a href="terms_of_use_en.html" class="resource-link">
+                        View Details <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h4>Official Website</h4>
+                    <p>App details and download</p>
+                    <a href="index_en.html" class="resource-link">
+                        Go to Home <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>My Recipe</h4>
+                    <p>Manage your favorite recipes smarter.</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <a href="mailto:support@fragment.co.jp"><i class="fas fa-envelope"></i> support@fragment.co.jp</a>
+                    <a href="support_en.html"><i class="fas fa-question-circle"></i> FAQ</a>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Links</h4>
+                    <a href="privacy_policy_en.html">Privacy Policy</a>
+                    <a href="terms_of_use_en.html">Terms of Use</a>
+                    <a href="index_en.html">Home</a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 My Recipe. Made with ❤️</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

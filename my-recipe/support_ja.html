@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Recipe - サポート</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            min-height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0 30px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #7f8c8d;
+        }
+
+        section {
+            margin: 40px 0;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            color: #34495e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            color: #2c3e50;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .contact-box {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+        }
+
+        .contact-box a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .contact-box a:hover {
+            text-decoration: underline;
+        }
+
+        .faq-item {
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .faq-question {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .faq-answer {
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .link-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .link-button:hover {
+            background-color: #2980b9;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            border-top: 2px solid #e0e0e0;
+            color: #7f8c8d;
+        }
+
+        ul {
+            margin-left: 20px;
+            line-height: 2;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>My Recipe</h1>
+            <p class="subtitle">お気に入りのレシピをストックして、いつでも簡単にアクセス</p>
+        </header>
+
+        <section>
+            <h2>アプリについて</h2>
+            <p>
+                My Recipeは、お気に入りのレシピをURLから簡単に保存できる個人用レシピストックアプリです。
+                Webサイトのレシピページから自動的に材料や調理手順を抽出し、画像とともに保存・管理できます。
+            </p>
+            <p>
+                <strong>主な機能：</strong>
+            </p>
+            <ul>
+                <li>URLからレシピ情報を自動解析</li>
+                <li>材料と調理手順を整理して保存</li>
+                <li>画像付きでレシピを管理</li>
+                <li>カテゴリー別・五十音順での整理</li>
+                <li>Safariからの直接共有機能（iOS）</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>お問い合わせ</h2>
+            <div class="contact-box">
+                <p><strong>サポートメールアドレス：</strong></p>
+                <p><a href="mailto:support@fragment.co.jp">support@fragment.co.jp</a></p>
+                <p style="margin-top: 15px;">
+                    アプリの使い方、不具合報告、機能改善のご要望など、お気軽にお問い合わせください。
+                    <br>通常、1-2営業日以内にご返信いたします。
+                </p>
+            </div>
+        </section>
+
+        <section>
+            <h2>よくある質問（FAQ）</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">Q. レシピを追加するにはどうすればよいですか？</div>
+                <div class="faq-answer">
+                    A. ホーム画面右下の「+」ボタンをタップし、レシピページのURLを入力してください。
+                    アプリが自動的にレシピ情報を解析し、タイトル・材料・調理手順を抽出します。
+                    必要に応じて画像を追加して保存してください。
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Q. Safariから直接レシピを保存できますか？</div>
+                <div class="faq-answer">
+                    A. はい、可能です（iOS版のみ）。Safariでレシピページを開き、シェアボタン（□に↑）をタップして、
+                    下部のアクションエリアから「My Recipeに保存」を選択してください。自動的にアプリが起動し、URLが入力された状態でレシピ追加画面が開きます。
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Q. レシピを編集・削除するにはどうすればよいですか？</div>
+                <div class="faq-answer">
+                    A. ホーム画面でレシピを左にスワイプすると、編集・削除ボタンが表示されます。
+                    また、レシピ詳細画面の右上にある編集ボタンからも編集できます。
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Q. レシピが正しく解析されない場合はどうすればよいですか？</div>
+                <div class="faq-answer">
+                    A. 一部のWebサイトは解析がうまくいかない場合があります。その場合は、解析結果を手動で編集するか、
+                    お問い合わせフォームから該当のURLをお知らせください。改善に努めます。
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Q. データのバックアップはありますか？</div>
+                <div class="faq-answer">
+                    A. はい、レシピデータはSupabaseクラウドに安全に保存されています。
+                    同じアカウントでログインすれば、別の端末からもアクセスできます。
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Q. 無料プランと有料プランの違いは何ですか？</div>
+                <div class="faq-answer">
+                    A. 無料プランでは月5回までレシピのAI解析が可能です。
+                    有料プラン（Pro monthly plan）では、AI解析回数が無制限になります。
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Q. サブスクリプションをキャンセルするには？</div>
+                <div class="faq-answer">
+                    A. App Store（iOS）またはGoogle Play（Android）の設定からサブスクリプションを管理できます。
+                    <br><br>
+                    <strong>iOS:</strong> 設定アプリ → [あなたの名前] → サブスクリプション → My Recipe Pro
+                    <br>
+                    <strong>Android:</strong> Google Play ストア → メニュー → 定期購入 → My Recipe Pro
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>関連リンク</h2>
+            <div class="links">
+                <a href="https://fragment.co.jp/my-recipe/privacy_policy.md" class="link-button">プライバシーポリシー</a>
+                <a href="https://fragment.co.jp/my-recipe/terms_of_use.md" class="link-button">利用規約</a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 Fragment Inc. All rights reserved.</p>
+            <p style="margin-top: 10px;">
+                <a href="https://fragment.co.jp" style="color: #3498db; text-decoration: none;">https://fragment.co.jp</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
