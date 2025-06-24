@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+</head>
+<body>
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+    const state = params.get('state');
+    const error = params.get('error');
+
+    let redirectUri = 'orbit://auth/threads?error=missing_parameters';
+    if (error) {
+        redirectUri = `orbit://auth/threads?error=${encodeURIComponent(error)}`;
+    } else if (code && state) {
+        redirectUri = `orbit://auth/threads?code=${encodeURIComponent(code)}&state=${encodeURIComponent(state)}`;
+    }
+    // Deep Link に自動遷移
+    window.location.href = redirectUri;
+</script>
+</body>
+</html>
