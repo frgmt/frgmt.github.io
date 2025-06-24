@@ -1,0 +1,11 @@
+{
+    "applinks": {
+      "apps": [],
+      "details": [
+        {
+          "appID": "8DR5DRAW9Q.jp.co.fragment.orbit",
+          "paths": ["/orbit/auth/threads/callback.html"]
+        }
+      ]
+    }
+  }
