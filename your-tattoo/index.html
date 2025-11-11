@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Tattoo - Tattoo Design Collection</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #e0e0e0;
+            overflow-x: hidden;
+            background: #0a0a0a;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            color: white;
+            text-align: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,215,0,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5), 0 0 30px rgba(255,215,0,0.3);
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            color: #ffd700;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .hero .description {
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            opacity: 0.8;
+            color: #c0c0c0;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: rgba(255,215,0,0.2);
+            color: #ffd700;
+            border: 2px solid rgba(255,215,0,0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-primary:hover {
+            background: rgba(255,215,0,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255,215,0,0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #1a1a1a;
+            border: 2px solid #ffd700;
+        }
+
+        .btn-secondary:hover {
+            background: transparent;
+            color: #ffd700;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255,215,0,0.3);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 0;
+            background: #0a0a0a;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #999;
+            margin-bottom: 4rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .feature-card {
+            background: #1a1a1a;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+            text-align: center;
+            border: 1px solid rgba(255,215,0,0.1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(255,215,0,0.2);
+            border-color: rgba(255,215,0,0.3);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: #1a1a1a;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #ffd700;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            color: #999;
+            line-height: 1.7;
+        }
+
+        /* Platforms Section */
+        .platforms {
+            padding: 6rem 0;
+            background: #1a1a1a;
+        }
+
+        .platforms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .platform-card {
+            background: #0a0a0a;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .platform-card:hover {
+            border-color: #ffd700;
+            transform: translateY(-5px);
+        }
+
+        .platform-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .platform-ios { background: linear-gradient(135deg, #000 0%, #333 100%); }
+        .platform-android { background: linear-gradient(135deg, #3ddc84 0%, #2ba75f 100%); }
+
+        .platform-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #ffd700;
+        }
+
+        .platform-card p {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        /* Screenshots Section */
+        .screenshots {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+            color: white;
+            position: relative;
+        }
+
+        .screenshots::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.05) 0%, transparent 70%);
+        }
+
+        .screenshots-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .phone-mockup {
+            width: 300px;
+            height: 604px;
+            background: #0a0a0a;
+            border-radius: 30px;
+            padding: 20px;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 20px rgba(255,215,0,0.2);
+            border: 2px solid rgba(255,215,0,0.3);
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #ffd700;
+        }
+
+        .phone-screen img {
+            width: 260px;
+            border-radius: 20px;
+        }
+
+        /* Footer */
+        .footer {
+            background: #0a0a0a;
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,215,0,0.2);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #ffd700;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #999;
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .footer-section a:hover {
+            color: #ffd700;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,215,0,0.2);
+            padding-top: 2rem;
+            color: #999;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Your Tattoo</h1>
+            <p class="subtitle">Tattoo Design Collection</p>
+            <p class="description">
+                世界中のタトゥーデザインを探索し、お気に入りのデザインをコレクション。あなただけのタトゥーライブラリを構築しましょう。
+            </p>
+            <div class="cta-buttons">
+                <a href="#features" class="btn btn-primary">
+                    <i class="fas fa-palette"></i>
+                    機能を見る
+                </a>
+                <a href="#download" class="btn btn-secondary">
+                    <i class="fas fa-download"></i>
+                    ダウンロード
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">便利な機能</h2>
+            <p class="section-subtitle">
+                タトゥーデザインの発見から管理まで、すべてをシンプルで美しいインターフェースで提供します。
+            </p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>豊富なデザイン</h3>
+                    <p>世界中のタトゥーアーティストの作品を閲覧。様々なスタイル、テーマ、サイズのデザインから、あなたにぴったりのものを見つけられます。</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>お気に入り管理</h3>
+                    <p>気になるデザインをお気に入りに追加。自分だけのコレクションを作成し、いつでも簡単にアクセスできます。</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-folder-open"></i>
+                    </div>
+                    <h3>カテゴリー分類</h3>
+                    <p>トライバル、リアリスティック、和彫りなど、スタイル別にデザインを整理。カスタマイズ可能なカテゴリーで効率的に管理できます。</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-filter"></i>
+                    </div>
+                    <h3>詳細フィルター</h3>
+                    <p>サイズ、カラー、スタイル、部位で絞り込み検索。あなたの理想のデザインを素早く見つけられます。</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                    <h3>簡単シェア</h3>
+                    <p>お気に入りのデザインを友達やタトゥーアーティストと共有。アイデアを交換して、最高のタトゥーを実現しましょう。</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>ネイティブ体験</h3>
+                    <p>Flutterで開発されたiOS/Androidネイティブアプリ。スムーズなアニメーションと快適な操作性を提供します。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Supported Platforms -->
+    <section class="platforms">
+        <div class="container">
+            <h2 class="section-title">対応プラットフォーム</h2>
+            <p class="section-subtitle">
+                iOS・Android両方に対応。お使いのデバイスで、いつでもどこでもタトゥーデザインを探索できます。
+            </p>
+
+            <div class="platforms-grid">
+                <div class="platform-card">
+                    <div class="platform-icon platform-ios">
+                        <i class="fab fa-apple"></i>
+                    </div>
+                    <h4>iOS</h4>
+                    <p>iPhone・iPadに対応。美しいインターフェースで快適なブラウジング体験</p>
+                </div>
+
+                <div class="platform-card">
+                    <div class="platform-icon platform-android">
+                        <i class="fab fa-android"></i>
+                    </div>
+                    <h4>Android</h4>
+                    <p>Android端末に対応。快適な操作性とネイティブパフォーマンス</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots -->
+    <section class="screenshots">
+        <div class="container">
+            <h2 class="section-title">美しいインターフェース</h2>
+            <p class="section-subtitle">
+                ダークテーマで目に優しく、デザインを引き立てるこだわりのUIです。
+            </p>
+
+            <div class="screenshots-container">
+                <div class="phone-mockup">
+                    <div class="phone-screen">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                </div>
+                <div class="phone-mockup">
+                    <div class="phone-screen">
+                        <i class="fas fa-images"></i>
+                    </div>
+                </div>
+                <div class="phone-mockup">
+                    <div class="phone-screen">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="download">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Your Tattoo</h4>
+                    <p>あなただけのタトゥーデザインコレクションを作りましょう。</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4>ダウンロード</h4>
+                    <a href="https://apps.apple.com/us/app/your-tattoo/"><i class="fab fa-apple"></i> App Store（近日公開）</a>
+                    <a href="#"><i class="fab fa-google-play"></i> Google Play（近日公開）</a>
+                </div>
+
+                <div class="footer-section">
+                    <h4>サポート</h4>
+                    <a href="privacy_policy.md">プライバシーポリシー</a>
+                    <a href="terms_of_use.md">利用規約</a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 Your Tattoo. Made with ❤️</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all feature cards and platform cards
+        document.querySelectorAll('.feature-card, .platform-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
