@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soporte - Qdeck</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 50%, #2E5C8A 100%);
+            padding: 6rem 0 4rem;
+            color: white;
+            text-align: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 400px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Support Section */
+        .support-section {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #2d3748;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #718096;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Contact Card */
+        .contact-card {
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 4rem;
+            box-shadow: 0 10px 30px rgba(74, 144, 226, 0.3);
+        }
+
+        .contact-card h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-card p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .contact-email {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .contact-email:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 4rem 0;
+            background: #f8fafc;
+        }
+
+        .faq-grid {
+            display: grid;
+            gap: 1.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+
+        .faq-question {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .faq-question i {
+            color: #4A90E2;
+        }
+
+        .faq-answer {
+            color: #718096;
+            line-height: 1.8;
+        }
+
+        .faq-answer ul {
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .faq-answer li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Resources Section */
+        .resources-section {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .resource-card {
+            background: #f8fafc;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .resource-card:hover {
+            border-color: #4A90E2;
+            transform: translateY(-5px);
+        }
+
+        .resource-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .resource-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #2d3748;
+        }
+
+        .resource-card p {
+            color: #718096;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .resource-link {
+            display: inline-block;
+            color: #4A90E2;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .resource-link:hover {
+            color: #357ABD;
+        }
+
+        /* Footer */
+        .footer {
+            background: #2d3748;
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #4A90E2;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #a0aec0;
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .footer-section a:hover {
+            color: #4A90E2;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #4a5568;
+            padding-top: 2rem;
+            color: #a0aec0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .contact-card {
+                padding: 2rem;
+            }
+
+            .contact-email {
+                font-size: 1rem;
+                padding: 0.8rem 1.5rem;
+            }
+
+            .faq-question {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Volver al Inicio
+            </a>
+            <h1>Soporte</h1>
+            <p class="subtitle">
+                Qdeckに関するご質問やSoporteが必要な場合は、こちらをご確認ください。
+            </p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="support-section">
+        <div class="container">
+            <div class="contact-card">
+                <h3><i class="fas fa-envelope"></i> Contacto</h3>
+                <p>
+                    Preguntas sobre la aplicación, informes de errores, solicitudes de funciones, etc.、<br>
+                    お気軽にContactoください。
+                </p>
+                <a href="mailto:support@fragment.co.jp" class="contact-email">
+                    <i class="fas fa-paper-plane"></i>
+                    support@fragment.co.jp
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <h2 class="section-title">Preguntas Frecuentes</h2>
+            <p class="section-subtitle">
+                Aquí están las preguntas frecuentes sobre el uso de Qdeck.。
+            </p>
+
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-question-circle"></i>
+                        ¿Qué es Qdeck?
+                    </div>
+                    <div class="faq-answer">
+                        Qdeck es una aplicación de gestión de preguntas que utiliza tecnología OCR。教科書や参考書をカメラで撮影するだけで、AIが自動的に問題を認識し、デジタル問題集を作成できます。
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-question-circle"></i>
+                        ¿Cómo creo preguntas?
+                    </div>
+                    <div class="faq-answer">
+                        以下の手順で問題を作成できます：
+                        <ul>
+                            <li>アプリを起動して「問題作成」をタップ</li>
+                            <li>カメラで問題を撮影、またはフォトライブラリから選択</li>
+                            <li>OCRが自動的に問題文を認識</li>
+                            <li>必要に応じて編集し、選択肢や解答を追加</li>
+                            <li>カテゴリーを選択して保存</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-question-circle"></i>
+                        ¿Hay consejos para mejorar la precisión del reconocimiento OCR?
+                    </div>
+                    <div class="faq-answer">
+                        以下のポイントに注意すると認識精度が向上します：
+                        <ul>
+                            <li>明るい場所で撮影する</li>
+                            <li>文字がはっきり見えるようにピントを合わせる</li>
+                            <li>紙面全体が画面に収まるようにする</li>
+                            <li>影が入らないように撮影する</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-question-circle"></i>
+                        ¿Puedo exportar conjuntos de preguntas como PDF?
+                    </div>
+                    <div class="faq-answer">
+                        はい、作成した問題集をPDF形式で出力できます。問題一覧から問題を選択し、「PDF出力」ボタンをタップすることで、印刷可能なPDFファイルを生成できます。
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-question-circle"></i>
+                        ¿Necesito hacer una copia de seguridad de los datos?
+                    </div>
+                    <div class="faq-answer">
+                        現在、データは端末内に保存されます。大切なデータを失わないよう、定期的にPDF出力でバックアップを取ることをお勧めします。今後のアップデートでクラウド同期機能を予定しています。
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-question-circle"></i>
+                        ¿Qué idiomas son compatibles?
+                    </div>
+                    <div class="faq-answer">
+                        現在、日本語のOCR認識に対応しています。アプリのインターフェースも日本語です。
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-question-circle"></i>
+                        ¿Hay cargos o anuncios?
+                    </div>
+                    <div class="faq-answer">
+                        基本機能は無料でご利用いただけます。一部のプレミアム機能（無制限の問題作成、高度なOCR機能など）は有料プランでご利用いただけます。
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-question-circle"></i>
+                        La aplicación no funciona o se bloquea
+                    </div>
+                    <div class="faq-answer">
+                        以下の方法をお試しください：
+                        <ul>
+                            <li>アプリを完全に終了して再起動</li>
+                            <li>端末を再起動</li>
+                            <li>最新バージョンにアップデート</li>
+                            <li>それでも解決しない場合は、support@fragment.co.jpまでContactoください</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section class="resources-section">
+        <div class="container">
+            <h2 class="section-title">Otros Recursos</h2>
+            <p class="section-subtitle">
+                アプリの利用に関する詳細情報
+            </p>
+
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <div class="resource-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>Política de Privacidad</h4>
+                    <p>Sobre el manejo de información personal</p>
+                    <a href="privacy_policy.md" class="resource-link">
+                        Ver Detalles <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-icon">
+                        <i class="fas fa-file-contract"></i>
+                    </div>
+                    <h4>Términos de Uso</h4>
+                    <p>Términos de uso del servicio</p>
+                    <a href="terms_of_use.md" class="resource-link">
+                        Ver Detalles <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h4>Sitio Oficial</h4>
+                    <p>Detalles y descarga de la aplicación</p>
+                    <a href="index.html" class="resource-link">
+                        Volver al Inicio <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Qdeck</h4>
+                    <p>Haga que el aprendizaje sea más inteligente。</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Soporte</h4>
+                    <a href="mailto:support@fragment.co.jp"><i class="fas fa-envelope"></i> support@fragment.co.jp</a>
+                    <a href="support.html"><i class="fas fa-question-circle"></i> Preguntas Frecuentes</a>
+                </div>
+
+                <div class="footer-section">
+                    <h4>リンク</h4>
+                    <a href="privacy_policy.md">Política de Privacidad</a>
+                    <a href="terms_of_use.md">Términos de Uso</a>
+                    <a href="index.html">Inicio</a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 Qdeck. Made with ❤️</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
