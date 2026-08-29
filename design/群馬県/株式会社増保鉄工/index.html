@@ -6,8 +6,9 @@
 
 <title>採用情報｜株式会社増保鉄工 - 群馬県板倉町の鋼構造物工事</title>
 <meta name="description" content="群馬県邑楽郡板倉町の増保鉄工。鉄骨・橋梁・鉄塔・水門など鋼構造物工事の専門会社です。従業員9名、鉄を扱う技術を長く積み上げられる職場で仲間を募集しています。">
+<link rel="canonical" href="https://masuho-tekko.example.jp/">
 
-<meta name="robots" content="noindex,nofollow">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <link rel="alternate" hreflang="ja" href="https://masuho-tekko.example.jp/">
 <link rel="alternate" hreflang="x-default" href="https://masuho-tekko.example.jp/">
 
@@ -35,8 +36,7 @@
 <link rel="sitemap" type="application/xml" href="sitemap.xml">
 <meta name="author" content="株式会社増保鉄工">
 <meta name="format-detection" content="telephone=no">
-<meta name="theme-color" content="#f7f7f8" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#17181b" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ffffff">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -585,17 +585,13 @@
         </div>
 
         <div class="company__side">
-          <!-- 地図はクリックで読み込む（LCP保護のfacade） -->
+          <!-- 地図（遅延読み込み。JSに依存しない） -->
           <div class="map-box" id="map-box">
-            <iframe v-if="loaded"
-                    src="https://www.google.com/maps?q=%E7%BE%A4%E9%A6%AC%E7%9C%8C%E9%82%91%E6%A5%BD%E9%83%A1%E6%9D%BF%E5%80%89%E7%94%BA%E6%B5%B7%E8%80%81%E7%80%AC7094-1&output=embed"
-                    title="株式会社増保鉄工の所在地を示す地図"
+            <iframe src="https://www.google.com/maps?q=%E7%BE%A4%E9%A6%AC%E7%9C%8C%E9%82%91%E6%A5%BD%E9%83%A1%E6%9D%BF%E5%80%89%E7%94%BA%E6%B5%B7%E8%80%81%E7%80%AC7094-1&output=embed"
+                    title="株式会社増保鉄工 本社の所在地を示す地図"
                     loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            <button v-else type="button" class="map-facade blueprint-grid" @click="loaded = true">
-              <b>地図を表示する</b>
-              <small>群馬県邑楽郡板倉町海老瀬7094-1</small>
-            </button>
           </div>
+          <p class="map-cap">本社：群馬県邑楽郡板倉町海老瀬7094-1</p>
           <p class="map-note">館林事業所：群馬県館林市田谷町785-1</p>
         </div>
       </div>

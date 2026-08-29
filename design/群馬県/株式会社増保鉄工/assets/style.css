@@ -43,6 +43,8 @@
        3. the near-black band (24%) becomes a light tinted panel, so no section
           is a black slab
      ─────────────────────────────────────────────── */
+  color-scheme: light;
+
   --color-bg:          oklch(100% 0 0);
   --color-surface:     oklch(100% 0 0);
   --color-surface-alt: oklch(97.2% 0.004 250);
@@ -74,27 +76,12 @@
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ── Dark ──────────────────────────────────────── */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --color-bg:          oklch(16% 0.008 250);
-    --color-surface:     oklch(20% 0.009 250);
-    --color-surface-alt: oklch(25% 0.01 250);
-    --color-border:      oklch(31% 0.011 250);
-    --color-border-firm: oklch(44% 0.013 250);
-    --color-fg:          oklch(96% 0.003 250);
-    --color-fg-muted:    oklch(78% 0.008 250);
-    --color-fg-subtle:   oklch(70% 0.008 250);
-    --color-accent:      oklch(72% 0.17 264);
-    --color-accent-hover: oklch(80% 0.15 264);
-    --color-accent-fg:   oklch(14% 0.02 264);
-    --color-accent-soft: oklch(28% 0.07 264);
-    --color-steel:       oklch(12% 0.006 250);
-    --color-steel-fg:    oklch(96% 0.003 250);
-    --color-focus:       oklch(72% 0.17 264);
-  }
-}
+/* ── Dark ──────────────────────────────────────────
+   OSのダークモード追従は行わない。白／グレー基調を常時適用する。
+   ダークで見たい場合のみ <html data-theme="dark"> を明示指定する。
+   ─────────────────────────────────────────────── */
 :root[data-theme="dark"] {
+  color-scheme: dark;
   --color-bg:          oklch(16% 0.008 250);
   --color-surface:     oklch(20% 0.009 250);
   --color-surface-alt: oklch(25% 0.01 250);
@@ -446,16 +433,7 @@ img, svg, video { max-width: 100%; height: auto; }
 
 .map-box { position: relative; aspect-ratio: 4 / 3; inline-size: 100%; overflow: hidden; border: 2px solid var(--color-fg); background: var(--color-bg); }
 .map-box iframe { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; border: 0; }
-.map-facade {
-  position: absolute; inset: 0; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 0.75rem;
-  padding-inline: 1.5rem; text-align: center; cursor: pointer;
-  background: none; border: 0; color: inherit; font: inherit;
-  transition: background-color var(--dur-base);
-}
-.map-facade:hover { background: var(--color-accent-soft); }
-.map-facade b { font-family: var(--font-display); font-size: var(--text-lg); font-weight: 400; }
-.map-facade small { font-size: var(--text-xs); line-height: 1.65; color: var(--color-fg-muted); }
+.map-cap { margin-block-start: 0.6rem; font-size: var(--text-xs); line-height: 1.65; color: var(--color-fg-muted); }
 .map-note { margin-block-start: 0.75rem; font-size: var(--text-xs); line-height: 1.65; color: var(--color-fg-subtle); }
 
 /* ── FAQ ───────────────────────────────────────── */

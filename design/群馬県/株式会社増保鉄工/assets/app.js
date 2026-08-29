@@ -29,16 +29,6 @@
         },
       }).mount(header)
     }
-
-    // 地図。クリックされるまで iframe を読み込まない（LCP保護）。
-    var mapBox = document.querySelector('#map-box')
-    if (mapBox) {
-      Vue.createApp({
-        setup: function () {
-          return { loaded: Vue.ref(false) }
-        },
-      }).mount(mapBox)
-    }
   }
 
   // ヘッダーの状態変化。16px スクロールしたら罫を出す。
