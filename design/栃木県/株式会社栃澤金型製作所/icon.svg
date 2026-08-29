@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="栃澤金型製作所">
+  <rect width="64" height="64" rx="10" fill="#22201d"/>
+  <!-- the scale span: small tick to large tick -->
+  <rect x="12" y="27" width="3" height="10" rx="1.5" fill="#f2f0ec"/>
+  <rect x="49" y="16" width="3" height="32" rx="1.5" fill="#f2f0ec"/>
+  <rect x="17" y="31" width="30" height="2" rx="1" fill="#1f9aa8"/>
+</svg>

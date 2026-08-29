@@ -1,0 +1,21 @@
+# 赤心堂病院（社会医療法人社団尚篤会）
+
+> 埼玉県川越市脇田本町にある急性期病院。内科・外科・整形外科・婦人科・小児科・脳神経外科を中心に診療し、腎臓内科外来と肥満症外来の専門診療も行う。JR川越線・東武東上線 川越駅より徒歩約5分。
+
+## 外来受付時間
+- 午前: 月曜〜土曜 8:00–11:30（整形外科は 8:00–11:00）
+- 午後: 月曜〜土曜 13:30–16:00（内科・婦人科）
+- 時間外・日曜・祝日は休診（救急対応のみ）
+- 小児科は土曜 9:00–11:30 の完全予約制
+
+## 主要ページ
+- [受診のご案内](https://www.sekishindo.or.jp/outpatient.html): 初診・再診の手続き
+- [外来受付時間](https://www.sekishindo.or.jp/reception.html): 診療科ごとの受付時間
+- [外来担当表](https://www.sekishindo.or.jp/doctor.html): 医師別の担当曜日
+- [休診・代診のお知らせ](https://www.sekishindo.or.jp/kyushin.html): 直近の診療変更
+- [入院のご案内](https://www.sekishindo.or.jp/admission_top.html): 入院手続き
+- [交通アクセス](https://www.sekishindo.or.jp/access.html): 所在地と経路
+- [採用情報](https://www.sekishindo.or.jp/recruit.html): 職員募集
+
+## 連絡先
+〒350-1123 埼玉県川越市脇田本町25-19 / TEL 049-242-1181（代表）

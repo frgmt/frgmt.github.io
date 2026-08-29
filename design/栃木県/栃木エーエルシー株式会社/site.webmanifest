@@ -1,0 +1,15 @@
+{
+  "name": "栃木エーエルシー株式会社",
+  "short_name": "栃木エーエルシー",
+  "description": "栃木県高根沢町。シール・フィルム・両面テープの抜き加工。半導体・LCD・OA機器向け精密部品。",
+  "lang": "ja",
+  "start_url": "index.html",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#fafbfc",
+  "theme_color": "#12233a",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}

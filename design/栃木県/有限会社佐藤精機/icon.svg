@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="佐藤精機">
+  <rect width="64" height="64" rx="10" fill="#16181c"/>
+  <!-- scale ticks: the rule that appears beside every part they photograph -->
+  <g fill="#f4f5f7">
+    <rect x="10" y="14" width="2" height="20" rx="1"/>
+    <rect x="17" y="14" width="2" height="12" rx="1"/>
+    <rect x="24" y="14" width="2" height="12" rx="1"/>
+    <rect x="31" y="14" width="2" height="20" rx="1"/>
+    <rect x="38" y="14" width="2" height="12" rx="1"/>
+    <rect x="45" y="14" width="2" height="12" rx="1"/>
+    <rect x="52" y="14" width="2" height="20" rx="1"/>
+  </g>
+  <rect x="10" y="40" width="44" height="2" rx="1" fill="#3b82c4"/>
+  <text x="32" y="56" font-family="'Zen Kaku Gothic New','Hiragino Kaku Gothic ProN',sans-serif"
+        font-size="12" font-weight="700" fill="#f4f5f7" text-anchor="middle" letter-spacing="1">佐藤</text>
+</svg>

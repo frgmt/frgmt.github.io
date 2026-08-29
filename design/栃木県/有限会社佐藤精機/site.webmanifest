@@ -1,0 +1,15 @@
+{
+  "name": "有限会社佐藤精機",
+  "short_name": "佐藤精機",
+  "description": "栃木県那須烏山市の精密部品加工。5軸加工・ワイヤーカット・研削から3Dスキャナー測定まで一貫生産。",
+  "lang": "ja",
+  "start_url": "index.html",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#fafafa",
+  "theme_color": "#16181c",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}

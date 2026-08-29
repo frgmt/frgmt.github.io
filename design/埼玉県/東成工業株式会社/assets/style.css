@@ -1,0 +1,419 @@
+/* 東成工業株式会社 — 「意匠」を主題にした一枚もの
+   主色はロゴから採色した rgb(0,144,192)（oklch 61.3% .123 230.9）。
+   CSS 内の #000066 はホームページ・ビルダーのテンプレート由来と判断し、
+   実際に目に入るロゴの色を継承色とした。 */
+
+:root{
+  --cy:      oklch(50% .115 231);    /* ロゴ rgb(0,144,192) と同色相・白地用に暗く */
+  --cy-br:   oklch(61.3% .123 231);  /* ロゴそのままの明度 */
+  --cy-dk:   oklch(38% .095 231);
+  --cy-pl:   oklch(96.5% .017 231);
+  --cy-md:   oklch(87.5% .045 233);  /* 原サイト #b2e3ff 由来 */
+
+  --sheet:   oklch(100% 0 0);
+  --tray:    oklch(97.8% .004 231);
+  --hair:    oklch(89.5% .008 231);
+  --hair-f:  oklch(94.2% .005 231);
+
+  --i1:      oklch(23% .012 231);
+  --i2:      oklch(40.5% .011 231);
+  --i3:      oklch(53% .009 231);
+
+  --sn: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif;
+  --mn: "SFMono-Regular", Menlo, Consolas, "Courier New", monospace;
+
+  --e1: cubic-bezier(.24,.6,.36,1);
+  --e2: cubic-bezier(.16,1,.3,1);
+
+  --gt: clamp(1.15rem, .6rem + 2.4vw, 3rem);
+  --mx: 76rem;
+}
+
+*,*::before,*::after{ box-sizing:border-box }
+html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth }
+@media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto } }
+
+body{
+  margin:0; background:var(--sheet); color:var(--i1);
+  font-family:var(--sn); font-size:1rem; line-height:1.9;
+  font-feature-settings:"palt" 1; -webkit-font-smoothing:antialiased;
+}
+img{ max-width:100%; height:auto; display:block }
+a{ color:inherit }
+h1,h2,h3,h4{ margin:0; line-height:1.4; font-weight:700; letter-spacing:.02em }
+p{ margin:0 }
+.skip{ position:absolute; left:-9999px; top:0; z-index:100; background:var(--cy); color:#fff; padding:.7rem 1.1rem }
+.skip:focus{ left:0 }
+:focus-visible{ outline:2px solid var(--cy); outline-offset:3px }
+
+.wrap{ max-width:var(--mx); margin-inline:auto; padding-inline:var(--gt) }
+.wb{ display:none }
+@media (min-width:56rem){ .wb{ display:inline } }
+
+/* ── ヘッダー ───────────────────────────── */
+.tp{
+  position:sticky; top:0; z-index:40; background:rgba(255,255,255,.95);
+  -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+  border-block-end:1px solid var(--hair);
+}
+.tp__in{
+  max-width:var(--mx); margin-inline:auto; padding:.5rem var(--gt);
+  display:flex; align-items:center; justify-content:space-between; column-gap:1rem;
+}
+.lm{ display:flex; align-items:baseline; column-gap:.5rem; text-decoration:none; min-block-size:44px; align-items:center }
+.lm__j{ font-size:1.15rem; font-weight:700; letter-spacing:.11em; color:var(--cy) }
+.lm__e{ font-family:var(--mn); font-size:.6rem; letter-spacing:.13em; color:var(--i3) }
+
+.gn{ display:none }
+@media (min-width:70rem){
+  .gn{ display:flex; align-items:center; column-gap:1rem }
+  .gn a{
+    text-decoration:none; font-size:.8rem; letter-spacing:.05em; color:var(--i2);
+    min-block-size:44px; display:inline-flex; align-items:center;
+    transition:color .18s var(--e1);
+  }
+  .gn a:not(.gn__go):hover{ color:var(--cy) }
+}
+.gn__go{
+  background:var(--cy); color:#fff !important; border-radius:4px;
+  padding:.5rem 1rem; font-weight:700; min-block-size:0 !important;
+  transition:background .18s var(--e1);
+}
+.gn__go:hover{ background:color-mix(in oklab, var(--cy) 82%, #000) }
+
+.tg{
+  display:grid; place-content:center; gap:4px; inline-size:44px; block-size:44px;
+  padding:0; background:none; border:1px solid var(--hair); border-radius:4px; cursor:pointer;
+}
+.tg span{ display:block; inline-size:17px; block-size:1.5px; background:var(--i1); transition:transform .25s var(--e1), opacity .18s }
+.tg[aria-expanded="true"] span:nth-child(1){ transform:translateY(5.5px) rotate(45deg) }
+.tg[aria-expanded="true"] span:nth-child(2){ opacity:0 }
+.tg[aria-expanded="true"] span:nth-child(3){ transform:translateY(-5.5px) rotate(-45deg) }
+@media (min-width:70rem){ .tg{ display:none } }
+
+@media (max-width:69.99rem){
+  .gn.is-open{
+    display:flex; flex-direction:column; align-items:stretch;
+    position:absolute; inset-inline:0; inset-block-start:100%;
+    background:#fff; border-block-end:1px solid var(--hair);
+    padding:.3rem var(--gt) 1rem; max-block-size:calc(100dvh - 4rem); overflow-y:auto;
+  }
+  .gn.is-open a{
+    text-decoration:none; padding:.8rem .2rem; font-size:.94rem;
+    border-block-end:1px solid var(--hair-f); color:var(--i1);
+    min-block-size:44px; display:flex; align-items:center;
+  }
+  .gn.is-open .gn__go{ margin-block-start:.8rem; border:0; justify-content:center; border-radius:4px }
+}
+
+/* ── 共通 ─────────────────────────────── */
+section{ padding-block:clamp(3.2rem, 1.7rem + 5.6vw, 6rem) }
+.eyb{
+  font-family:var(--mn); font-size:.69rem; letter-spacing:.2em; color:var(--cy);
+  margin-block-end:.9rem; font-weight:700;
+}
+.h2{
+  font-size:clamp(1.45rem, 1.02rem + 1.95vw, 2.4rem); line-height:1.4;
+  margin-block-end:1.1rem;
+}
+.h2--c{ text-align:center }
+.tx{ max-width:45rem; color:var(--i2); font-size:clamp(.92rem, .88rem + .18vw, .99rem) }
+.tx--c{ margin-inline:auto }
+@media (min-width:48rem){ .tx--c{ text-align:center } }
+.sub{
+  font-size:.95rem; color:var(--cy); letter-spacing:.09em;
+  margin-block:clamp(2rem, 1.3rem + 2.4vw, 3rem) 1rem;
+  padding-block-end:.55rem; border-block-end:1px solid var(--hair);
+}
+
+/* ── 冒頭 ─────────────────────────────── */
+.top{ padding-block:clamp(2.8rem, 1.4rem + 6vw, 5.4rem) 0 }
+.top__g{ display:grid; gap:clamp(1.8rem, 1rem + 3vw, 3.2rem) }
+@media (min-width:62rem){ .top__g{ grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr); align-items:center } }
+.up{
+  font-size:.76rem; letter-spacing:.16em; color:var(--i3);
+  margin-block-end:1.1rem; padding-inline-start:1.1rem; position:relative;
+}
+.up::before{
+  content:""; position:absolute; inset-inline-start:0; inset-block-start:.7em;
+  inline-size:.7rem; block-size:2px; background:var(--cy);
+}
+.top__h{
+  font-size:clamp(1.9rem, 1.1rem + 3.6vw, 3.6rem);
+  line-height:1.28; letter-spacing:.01em; margin-block-end:1.45rem;
+}
+.top__p{ max-width:41rem; color:var(--i2); font-size:clamp(.94rem, .89rem + .2vw, 1.01rem) }
+.top__p + .top__p{ margin-block-start:.85rem }
+.top__p strong{ color:var(--cy); font-weight:700 }
+.top__b{ display:flex; flex-wrap:wrap; gap:.7rem; margin-block-start:1.9rem }
+.bt{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-block-size:48px; padding:.7rem 1.55rem; border-radius:4px;
+  text-decoration:none; font-size:.91rem; font-weight:700; letter-spacing:.04em;
+  transition:background .2s var(--e1), border-color .2s var(--e1);
+}
+.bt--fill{ background:var(--cy); color:#fff; border:1px solid var(--cy) }
+.bt--fill:hover{ background:color-mix(in oklab, var(--cy) 82%, #000); border-color:color-mix(in oklab, var(--cy) 82%, #000) }
+.bt--wire{ background:#fff; color:var(--i1); border:1px solid var(--hair) }
+.bt--wire:hover{ background:var(--cy-pl); border-color:var(--cy) }
+.top__f{ margin:0; display:flex; flex-direction:column; row-gap:.6rem }
+.top__f img{
+  inline-size:100%; aspect-ratio:323/215; object-fit:cover;
+  border-radius:6px; border:1px solid var(--hair); background:var(--cy-pl);
+}
+.top__f figcaption{ font-size:.76rem; color:var(--i3) }
+
+.fig{
+  list-style:none; margin:clamp(2.4rem, 1.4rem + 3.6vw, 4rem) auto 0;
+  max-width:var(--mx); padding:0 var(--gt);
+  display:grid; grid-template-columns:repeat(2,1fr); gap:0;
+  border-block-start:2px solid var(--cy);
+}
+@media (min-width:52rem){ .fig{ grid-template-columns:repeat(4,1fr) } }
+.fig li{
+  /* 区切り罫が右端にあるので、左にも内側の余白を取る。
+     0 のままだと2列目以降の数字が罫に貼りつき、左に寄って見える。 */
+  padding:1.2rem 1rem 1.35rem 1rem; border-inline-end:1px solid var(--hair);
+  display:flex; flex-direction:column; row-gap:.05rem;
+}
+.fig li:last-child{ border-inline-end:0 }
+/* 各行の1列目だけ左パディングを外す。2列表示と4列表示で
+   「行頭」になるセルが変わるため、幅ごとに指定を分ける。 */
+@media (min-width:52rem){ .fig li:nth-child(4n+1){ padding-inline-start:0 } }
+@media (max-width:51.99rem){
+  .fig li:nth-child(2n+1){ padding-inline-start:0 }
+  .fig li:nth-child(2n){ border-inline-end:0 }
+  .fig li:nth-child(-n+2){ border-block-end:1px solid var(--hair) }
+}
+.fig b{
+  font-family:var(--mn); font-size:clamp(1.35rem, 1rem + 1.3vw, 1.95rem);
+  font-weight:700; color:var(--cy); line-height:1.2; letter-spacing:-.02em;
+}
+.fig em{ font-style:normal; font-family:var(--mn); font-size:.76rem; color:var(--i3) }
+.fig span{ font-size:.74rem; color:var(--i3); margin-block-start:.2rem }
+
+/* ── 塗れる意匠（この案件の見せ場） ────────── */
+.finish{ background:var(--tray); border-block:1px solid var(--hair) }
+.fin{
+  list-style:none; margin:clamp(2rem, 1.2rem + 2.8vw, 3rem) 0 0; padding:0;
+  display:grid; gap:clamp(.9rem, .5rem + 1.2vw, 1.3rem);
+  grid-template-columns:repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+}
+.fi{
+  background:#fff; border:1px solid var(--hair); border-radius:6px;
+  padding:1.3rem 1.4rem 1.45rem; display:flex; flex-direction:column; row-gap:.5rem;
+  transition:border-color .22s var(--e1);
+}
+.fi:hover{ border-color:var(--cy) }
+/* 塗装意匠のミニ見本。実物の色ではなく質感の目印 */
+.fi__sw{
+  display:block; inline-size:100%; block-size:3.2rem; border-radius:4px;
+  border:1px solid var(--hair-f);
+}
+.fi__sw--piano{ background:linear-gradient(115deg,#0b0d10 0%,#2b3138 42%,#0b0d10 70%,#191d22 100%) }
+.fi__sw--bright{ background:linear-gradient(115deg,#8e969e 0%,#eef2f5 38%,#a9b2ba 62%,#dfe5ea 100%) }
+.fi__sw--uv{ background:linear-gradient(115deg,#dfe6ea 0%,#fbfdfe 45%,#cdd7de 100%) }
+.fi__sw--two{ background:linear-gradient(90deg,#b7c0c7 0 50%,#15181c 50% 100%) }
+.fi__sw--soft{ background:#3c4249 }
+.fi__sw--gold{ background:linear-gradient(115deg,#7a6224 0%,#e8cf86 40%,#9c8138 68%,#d9bd6c 100%) }
+.fi__h{ font-size:1rem; color:var(--cy) }
+.fi__p{ font-size:.86rem; color:var(--i2); line-height:1.86 }
+
+/* ── 製品案内 ─────────────────────────── */
+.pw{
+  list-style:none; margin:0; padding:0;
+  display:grid; gap:clamp(.85rem, .5rem + 1.1vw, 1.2rem);
+  grid-template-columns:repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
+}
+.pw li{ display:flex; flex-direction:column; row-gap:.35rem }
+.pw img{
+  inline-size:100%; aspect-ratio:3/2; object-fit:cover;
+  border-radius:5px; border:1px solid var(--hair); background:var(--cy-pl);
+  transition:border-color .22s var(--e1);
+}
+.pw li:hover img{ border-color:var(--cy) }
+.pw__n{ font-size:.87rem; font-weight:700 }
+.pw__f{ font-size:.75rem; color:var(--i3); font-family:var(--mn); letter-spacing:.02em }
+.chips{ list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:.5rem }
+.chips li{
+  font-size:.84rem; color:var(--i2); background:#fff;
+  border:1px solid var(--cy-md); border-radius:999px; padding:.32rem .95rem;
+}
+
+/* ── 塗装方法 ─────────────────────────── */
+.lines{ background:var(--tray); border-block:1px solid var(--hair) }
+.mtd{
+  margin-block-start:clamp(2rem, 1.2rem + 2.8vw, 3rem);
+  display:grid; gap:clamp(.9rem, .5rem + 1.2vw, 1.3rem);
+  grid-template-columns:repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+}
+.md{
+  background:#fff; border:1px solid var(--hair); border-radius:6px;
+  border-block-start:3px solid var(--cy); padding:1.3rem 1.4rem 1.45rem;
+}
+.md__h{ font-size:1.02rem; color:var(--cy); margin-block-end:.85rem }
+.md__d{ margin:0 0 .95rem }
+.md__d > div{
+  display:flex; align-items:baseline; justify-content:space-between; column-gap:.8rem;
+  padding-block:.4rem; border-block-end:1px solid var(--hair-f);
+}
+.md__d dt{ font-size:.76rem; color:var(--i3); white-space:nowrap }
+.md__d dd{ margin:0; font-size:.84rem; font-weight:700; text-align:right }
+.md__p{ font-size:.85rem; color:var(--i2); line-height:1.86 }
+.ally{ list-style:none; margin:0; padding:0; display:grid; gap:.8rem }
+@media (min-width:52rem){ .ally{ grid-template-columns:repeat(3,1fr) } }
+.ally li{ background:#fff; border:1px solid var(--hair); border-radius:5px; padding:1rem 1.2rem 1.1rem }
+.ally__k{ display:block; font-weight:700; font-size:.92rem; color:var(--cy); margin-block-end:.25rem }
+.ally p{ font-size:.84rem; color:var(--i2); line-height:1.84 }
+
+/* ── 特長 ─────────────────────────────── */
+.cols{ display:grid; gap:clamp(1.4rem, .8rem + 2vw, 2.4rem); margin-block-start:clamp(1.6rem, 1rem + 2vw, 2.2rem) }
+@media (min-width:58rem){ .cols{ grid-template-columns:repeat(2,1fr) } }
+.cx__h{
+  font-size:1.02rem; color:var(--cy); margin-block-end:.9rem;
+  padding-block-end:.55rem; border-block-end:2px solid var(--cy-md);
+}
+.dots{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; row-gap:.7rem }
+.dots li{ font-size:.87rem; color:var(--i2); line-height:1.86; padding-inline-start:1.1rem; position:relative }
+.dots li::before{
+  content:""; position:absolute; inset-inline-start:.1rem; inset-block-start:.78em;
+  inline-size:.4rem; block-size:.4rem; border-radius:50%; background:var(--cy);
+}
+
+/* ── 品質 ─────────────────────────────── */
+.trust{ background:var(--tray); border-block:1px solid var(--hair) }
+.cert{
+  list-style:none; margin:clamp(1.6rem, 1rem + 2vw, 2.2rem) 0 0; padding:0;
+  display:grid; gap:.8rem; grid-template-columns:repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+}
+.cert li{
+  background:#fff; border:1px solid var(--cy-md); border-radius:5px;
+  padding:1rem 1.2rem 1.1rem; display:flex; flex-direction:column; row-gap:.15rem;
+}
+.cert__k{ font-weight:700; font-size:1rem; color:var(--cy); letter-spacing:.04em }
+.cert__v{ font-size:.79rem; color:var(--i3) }
+.policy{
+  margin-block-start:.4rem; font-size:1.02rem; font-weight:700; color:var(--i1);
+  padding:.9rem 1.2rem; background:#fff; border-inline-start:3px solid var(--cy); border-radius:0 4px 4px 0;
+}
+.motto{
+  margin-block-start:.4rem; font-size:clamp(1.4rem, 1.1rem + 1.2vw, 2rem);
+  font-weight:700; color:var(--cy); letter-spacing:.3em;
+}
+.qp{ margin:1rem 0 0; padding-inline-start:1.4rem; display:flex; flex-direction:column; row-gap:.55rem }
+.qp li{ font-size:.87rem; color:var(--i2); line-height:1.86 }
+.qp li::marker{ color:var(--cy); font-weight:700 }
+
+/* ── 沿革 ─────────────────────────────── */
+.tl{ list-style:none; margin:clamp(2rem, 1.2rem + 2.8vw, 3rem) 0 0; padding:0 }
+.tl li{
+  display:grid; gap:.15rem .4rem; padding-block:.85rem;
+  border-block-end:1px solid var(--hair-f);
+}
+@media (min-width:46rem){
+  .tl li{ grid-template-columns:10rem minmax(0,1fr); column-gap:2rem; align-items:baseline }
+}
+.tl__y{
+  display:flex; align-items:baseline; column-gap:.45rem;
+  font-size:.86rem; font-weight:700; color:var(--cy); letter-spacing:.03em;
+}
+.tl__y em{ font-style:normal; font-family:var(--mn); font-size:.75rem; color:var(--i3); font-weight:400 }
+.tl p{ font-size:.87rem; color:var(--i2); line-height:1.85; max-width:42rem }
+
+/* ── FAQ ──────────────────────────────── */
+.qz{ background:var(--tray); border-block:1px solid var(--hair) }
+.qb{ margin-block-start:clamp(1.4rem, .9rem + 1.8vw, 2rem); border-block-start:1px solid var(--hair) }
+.qi{ border-block-end:1px solid var(--hair) }
+.qi summary{
+  cursor:pointer; list-style:none; padding:1.05rem 2.4rem 1.05rem 0;
+  font-weight:700; font-size:.92rem; position:relative; min-block-size:44px;
+  display:flex; align-items:center; transition:color .18s var(--e1);
+}
+.qi summary::-webkit-details-marker{ display:none }
+.qi summary:hover{ color:var(--cy) }
+.qi summary::after{
+  content:""; position:absolute; inset-inline-end:.7rem; inset-block-start:50%;
+  inline-size:8px; block-size:8px; margin-block-start:-5px;
+  border-inline-end:1.5px solid var(--cy); border-block-end:1.5px solid var(--cy);
+  transform:rotate(45deg); transition:transform .25s var(--e1);
+}
+.qi[open] summary::after{ transform:rotate(-135deg); margin-block-start:-2px }
+.qi p{ padding-block:0 1.2rem; color:var(--i2); font-size:.87rem; max-width:50rem }
+
+/* ── 会社概要 ─────────────────────────── */
+.ov{ margin:clamp(1.6rem, 1rem + 2vw, 2.2rem) 0 0; border-block-start:2px solid var(--cy) }
+.ov > div{ display:grid; border-block-end:1px solid var(--hair-f); padding-block:.85rem }
+@media (min-width:36rem){ .ov > div{ grid-template-columns:8rem minmax(0,1fr); column-gap:1.4rem } }
+.ov dt{ font-size:.78rem; color:var(--i3); letter-spacing:.06em; padding-block-start:.15rem }
+.ov dd{ margin:0; font-size:.9rem }
+.places{ display:grid; gap:clamp(1.1rem, .7rem + 1.4vw, 1.8rem) }
+@media (min-width:58rem){ .places{ grid-template-columns:repeat(2,1fr) } }
+.pl{ background:var(--tray); border:1px solid var(--hair); border-radius:6px; padding:1.3rem 1.35rem 1.4rem }
+.pl__h{ font-size:1rem; color:var(--cy); margin-block-end:.6rem; padding-block-end:.55rem; border-block-end:1px solid var(--hair) }
+.pl__a{ font-size:.87rem; color:var(--i2) }
+.pl__t{ margin-block:.15rem 0 }
+.pl__t a{
+  font-family:var(--mn); font-size:1.3rem; font-weight:700; color:var(--cy);
+  text-decoration:none; letter-spacing:-.01em;
+  display:inline-flex; align-items:center; min-block-size:44px;
+  transition:color .18s var(--e1);
+}
+.pl__t a:hover{ color:var(--cy-dk); text-decoration:underline; text-underline-offset:3px }
+.pl__x{ font-size:.78rem; color:var(--i3) }
+.mp{ display:block; inline-size:100%; margin-block-start:.9rem }
+.mp iframe{
+  display:block; inline-size:100%; block-size:clamp(13rem, 22vw, 17rem);
+  border:0; border-radius:4px; background:var(--cy-pl);
+}
+
+/* ── 連絡 ─────────────────────────────── */
+.ways{
+  margin-block-start:clamp(1.8rem, 1.1rem + 2.4vw, 2.6rem);
+  display:grid; gap:clamp(.8rem, .5rem + 1vw, 1.1rem);
+  grid-template-columns:repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+}
+.wy{
+  background:#fff; border:1px solid var(--hair); border-radius:6px;
+  padding:1.3rem 1.4rem 1.4rem; text-decoration:none;
+  display:flex; flex-direction:column; row-gap:.3rem; min-block-size:44px;
+  transition:border-color .22s var(--e1), transform .22s var(--e2);
+}
+a.wy:hover{ border-color:var(--cy); transform:translateY(-2px) }
+.wy__k{ font-size:.73rem; letter-spacing:.1em; color:var(--i3) }
+.wy__v{
+  font-family:var(--mn); font-weight:700; color:var(--cy);
+  font-size:clamp(1.08rem, .93rem + .68vw, 1.42rem); letter-spacing:-.01em; line-height:1.4;
+}
+.wy__v--m{ font-size:clamp(.82rem, .74rem + .36vw, .97rem); word-break:break-all; letter-spacing:0 }
+.wy__s{ font-size:.76rem; color:var(--i3) }
+.wy--st .wy__v{ color:var(--i2) }
+
+/* ── フッター ─────────────────────────── */
+.ft{ background:#fff; border-block-start:1px solid var(--hair); padding-block:2.5rem 1.3rem }
+.ft__in{ display:grid; gap:1.5rem }
+@media (min-width:60rem){ .ft__in{ grid-template-columns:minmax(0,1fr) auto; column-gap:2.5rem; align-items:start } }
+.ft__n{ font-weight:700; letter-spacing:.1em; color:var(--cy); margin-block-end:.45rem }
+.ft__a{ font-size:.78rem; color:var(--i3); line-height:1.95 }
+.ft__v{ display:flex; flex-wrap:wrap; gap:.2rem 1.05rem }
+.ft__v a{
+  font-size:.79rem; color:var(--i2); text-decoration:none;
+  display:inline-flex; align-items:center; min-block-size:44px;
+  transition:color .18s var(--e1);
+}
+.ft__v a:hover{ color:var(--cy); text-decoration:underline; text-underline-offset:3px }
+.ft__c{
+  max-width:var(--mx); margin:1.6rem auto 0; padding:1rem var(--gt) 0;
+  border-block-start:1px solid var(--hair-f);
+  font-family:var(--mn); font-size:.69rem; letter-spacing:.06em; color:var(--i3);
+}
+
+/* ── スクロール演出（transform のみ） ─────── */
+@media (prefers-reduced-motion: no-preference){
+  @supports (animation-timeline: view()){
+    .js [data-reveal]{
+      animation:ru linear both; animation-timeline:view();
+      animation-range:entry 5% cover 24%;
+    }
+    @keyframes ru{ from{ transform:translateY(14px) } to{ transform:none } }
+  }
+}

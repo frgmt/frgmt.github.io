@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ゼビオプラスト">
+  <rect width="64" height="64" rx="10" fill="#0d2430"/>
+  <!-- water passing through a filter medium -->
+  <rect x="12" y="18" width="40" height="4" rx="2" fill="#1790c2"/>
+  <rect x="12" y="30" width="40" height="4" rx="2" fill="#1790c2" opacity=".72"/>
+  <rect x="12" y="42" width="40" height="4" rx="2" fill="#1790c2" opacity=".45"/>
+  <circle cx="24" cy="12" r="3" fill="#7fd0ea"/>
+  <circle cx="40" cy="12" r="3" fill="#7fd0ea"/>
+</svg>

@@ -1,0 +1,15 @@
+{
+  "name": "株式会社テツカクリエート",
+  "short_name": "テツカクリエート",
+  "description": "栃木県上三川町の複合材部品メーカー。CFRP・GFRP・KFRPの成形からオートクレーブ硬化、ウォータージェット加工まで一貫対応。",
+  "lang": "ja",
+  "start_url": "index.html",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#f7f8fa",
+  "theme_color": "#12141c",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}

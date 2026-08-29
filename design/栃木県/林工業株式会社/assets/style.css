@@ -1,0 +1,434 @@
+/* transform only — an `opacity: 0` start keyframe under
+   `animation-timeline: view()` + `fill: both` pins every below-fold element
+   at opacity 0 for anyone who does not scroll. Measured on this page. */
+@charset "UTF-8";
+
+/* ============================================================
+   林工業株式会社 — 精密プレス金型／理化学機器（1950年創業）
+   ------------------------------------------------------------
+   Art direction:
+     「手の平サイズの金属加工」を、500円玉と並べた1枚で証明する。
+     写真を大きくせず、数字に空間を与える。
+
+   画像方針（実測に基づく）:
+     使える写真は3点だけ。うち最強はコイン対比のプレス部品（270×203）。
+     Vitsœ はトップに10点しか置かず、全て 16:9 に揃えて見出しコピーで支えていた。
+     NOMOS は全製品写真を #F7F7F7 のプレートに載せて品質差を吸収していた。
+     → 拡大しない（実寸270px）。プレートに載せる。比率を1つに固定する。
+     暗い製品写真（振盪機）は Teenage Engineering 方式で
+     「白いページの中の黒い島」として置く。ダークテーマにはしない。
+
+   構造装置（前6社と重複させない）:
+     1. コイン写真を核にした開幕（写真は小さく、数字が周囲を占める）
+     2. 二事業を 50/50 の「二つの扉」に。混ぜない
+     3. 理化学機器は McMaster 方式の均一行リスト＋「他N種」の件数表示
+   ============================================================ */
+
+:root {
+  --ff-title: "Zen Kaku Gothic New", "Noto Sans JP", system-ui, sans-serif;
+  --ff-read: "Noto Sans JP", system-ui, sans-serif;
+  --ff-num: "Roboto Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  --z-3xs: clamp(0.625rem, 0.61rem + 0.07vw, 0.6875rem);
+  --z-2xs: clamp(0.6875rem, 0.665rem + 0.1vw, 0.75rem);
+  --z-xs: clamp(0.75rem, 0.73rem + 0.1vw, 0.8125rem);
+  --z-s: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --z-m: clamp(0.9375rem, 0.91rem + 0.12vw, 1rem);
+  --z-l: clamp(1.0625rem, 1rem + 0.26vw, 1.1875rem);
+  --z-xl: clamp(1.1875rem, 1.08rem + 0.45vw, 1.4375rem);
+  --z-2xl: clamp(1.5rem, 1.25rem + 1.05vw, 2.25rem);
+  --z-3xl: clamp(2rem, 1.55rem + 1.9vw, 3.25rem);
+  /* 数値クレデンシャル用 */
+  --z-fig: clamp(2.25rem, 1.4rem + 3.6vw, 4.5rem);
+
+  --lh-t: 1.14;
+  --lh-r: 1.9;
+  /* 和文は em。ch は欧文の0の字幅基準で半分になる */
+  --meas: 38em;
+
+  /* 鋼板のグレーと、白。ページの地は白を保つ。 */
+  --t: #16191d;
+  --t2: #454b52;
+  --t3: #5c636b;
+  --pg: #ffffff;
+  --pg2: #f7f7f7;   /* NOMOS のプレート色 */
+  --pg3: #eeeff0;
+  --ln: #dfe1e3;
+  --ln2: #bcc0c4;
+
+  /* アクセント1色 = 焼入れ鋼の青紫。彩度は抑える。 */
+  --ac: #2b4c9b;
+  --ac-soft: #e8ecf6;
+
+  /* 黒の島（暗い製品写真を置く面）*/
+  --isl: #f2f3f5;
+  --isl-t: #16181b;
+  --isl-t2: #535a61;
+
+  --gut: clamp(1.25rem, 4vw, 3rem);
+  --stk: clamp(3.25rem, 6.5vw, 6.5rem);
+  --wide: 1240px;
+
+  --ez: cubic-bezier(0.33, 1, 0.68, 1);
+  --f1: 150ms;
+  --f2: 300ms;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-block-start: 4.25rem;
+}
+
+body {
+  background: var(--pg);
+  color: var(--t);
+  font-family: var(--ff-read);
+  font-size: var(--z-m);
+  line-height: var(--lh-r);
+  font-feature-settings: "palt" 1;
+  letter-spacing: 0.02em;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 {
+  font-family: var(--ff-title);
+  font-weight: 500;
+  line-height: var(--lh-t);
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+p, li, dd, dt, td, th, figcaption, summary {
+  text-wrap: pretty;
+  line-break: strict;
+  word-break: auto-phrase;
+}
+
+a { color: inherit; }
+img { max-width: 100%; height: auto; display: block; }
+
+:focus-visible { outline: 2px solid var(--ac); outline-offset: 3px; }
+
+.vis-hidden {
+  position: absolute; inline-size: 1px; block-size: 1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.jump:focus-visible {
+  position: fixed; inset-block-start: 1rem; inset-inline-start: 1rem; z-index: 200;
+  inline-size: auto; block-size: auto; clip: auto;
+  background: var(--ac); color: #fff; padding: 0.875rem 1.25rem;
+}
+
+/* 数値は等幅・タブラー。この会社の語彙。 */
+.fig { font-family: var(--ff-num); font-variant-numeric: tabular-nums; letter-spacing: 0; }
+
+.hold { max-inline-size: var(--wide); margin-inline: auto; padding-inline: var(--gut); }
+.deck { padding-block: var(--stk); }
+.deck--plate { background: var(--pg2); }
+
+.over {
+  font-family: var(--ff-num); font-size: var(--z-2xs);
+  letter-spacing: 0.18em; color: var(--ac); text-transform: uppercase;
+}
+.hd { margin-block-start: 0.625rem; font-size: var(--z-2xl); }
+.sub {
+  margin-block-start: 0.875rem; color: var(--t2);
+  font-size: var(--z-s); max-inline-size: 34em;
+}
+
+/* ── ヘッダー ───────────────────────────────────────────── */
+.head {
+  position: sticky; inset-block-start: 0; z-index: 60;
+  background: rgb(255 255 255 / 0.95);
+  backdrop-filter: blur(10px);
+  border-block-end: 1px solid var(--ln);
+}
+.head__row {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; min-block-size: 3.5rem;
+}
+.mark { display: flex; align-items: baseline; gap: 0.5rem; text-decoration: none;
+  min-block-size: 44px; align-content: center; flex-wrap: wrap; }
+.mark__a { font-family: var(--ff-title); font-size: var(--z-l); font-weight: 500; }
+.mark__b { font-family: var(--ff-num); font-size: var(--z-3xs); color: var(--t3); }
+
+.burg {
+  inline-size: 44px; block-size: 44px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: none; border: 1px solid var(--ln2); cursor: pointer; color: var(--t);
+}
+@media (min-width: 920px) { .burg { display: none } }
+
+.menu { list-style: none; margin: 0; padding: 0 }
+@media (max-width: 919px) {
+  .menu {
+    position: absolute; inset-inline: 0; inset-block-start: 100%;
+    display: none; flex-direction: column; background: var(--pg);
+    border-block-end: 1px solid var(--ln); padding: 0 var(--gut) 1rem;
+  }
+  .menu.shown { display: flex }
+  .menu li { border-block-start: 1px solid var(--ln) }
+  .menu a { display: block; padding-block: 0.875rem; min-block-size: 44px }
+}
+@media (min-width: 920px) { .menu { display: flex; align-items: center; gap: clamp(0.875rem, 2vw, 1.75rem) } }
+.menu a { font-size: var(--z-s); text-decoration: none; color: var(--t2); transition: color var(--f1) var(--ez) }
+.menu a:hover { color: var(--t) }
+.menu .lead-a { font-family: var(--ff-num); color: var(--ac) !important }
+
+/* ── 開幕: コイン写真を核に。写真は小さく、数字が空間を取る ──── */
+.open { padding-block: clamp(2.5rem, 5.5vw, 4.5rem) clamp(2rem, 4vw, 3.5rem) }
+
+.open__note {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem;
+  font-family: var(--ff-num); font-size: var(--z-2xs);
+  letter-spacing: 0.14em; color: var(--t3);
+  margin-block-end: clamp(1.25rem, 2.5vw, 2rem);
+}
+.open__note i { font-style: normal; block-size: 1px; inline-size: clamp(1.5rem, 5vw, 3.5rem); background: var(--ln2) }
+
+.open__grid { display: grid; gap: clamp(2rem, 4vw, 3rem); align-items: center }
+@media (min-width: 900px) {
+  .open__grid { grid-template-columns: minmax(0, 1fr) 320px; gap: clamp(2.5rem, 5vw, 4.5rem) }
+}
+.open__h { font-size: var(--z-3xl); max-inline-size: 18em }
+.open__h em { font-style: normal; color: var(--ac) }
+.open__p {
+  margin-block-start: clamp(1.25rem, 2.5vw, 1.75rem);
+  font-size: var(--z-l); color: var(--t2); max-inline-size: 44em;
+}
+.open__do { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-block-start: clamp(1.5rem, 3vw, 2.25rem) }
+
+/* コイン写真。実寸270pxを超えて拡大しない。プレートに載せる。 */
+.scale {
+  background: var(--pg2);
+  border: 1px solid var(--ln);
+  padding: clamp(1rem, 2vw, 1.5rem);
+}
+.scale img {
+  inline-size: 100%; max-inline-size: 270px;   /* ← 実寸。拡大しない */
+  margin-inline: auto;
+  aspect-ratio: 270 / 203;
+  object-fit: cover;
+}
+.scale figcaption {
+  margin-block-start: 0.75rem; padding-block-start: 0.75rem;
+  border-block-start: 1px solid var(--ln);
+  font-size: var(--z-2xs); color: var(--t3); line-height: 1.7;
+}
+.scale figcaption b { font-family: var(--ff-num); font-weight: 400; color: var(--t2) }
+
+/* ボタン */
+.go {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  min-block-size: 48px; padding-inline: 1.5rem;
+  font-family: var(--ff-num); font-size: var(--z-s);
+  text-decoration: none; border: 1px solid transparent; cursor: pointer;
+  transition: background var(--f1) var(--ez), border-color var(--f1) var(--ez);
+}
+.go--solid { background: var(--ac); color: #fff }
+.go--solid:hover { background: #223d80 }
+.go--wire { border-color: var(--ln2); color: var(--t) }
+.go--wire:hover { border-color: var(--t2); background: var(--pg2) }
+
+/* ── 数値クレデンシャル ─────────────────────────────────── */
+.figs {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  margin-block-start: clamp(2rem, 4vw, 3rem);
+  padding-block-start: clamp(1.25rem, 2.5vw, 1.75rem);
+  border-block-start: 1px solid var(--ln);
+}
+.figs__v {
+  font-family: var(--ff-title); font-weight: 500;
+  font-size: clamp(1.625rem, 1.15rem + 2vw, 2.75rem);
+  line-height: 1.05; font-variant-numeric: tabular-nums; letter-spacing: -0.03em;
+}
+.figs__v small { font-size: 0.38em; color: var(--t3); margin-inline-start: 0.3em; font-family: var(--ff-num); letter-spacing: 0 }
+.figs__k { margin-block-start: 0.45rem; font-size: var(--z-xs); color: var(--t2) }
+
+/* ── 二つの扉（50/50）──────────────────────────────────── */
+.doors { display: grid; gap: 1px; background: var(--ln); border: 1px solid var(--ln) }
+@media (min-width: 860px) { .doors { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+.door { background: var(--pg); padding: clamp(1.75rem, 3.5vw, 2.5rem) }
+.door__k { font-family: var(--ff-num); font-size: var(--z-2xs); letter-spacing: 0.14em; color: var(--ac) }
+.door__h { margin-block-start: 0.5rem; font-size: var(--z-xl) }
+.door__p { margin-block-start: 0.75rem; font-size: var(--z-s); color: var(--t2); max-inline-size: var(--meas) }
+
+/* 扉の中の仕様（key:value） */
+.kv { margin-block-start: 1.25rem; border-block-start: 1px solid var(--ln) }
+.kv__r { display: grid; gap: 0.125rem 1.25rem; padding-block: 0.6875rem; border-block-end: 1px solid var(--ln) }
+@media (min-width: 480px) { .kv__r { grid-template-columns: 7rem 1fr } }
+.kv__k { font-family: var(--ff-num); font-size: var(--z-2xs); color: var(--t3); padding-block-start: 0.2em }
+.kv__v { font-size: var(--z-s) }
+
+/* ── 理化学機器の一覧（McMaster 方式の均一行）──────────────
+   全行を同じ高さに揃え、小さな一貫アイコンを添える。
+   写真を並べない（品質がばらつくため）。 */
+.cat { list-style: none; padding: 0; margin: 0; border-block-start: 1px solid var(--ln) }
+.cat li { border-block-end: 1px solid var(--ln) }
+.cat a {
+  display: grid; grid-template-columns: 2.25rem 1fr auto;
+  align-items: center; gap: 0 1rem;
+  min-block-size: 62px;    /* McMaster の 390×62 に倣う */
+  text-decoration: none;
+  transition: background var(--f1) var(--ez), padding-inline-start var(--f1) var(--ez);
+}
+.cat a:hover { background: var(--pg2); padding-inline-start: 0.5rem }
+.cat__i { color: var(--ac) }
+.cat__n { font-size: var(--z-m); font-weight: 500 }
+.cat__c { font-family: var(--ff-num); font-size: var(--z-2xs); color: var(--t3); white-space: nowrap }
+
+/* ── 黒の島（暗い製品写真を置く面）────────────────────────
+   Teenage Engineering 方式。ページの地は白のまま、
+   写真が自前の黒を持ち込む。ダークテーマにはしない。 */
+.island {
+  background: var(--isl); color: var(--isl-t);
+  padding-block: clamp(2.5rem, 5vw, 4rem);
+}
+.island__g { display: grid; gap: clamp(1.75rem, 3.5vw, 3rem); align-items: center }
+@media (min-width: 820px) { .island__g { grid-template-columns: 400px minmax(0, 1fr) } }
+.island img {
+  inline-size: 100%; max-inline-size: 400px;  /* 実寸。拡大しない */
+  aspect-ratio: 400 / 300; object-fit: cover;
+}
+.island__k { font-family: var(--ff-num); font-size: var(--z-2xs); letter-spacing: 0.14em; color: var(--isl-t2) }
+.island__h { margin-block-start: 0.5rem; font-size: var(--z-2xl); color: var(--isl-t) }
+.island__p { margin-block-start: 1rem; color: #4a5158; max-inline-size: var(--meas) }
+.island__cap { margin-block-start: 0.75rem; font-size: var(--z-2xs); color: var(--isl-t2) }
+
+/* ── 設備 ───────────────────────────────────────────────── */
+.rig { display: grid; gap: 1px; background: var(--ln); border: 1px solid var(--ln) }
+@media (min-width: 640px) { .rig { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+@media (min-width: 1024px) { .rig { grid-template-columns: repeat(3, minmax(0, 1fr)) } }
+.rig__c { background: var(--pg); padding: 1.25rem }
+.rig__n { font-family: var(--ff-num); font-size: var(--z-2xs); color: var(--ac) }
+.rig__t { margin-block-start: 0.375rem; font-size: var(--z-m); font-weight: 500; font-family: var(--ff-read) }
+.rig__d { margin-block-start: 0.375rem; font-size: var(--z-xs); color: var(--t2) }
+
+/* ── 由来（二事業が交わる唯一の帯）─────────────────────── */
+.root { display: grid; gap: clamp(1.5rem, 3vw, 2.5rem) }
+@media (min-width: 860px) { .root { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+.root__c { }
+.root__k { font-family: var(--ff-num); font-size: var(--z-2xs); letter-spacing: 0.14em; color: var(--ac) }
+.root__h { margin-block-start: 0.5rem; font-size: var(--z-l) }
+.root__p { margin-block-start: 0.75rem; color: var(--t2); max-inline-size: var(--meas) }
+
+/* ── 沿革 ───────────────────────────────────────────────── */
+.hist { list-style: none; padding: 0; margin: 0; border-block-start: 1px solid var(--ln) }
+.hist li { display: grid; gap: 0.125rem 1.5rem; padding-block: 0.75rem; border-block-end: 1px solid var(--ln) }
+@media (min-width: 640px) { .hist li { grid-template-columns: 5rem 1fr } }
+.hist__y { font-family: var(--ff-num); font-size: var(--z-s); color: var(--ac) }
+.hist__t { font-size: var(--z-s) }
+
+/* ── 取引先 ─────────────────────────────────────────────── */
+.names { list-style: none; padding: 0; margin-block-start: 1rem; display: flex; flex-wrap: wrap; gap: 0.375rem 0.5rem }
+.names li {
+  font-family: var(--ff-num); font-size: var(--z-xs); color: var(--t2);
+  border: 1px solid var(--ln); background: var(--pg2); padding: 0.3em 0.7em;
+}
+
+/* ── 締め ───────────────────────────────────────────────── */
+.close { background: var(--isl); color: var(--isl-t) }
+.close__g { display: grid; gap: clamp(1.75rem, 4vw, 3rem) }
+@media (min-width: 860px) { .close__g { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+.close__tel {
+  display: inline-block; font-family: var(--ff-num);
+  font-size: var(--z-2xl); font-variant-numeric: tabular-nums;
+  text-decoration: none; margin-block: 0.5rem 0.25rem; color: var(--isl-t);
+}
+.close__tel:hover { color: #2f5fc0 }
+.close__k { font-family: var(--ff-num); font-size: var(--z-2xs); letter-spacing: 0.14em; color: var(--isl-t2) }
+.close__p { margin-block-start: 1.25rem; color: #4a5158; max-inline-size: var(--meas) }
+
+.co { border-block-start: 1px solid #2a2f35 }
+.co__r { display: grid; gap: 0.125rem 1.25rem; padding-block: 0.75rem; border-block-end: 1px solid #2a2f35 }
+@media (min-width: 460px) { .co__r { grid-template-columns: 6rem 1fr } }
+.co__k { font-family: var(--ff-num); font-size: var(--z-2xs); color: var(--isl-t2); padding-block-start: 0.2em }
+.co__v { font-size: var(--z-s); color: var(--isl-t) }
+
+/* ── 脚 ─────────────────────────────────────────────────── */
+.foot { border-block-start: 1px solid var(--ln); padding-block: clamp(2rem, 4vw, 3rem) }
+.foot__r { display: grid; gap: 1.25rem }
+@media (min-width: 768px) { .foot__r { grid-template-columns: 1fr auto; align-items: end } }
+.foot__a { font-size: var(--z-s); color: var(--t2); font-style: normal }
+.foot__a a { display: inline-flex; align-items: center; min-block-size: 44px }
+.foot__c { font-family: var(--ff-num); font-size: var(--z-2xs); color: var(--t3) }
+
+/* ============================================================
+   MOTION — 3カテゴリ。控えめに。
+   ============================================================ */
+
+/* 1) 出現。隠す指定は .js が付いたときだけ。 */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .js [data-rise] {
+      animation: rise both; animation-timeline: view();
+      animation-range: entry 6% cover 22%;
+    }
+    @keyframes rise { from { translate: 0 0.75rem } to { translate: 0 0 } }
+  }
+}
+
+/* 2) 状態: 罫が引かれる */
+.uline {
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px; background-position: 0 100%; background-repeat: no-repeat;
+  transition: background-size var(--f2) var(--ez);
+}
+.uline:hover, .uline:focus-visible { background-size: 100% 1px }
+
+/* 3) 状態: 扉が起きる */
+.door { transition: background var(--f1) var(--ez) }
+.door:hover { background: var(--pg2) }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── 加工品の例（コイン対比の連作）──────────────────────
+   3枚とも同じ比率・同じプレートに載せて、品質差を吸収する。
+   拡大しない（実寸270px）。 */
+.specimens {
+  display: grid; gap: clamp(1rem, 2vw, 1.5rem);
+  margin-block-start: clamp(1.25rem, 2.5vw, 1.75rem);
+}
+@media (min-width: 560px) { .specimens { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+.spec { background: var(--pg2); border: 1px solid var(--ln); padding: clamp(0.875rem, 1.8vw, 1.25rem) }
+.spec img {
+  inline-size: 100%; max-inline-size: 270px; margin-inline: auto;
+  aspect-ratio: 270 / 203; object-fit: cover;
+}
+.spec figcaption {
+  margin-block-start: 0.625rem; padding-block-start: 0.625rem;
+  border-block-start: 1px solid var(--ln);
+  font-family: var(--ff-num); font-size: var(--z-2xs); color: var(--t3);
+}
+
+/* ==========================================================================
+   MAP (MEO) — a direct lazy iframe per address.
+   `?output=embed` needs no API key; the Static Maps API returns 403 without one.
+
+   These sit inside grid rows (a <dl> row, a card), so without an explicit
+   span they land in the narrow label column — measured at 96x60, unreadable.
+   `grid-column: 1 / -1` makes the map take the whole row wherever it lands.
+   ========================================================================== */
+.map {
+  display:block; width:100%; padding-block-start:.75rem;
+  grid-column: 1 / -1;      /* full width of any grid parent */
+}
+.map iframe {
+  display:block; width:100%;
+  height:clamp(15rem, 26vw, 20rem);
+  border:0; border-radius:8px; background:rgba(128,128,128,.15);
+}

@@ -1,0 +1,292 @@
+/* =========================================================
+   中央総業株式会社 — リニューアル提案
+   アクセント色は現行サイト CSS の #004bb4 を採取。
+   oklch(44.5% .179 259.7) → oklch(45% .155 260) （彩度のみ抑制／色相差 0.3°）
+   ========================================================= */
+
+:root{
+  /* ---- 色 ---- */
+  --bg:          oklch(100% 0 0);
+  --paper:       oklch(96.6% .008 260);   /* 淡い青みの区画 */
+  --paper-deep:  oklch(93.4% .014 260);
+  --line:        oklch(88% .012 260);
+  --line-soft:   oklch(93% .008 260);
+
+  --ink:         oklch(23% .022 260);
+  --ink-soft:    oklch(43% .018 260);     /* 本文補助 4.5:1 以上 */
+  --ink-faint:   oklch(52% .016 260);
+
+  --brand:       oklch(45% .155 260);     /* 面・罫用（採取値の彩度を抑制） */
+  --brand-ink:   oklch(38% .142 260);     /* 文字用の暗い兄弟トークン */
+  --brand-lift:  oklch(62% .132 245);     /* 現行 #3cb9eb 系の明色 */
+  --brand-wash:  oklch(97.2% .015 260);
+
+  --alert:       oklch(45% .17 25);
+
+  /* ---- 文字 ---- */
+  --ff-d: "Zen Old Mincho", "Yu Mincho", "Hiragino Mincho ProN", serif;
+  --ff-t: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+
+  --fs-mega: clamp(3.1rem, 1.2rem + 8.2vw, 7.4rem);
+  --fs-h1:   clamp(2rem, 1.1rem + 3.6vw, 3.5rem);
+  --fs-h2:   clamp(1.45rem, 1.05rem + 1.6vw, 2.1rem);
+  --fs-h3:   clamp(1.08rem, .96rem + .5vw, 1.3rem);
+  --fs-b:    clamp(.95rem, .9rem + .22vw, 1.03rem);
+  --fs-s:    clamp(.82rem, .79rem + .14vw, .89rem);
+
+  /* ---- 余白・形 ---- */
+  --gut: clamp(1.15rem, .5rem + 2.6vw, 3.75rem);
+  --bay: clamp(3.6rem, 2rem + 6vw, 7.5rem);
+  --r-s: 3px;
+  --r-m: 7px;
+
+  --sh: 0 1px 2px oklch(23% .022 260 / .07), 0 8px 26px oklch(23% .022 260 / .07);
+
+  --ez: cubic-bezier(.2,.7,.3,1);
+  --t1: 130ms; --t2: 220ms; --t3: 340ms;
+}
+
+*,*::before,*::after{ box-sizing:border-box }
+html{ -webkit-text-size-adjust:100% }
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--ff-t); font-size:var(--fs-b); line-height:1.85;
+  font-feature-settings:"palt" 1;
+  -webkit-font-smoothing:antialiased;
+}
+img,iframe{ max-width:100%; display:block }
+a{ color:var(--brand-ink) }
+h1,h2,h3{ line-height:1.32; font-weight:700; margin:0 }
+p{ margin:0 }
+
+:focus-visible{ outline:3px solid var(--brand); outline-offset:3px; border-radius:2px }
+
+.hold{ width:min(100% - var(--gut)*2, 1180px); margin-inline:auto }
+
+.jump{
+  position:absolute; left:-9999px;
+  background:var(--brand); color:#fff; padding:.7rem 1.1rem; z-index:99; border-radius:0 0 var(--r-m) 0;
+}
+.jump:focus{ left:0; top:0 }
+
+/* ══ ヘッダー：識別パターン＝「連絡先を最上段に置く二段組」 ══
+   ロゴ画像は無いので和文社名を組む。フリーダイヤルが最大の資産なので上段に置く。 */
+.mast{ position:sticky; top:0; z-index:40; background:oklch(100% 0 0 / .93); backdrop-filter:blur(9px); border-bottom:1px solid var(--line) }
+.mast__pre{ background:var(--brand); color:#fff }
+.mast__pre .hold{ display:flex; flex-wrap:wrap; gap:.35rem 1.5rem; align-items:center; justify-content:space-between; padding-block:.4rem }
+.pre__x{ font-size:var(--fs-s); letter-spacing:.05em; margin:0; color:#fff }
+.pre__tel{ font-size:var(--fs-s); color:#fff; text-decoration:none; font-weight:700; letter-spacing:.04em;
+  min-height:44px; display:inline-flex; align-items:center }
+.pre__tel:hover{ text-decoration:underline }
+
+.mast__in{ display:flex; align-items:center; justify-content:space-between; gap:1rem; padding-block:.85rem }
+.name{ text-decoration:none; color:var(--ink); display:flex; flex-direction:column; justify-content:center; min-height:46px }
+.name__j{ display:block; font-family:var(--ff-d); font-size:clamp(1.3rem,1.05rem + .85vw,1.72rem); font-weight:700; letter-spacing:.08em; line-height:1.2 }
+.name__q{ display:block; font-size:.7rem; color:var(--ink-soft); letter-spacing:.14em; margin-top:.2rem }
+
+.helm{ display:flex; align-items:center; gap:clamp(.9rem,2vw,1.7rem) }
+.helm a{ color:var(--ink); text-decoration:none; font-size:var(--fs-s); font-weight:500; letter-spacing:.03em;
+  min-height:44px; display:inline-flex; align-items:center; position:relative }
+.helm a::after{ content:""; position:absolute; left:0; right:100%; bottom:.15rem; height:2px; background:var(--brand); transition:right var(--t2) var(--ez) }
+.helm a:hover::after{ right:0 }
+.helm__go{
+  background:var(--brand); color:#fff!important; padding:.6rem 1.15rem!important;
+  border-radius:var(--r-s); font-weight:700; min-height:44px; display:inline-flex; align-items:center;
+  transition:background var(--t2) var(--ez);
+}
+.helm__go::after{ display:none }
+.helm__go:hover{ background:color-mix(in oklab, var(--brand) 80%, #000) }
+
+.tog{ display:none; width:46px; height:46px; border:1px solid var(--line); background:var(--bg); border-radius:var(--r-s); cursor:pointer; align-items:center; justify-content:center; flex-direction:column; gap:5px }
+.tog span{ display:block; width:19px; height:2px; background:var(--ink) }
+
+/* ══ 幕開け：写真ではなく「数の宣言」で始める ══ */
+.open{ padding-block:clamp(3rem,2rem + 5vw,6rem) clamp(2.4rem,1.6rem + 3vw,4rem); position:relative; overflow:hidden }
+.open::before{
+  content:""; position:absolute; inset:0;
+  background:
+    linear-gradient(180deg, var(--brand-wash), transparent 62%),
+    repeating-linear-gradient(90deg, var(--line-soft) 0 1px, transparent 1px 84px);
+  pointer-events:none;
+}
+.open .hold{ position:relative }
+.open__tag{
+  display:inline-block; font-size:var(--fs-s); font-weight:700; letter-spacing:.13em;
+  color:var(--brand-ink); border-left:3px solid var(--brand); padding-left:.7rem; margin-bottom:1.4rem;
+}
+.open__h{ font-family:var(--ff-d); font-size:var(--fs-h1); letter-spacing:.02em; max-width:20em }
+.open__h em{ font-style:normal; color:var(--brand-ink) }
+.open__p{ margin-top:1.5rem; max-width:44em; color:var(--ink-soft); font-size:clamp(1rem,.94rem + .3vw,1.12rem) }
+.open__acts{ display:flex; flex-wrap:wrap; gap:.75rem; margin-top:2.2rem }
+.go{
+  display:inline-flex; align-items:center; gap:.5rem; min-height:48px; padding:.75rem 1.6rem;
+  border-radius:var(--r-s); text-decoration:none; font-weight:700; font-size:var(--fs-s); letter-spacing:.04em;
+  transition:background var(--t2) var(--ez), color var(--t2) var(--ez), border-color var(--t2) var(--ez);
+}
+.go--fill{ background:var(--brand); color:#fff; border:2px solid var(--brand) }
+.go--fill:hover{ background:color-mix(in oklab, var(--brand) 80%, #000); border-color:color-mix(in oklab, var(--brand) 80%, #000) }
+.go--edge{ background:var(--bg); color:var(--brand-ink); border:2px solid var(--brand) }
+.go--edge:hover{ background:var(--brand); color:#fff }
+
+/* ══ 署名的装置 ── 全幅の「資格台帳」。カードではなく表で見せる ══ */
+.ledger{ background:var(--brand); color:#fff; padding-block:clamp(2.6rem,1.8rem + 3.4vw,4.4rem) }
+.ledger__h{ font-family:var(--ff-d); font-size:var(--fs-h2); color:#fff; letter-spacing:.05em }
+.ledger__n{ margin-top:.5rem; font-size:var(--fs-s); color:#fff; max-width:46em }
+.tally{ width:100%; border-collapse:collapse; margin-top:2rem; font-variant-numeric:tabular-nums }
+.tally caption{ text-align:left; font-size:var(--fs-s); color:#fff; padding-bottom:.7rem; letter-spacing:.05em }
+.tally th,.tally td{ padding:.95rem .8rem; border-bottom:1px solid oklch(100% 0 0 / .3); text-align:left; color:#fff }
+.tally thead th{ font-size:.76rem; letter-spacing:.13em; font-weight:700; border-bottom-width:2px; white-space:nowrap }
+.tally tbody th{ font-weight:500; font-size:var(--fs-s) }
+.tally td{ text-align:right; white-space:nowrap }
+.tally .big{ font-family:var(--ff-d); font-size:clamp(1.5rem,1.1rem + 1.7vw,2.5rem); font-weight:700; line-height:1; letter-spacing:.01em }
+.tally .big small{ font-size:.5em; font-weight:400; margin-left:.25rem; letter-spacing:.06em }
+.tally tbody tr{ transition:background var(--t1) var(--ez) }
+.tally tbody tr:hover{ background:oklch(100% 0 0 / .1) }
+.ledger__f{ margin-top:1.1rem; font-size:.78rem; color:#fff; letter-spacing:.04em }
+
+/* ══ 工種 ── 番号を大きく振った縦の索引（カード網ではない） ══
+   注記：見出しの左に置いた数字は装飾。読み上げ順を壊さないよう aria-hidden。 */
+.bay{ padding-block:var(--bay) }
+.bay--tint{ background:var(--paper) }
+.cap{ font-family:var(--ff-d); font-size:var(--fs-h2); letter-spacing:.05em }
+.cap__n{ display:block; font-family:var(--ff-t); font-size:var(--fs-s); font-weight:700; letter-spacing:.14em; color:var(--brand-ink); margin-bottom:.5rem }
+.cap__p{ margin-top:.9rem; color:var(--ink-soft); max-width:46em }
+
+.index{ list-style:none; margin:2.6rem 0 0; padding:0; border-top:1px solid var(--line) }
+.index li{ border-bottom:1px solid var(--line) }
+.index__row{ display:grid; grid-template-columns:clamp(3rem,7vw,5.4rem) 1fr; gap:clamp(.9rem,2vw,2rem); align-items:baseline; padding:clamp(1.15rem,2vw,1.7rem) 0 }
+.index__no{ font-family:var(--ff-d); font-size:clamp(1.5rem,1rem + 2vw,2.5rem); font-weight:700; color:var(--brand); line-height:1; letter-spacing:.01em }
+.index__t{ font-size:var(--fs-h3); font-weight:700 }
+.index__d{ margin-top:.45rem; color:var(--ink-soft); font-size:var(--fs-s) }
+.index__k{ margin-top:.7rem; display:flex; flex-wrap:wrap; gap:.35rem }
+.index__k span{ font-size:.74rem; letter-spacing:.05em; color:var(--brand-ink); background:var(--brand-wash); border:1px solid var(--line); border-radius:2rem; padding:.2rem .7rem }
+
+/* ══ 対応地域 ── 横並びの帯（スクロールスナップ） ══ */
+.reach{ margin-top:2.4rem }
+.reach__strip{
+  display:grid; grid-auto-flow:column; grid-auto-columns:minmax(min(15.5rem,72vw),1fr);
+  gap:1rem; overflow-x:auto; padding-bottom:1rem; scroll-snap-type:x mandatory;
+  overscroll-behavior-x:contain;
+}
+.reach__strip > *{ scroll-snap-align:start }
+.zone{ background:var(--bg); border:1px solid var(--line); border-top:3px solid var(--brand); border-radius:var(--r-m); padding:1.3rem 1.25rem }
+.zone__h{ font-size:var(--fs-h3); font-weight:700; display:flex; align-items:baseline; gap:.55rem }
+.zone__h b{ font-family:var(--ff-d); font-size:1.6em; color:var(--brand); line-height:1; font-weight:700 }
+.zone__h b small{ font-size:.42em; margin-left:.15rem; color:var(--ink-soft); letter-spacing:.06em }
+.zone__l{ margin:.85rem 0 0; font-size:var(--fs-s); color:var(--ink-soft); line-height:2 }
+.reach__note{ margin-top:.5rem; font-size:var(--fs-s); color:var(--ink-soft) }
+
+/* ══ 信頼の根拠 ── 仕様書的な key:value ══ */
+.spec{ margin:0; border-top:2px solid var(--ink) }
+.spec__r{ display:grid; grid-template-columns:minmax(8.5rem,16.5rem) 1fr; gap:0 clamp(1rem,3vw,2.5rem); border-bottom:1px solid var(--line); padding:1.1rem 0 }
+.spec dt{ font-size:var(--fs-s); font-weight:700; letter-spacing:.06em; color:var(--brand-ink) }
+.spec dd{ margin:0 }
+.spec dd small{ display:block; color:var(--ink-soft); font-size:var(--fs-s); margin-top:.2rem }
+.spec dd a{ min-height:44px; display:inline-flex; align-items:center; font-weight:700; text-decoration:none }
+.spec dd a:hover{ text-decoration:underline }
+
+/* ══ 採用 ── 一枚の言明として置く ══ */
+.claim{ background:var(--paper-deep); padding-block:clamp(2.6rem,1.8rem + 3.4vw,4.6rem) }
+.claim__q{ margin:0; font-family:var(--ff-d); font-size:clamp(1.35rem,1rem + 1.9vw,2.25rem); line-height:1.6; letter-spacing:.03em; max-width:22em }
+.claim__q b{ color:var(--brand-ink); font-weight:700 }
+.claim__c{ margin-top:1.2rem; color:var(--ink-soft); max-width:44em }
+.claim__acts{ margin-top:1.8rem; display:flex; flex-wrap:wrap; gap:.75rem }
+
+/* ══ 問い ══ */
+.ask{ margin-top:2.4rem; border-top:1px solid var(--line) }
+.ask details{ border-bottom:1px solid var(--line) }
+.ask summary{
+  cursor:pointer; list-style:none; padding:1.15rem 2.6rem 1.15rem 0; position:relative;
+  font-weight:700; font-size:var(--fs-h3); min-height:44px; display:flex; align-items:center;
+}
+.ask summary::-webkit-details-marker{ display:none }
+.ask summary::after{
+  content:""; position:absolute; right:.5rem; top:50%; width:11px; height:11px;
+  border-right:2px solid var(--brand); border-bottom:2px solid var(--brand);
+  translate:0 -60%; rotate:45deg; transition:rotate var(--t2) var(--ez);
+}
+.ask details[open] summary::after{ rotate:225deg; translate:0 -25% }
+.ask summary:hover{ color:var(--brand-ink) }
+.ask__a{ padding:0 0 1.3rem; color:var(--ink-soft); max-width:52em }
+
+/* ══ 所在地 ══ */
+.where{ display:grid; grid-template-columns:1fr; gap:1.8rem; margin-top:2.4rem }
+.where__box{ border:1px solid var(--line); border-radius:var(--r-m); padding:1.5rem; background:var(--bg) }
+.where__n{ font-size:var(--fs-h3); font-weight:700 }
+.where__a{ margin-top:.6rem; color:var(--ink-soft); font-size:var(--fs-s); font-style:normal; line-height:2 }
+.where__a a{ color:var(--brand-ink); font-weight:700; text-decoration:none;
+  min-height:44px; display:inline-flex; align-items:center }
+.where__a a:hover{ text-decoration:underline }
+.map{ display:block; width:100%; margin-top:1.1rem }
+.map iframe{ display:block; width:100%; height:clamp(15rem,26vw,20rem); border:0; border-radius:var(--r-s) }
+
+/* ══ 脚 ══ */
+.foot{ background:var(--ink); color:oklch(93% .01 260); padding-block:clamp(2.4rem,1.6rem + 3vw,3.6rem) }
+.foot__in{ display:grid; grid-template-columns:1fr; gap:1.8rem }
+.foot__n{ font-family:var(--ff-d); font-size:1.3rem; letter-spacing:.08em; color:#fff }
+.foot__a{ margin-top:.75rem; font-style:normal; font-size:var(--fs-s); line-height:2.05; color:oklch(93% .01 260) }
+.foot__a a{ color:#fff; font-weight:700; text-decoration:none;
+  min-height:44px; display:inline-flex; align-items:center }
+.foot__a a:hover{ text-decoration:underline }
+.foot__l{ list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:.6rem 1.5rem }
+.foot__l a{ color:oklch(93% .01 260); text-decoration:none; font-size:var(--fs-s);
+  min-height:44px; display:inline-flex; align-items:center }
+.foot__l a:hover{ color:#fff; text-decoration:underline }
+.foot__c{ margin-top:2rem; padding-top:1.2rem; border-top:1px solid oklch(100% 0 0 / .17); font-size:.78rem; color:oklch(88% .01 260) }
+
+/* ══ 応答 ══ */
+@media (min-width:768px){
+  .where{ grid-template-columns:1fr 1fr }
+  .foot__in{ grid-template-columns:1.35fr 1fr }
+  .spec__r{ padding:1.25rem 0 }
+}
+@media (max-width:860px){
+  .tog{ display:flex }
+  .helm{
+    position:absolute; inset:100% 0 auto; background:var(--bg); border-bottom:1px solid var(--line);
+    flex-direction:column; align-items:stretch; gap:0; padding:.5rem var(--gut) 1.2rem; box-shadow:var(--sh);
+  }
+  .helm[hidden]{ display:none }
+  .helm a{ padding:.85rem 0; border-bottom:1px solid var(--line-soft); min-height:44px; display:flex; align-items:center }
+  .helm a::after{ display:none }
+  .helm__go{ justify-content:center; margin-top:.85rem; border-bottom:0 }
+}
+@media (min-width:861px){
+  .helm{ display:flex!important }
+}
+@media (max-width:600px){
+  .tally thead th:nth-child(2),.tally tbody td:nth-child(2){ display:none }
+  .spec__r{ grid-template-columns:1fr; gap:.3rem }
+}
+
+/* ══ 動き ══
+   1) 進入：スクロールで段階的に立ち上がる（JS が付けた .js がある時だけ隠す）
+   2) 状態：ヘッダー影／罫の描画／行のホバー
+   3) スクロール連動：台帳の数字が視界に入ると下線が伸びる */
+.js [data-rise]{ opacity:0; translate:0 1.15rem }
+.js [data-rise].is-on{ opacity:1; translate:0 0; transition:opacity var(--t3) var(--ez), translate var(--t3) var(--ez) }
+.js [data-rise].is-on[style*="--d"]{ transition-delay:var(--d) }
+
+.mast{ transition:box-shadow var(--t2) var(--ez) }
+.mast.is-cast{ box-shadow:0 2px 18px oklch(23% .022 260 / .1) }
+
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion: no-preference){
+    .tally .big{ background-image:linear-gradient(var(--brand-lift),var(--brand-lift)); background-repeat:no-repeat;
+      background-position:0 100%; background-size:0% 2px;
+      animation:rule linear both; animation-timeline:view(); animation-range:entry 22% cover 42% }
+  }
+}
+@keyframes rule{ to{ background-size:100% 2px } }
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{ animation-duration:.001ms!important; animation-iteration-count:1!important; transition-duration:.001ms!important }
+  .js [data-rise]{ opacity:1!important; translate:none!important }
+}
+
+@media print{
+  .mast,.jump,.map,.open__acts,.claim__acts{ display:none }
+  body{ color:#000 }
+  .ledger,.foot{ background:#fff!important; color:#000!important }
+  .ledger *,.foot *{ color:#000!important }
+}

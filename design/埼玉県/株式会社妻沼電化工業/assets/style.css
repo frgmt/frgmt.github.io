@@ -1,0 +1,222 @@
+/* =========================================================
+   株式会社 妻沼電化工業 — リニューアル提案
+   ロゴ画像（logo1.jpg）から画素採取した #1818a8。
+   oklch(35.5% .213 268.5) → 面 oklch(40% .148 268) / 文字 oklch(35% .14 268)
+   色相差 0.5°。彩度は .213 → .148（白地での振動を抑制）。
+
+   注：中央総業(260°)・アンド化工(270°)と同じ青紫域。
+   ここは「μmの薄膜」という会社のスローガンに合わせ、
+   極細の罫（1px）と広い余白で薄さを表現する構成にした。
+   区画は地色で分けず、罫の粗密だけで分ける。
+   ========================================================= */
+
+:root{
+  --bg:        oklch(100% 0 0);
+  --film:      oklch(97.2% .006 268);
+  --film2:     oklch(94.2% .011 268);
+  --rule:      oklch(89% .009 268);
+  --rule-thin: oklch(94% .006 268);
+
+  --ink:       oklch(22% .014 268);
+  --ink-mid:   oklch(42% .012 268);
+  --ink-low:   oklch(50% .011 268);
+
+  --plate:     oklch(40% .148 268);
+  --plate-ink: oklch(35% .14 268);
+  --plate-wash:oklch(97.4% .013 268);
+  --plate-lift:oklch(58% .17 268);
+
+  --ff-d: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", sans-serif;
+  --ff-t: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  --ff-n: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --fs-h1: clamp(1.8rem, 1.05rem + 3vw, 2.9rem);
+  --fs-h2: clamp(1.32rem, 1.05rem + 1.3vw, 1.8rem);
+  --fs-h3: clamp(1.02rem, .94rem + .4vw, 1.18rem);
+  --fs-b:  clamp(.95rem, .9rem + .22vw, 1.02rem);
+  --fs-s:  clamp(.82rem, .79rem + .14vw, .88rem);
+
+  --gut: clamp(1.15rem, .5rem + 2.6vw, 3.6rem);
+  --bay: clamp(3.6rem, 2.2rem + 5.4vw, 7rem);
+  --r-s: 2px;
+
+  --ez: cubic-bezier(.24,.7,.3,1);
+  --t1: 130ms; --t2: 220ms; --t3: 340ms;
+}
+
+*,*::before,*::after{ box-sizing:border-box }
+html{ -webkit-text-size-adjust:100% }
+body{ margin:0; background:var(--bg); color:var(--ink); font-family:var(--ff-t); font-size:var(--fs-b); line-height:1.9; font-feature-settings:"palt" 1; -webkit-font-smoothing:antialiased }
+img,iframe{ max-width:100%; display:block }
+h1,h2,h3{ line-height:1.34; font-weight:700; margin:0 }
+p{ margin:0 }
+:focus-visible{ outline:3px solid var(--plate); outline-offset:3px; border-radius:2px }
+
+.hold{ width:min(100% - var(--gut)*2, 1120px); margin-inline:auto }
+.leap{ position:absolute; left:-9999px; background:var(--plate-ink); color:#fff; padding:.7rem 1.1rem; z-index:99 }
+.leap:focus{ left:0; top:0 }
+
+/* ══ ヘッダー：識別＝「スローガンを掲げる」 ══
+   この会社は「μmの薄膜で付加価値を上げる」という言葉を持っている。 */
+.cap{ position:sticky; top:0; z-index:40; background:oklch(100% 0 0 / .96); backdrop-filter:blur(9px); border-bottom:1px solid var(--rule) }
+.cap__bar{ background:var(--plate-ink); color:#fff }
+.cap__bar .hold{ display:flex; flex-wrap:wrap; gap:.3rem 1.2rem; justify-content:space-between; align-items:center; padding-block:.4rem }
+.slogan{ margin:0; font-size:var(--fs-s); color:#fff; letter-spacing:.05em }
+.slogan b{ font-family:var(--ff-n); font-weight:700 }
+.bar__t{ font-size:var(--fs-s); color:#fff; text-decoration:none; font-weight:700; letter-spacing:.04em; min-height:44px; display:inline-flex; align-items:center }
+.bar__t:hover{ text-decoration:underline }
+
+.cap__in{ display:flex; align-items:center; justify-content:space-between; gap:1rem; padding-block:.8rem }
+.sign{ text-decoration:none; color:var(--ink); display:flex; flex-direction:column; justify-content:center; min-height:46px }
+.sign__j{ font-family:var(--ff-d); font-size:clamp(1.2rem, 1rem + .78vw, 1.56rem); font-weight:700; letter-spacing:.09em; line-height:1.2 }
+.sign__r{ font-size:.69rem; color:var(--ink-mid); letter-spacing:.11em; margin-top:.2rem }
+
+.helm{ display:flex; align-items:center; gap:clamp(.85rem, 2vw, 1.5rem) }
+.helm a{ color:var(--ink); text-decoration:none; font-size:var(--fs-s); font-weight:500; letter-spacing:.03em; min-height:44px; display:inline-flex; align-items:center; position:relative }
+.helm a::after{ content:""; position:absolute; left:0; right:100%; bottom:.5rem; height:1px; background:var(--plate); transition:right var(--t2) var(--ez) }
+.helm a:hover::after{ right:0 }
+.helm__go{ background:var(--plate-ink); color:#fff!important; padding:0 1.1rem!important; border-radius:var(--r-s); font-weight:700; transition:background var(--t2) var(--ez) }
+.helm__go::after{ display:none }
+.helm__go:hover{ background:color-mix(in oklab, var(--plate-ink) 80%, #000) }
+
+.tog{ display:none; width:46px; height:46px; border:1px solid var(--rule); background:var(--bg); border-radius:var(--r-s); cursor:pointer; align-items:center; justify-content:center; flex-direction:column; gap:5px }
+.tog span{ display:block; width:19px; height:1.5px; background:var(--ink) }
+
+/* ══ 幕開け ══ */
+.gate{ padding-block:clamp(3rem, 2rem + 4.4vw, 5.6rem) clamp(2.4rem, 1.6rem + 2.8vw, 4rem) }
+.gate__k{ display:inline-block; font-family:var(--ff-n); font-size:.73rem; font-weight:700; letter-spacing:.16em; color:var(--plate-ink); border-left:2px solid var(--plate); padding-left:.7rem; margin-bottom:1.3rem }
+.gate__h{ font-family:var(--ff-d); font-size:var(--fs-h1); letter-spacing:.02em; max-width:19em }
+.gate__h em{ font-style:normal; color:var(--plate-ink) }
+.gate__p{ margin-top:1.4rem; max-width:43em; color:var(--ink-mid); font-size:clamp(1rem, .94rem + .3vw, 1.08rem) }
+.gate__acts{ display:flex; flex-wrap:wrap; gap:.75rem; margin-top:2rem }
+.go{ display:inline-flex; align-items:center; gap:.5rem; min-height:48px; padding:.72rem 1.5rem; border-radius:var(--r-s); text-decoration:none; font-weight:700; font-size:var(--fs-s); letter-spacing:.04em; transition:background var(--t2) var(--ez), color var(--t2) var(--ez), border-color var(--t2) var(--ez) }
+.go--on{ background:var(--plate-ink); color:#fff; border:1px solid var(--plate-ink) }
+.go--on:hover{ background:color-mix(in oklab, var(--plate-ink) 80%, #000); border-color:color-mix(in oklab, var(--plate-ink) 80%, #000) }
+.go--edge{ background:var(--bg); color:var(--plate-ink); border:1px solid var(--plate) }
+.go--edge:hover{ background:var(--plate-ink); color:#fff; border-color:var(--plate-ink) }
+
+/* ══ 署名的装置 ── めっきラインの一覧表 ══
+   めっきを頼む側は「そのライン／その浴／その槽サイズに入るか」で選ぶ。
+   極細の罫だけで組み、地色を敷かない。 */
+.lines{ padding-block:clamp(2.6rem, 1.9rem + 3vw, 4.4rem); border-top:1px solid var(--rule); border-bottom:1px solid var(--rule) }
+.lines__h{ font-family:var(--ff-d); font-size:var(--fs-h2); letter-spacing:.05em }
+.lines__n{ margin-top:.55rem; font-size:var(--fs-s); color:var(--ink-mid); max-width:46em }
+.bath{ width:100%; border-collapse:collapse; margin-top:2rem; font-size:var(--fs-s) }
+.bath caption{ text-align:left; color:var(--ink-mid); padding-bottom:.7rem; font-size:var(--fs-s) }
+.bath th,.bath td{ padding:.85rem .7rem; border-bottom:1px solid var(--rule-thin); text-align:left; vertical-align:top }
+.bath thead th{ font-size:.71rem; letter-spacing:.12em; border-bottom:1px solid var(--ink); white-space:nowrap; color:var(--ink-mid); font-weight:700 }
+.bath tbody th{ font-family:var(--ff-n); font-weight:700; white-space:nowrap; color:var(--plate-ink); font-size:1.05rem }
+.bath .sz{ font-family:var(--ff-n); white-space:nowrap; font-size:.82rem }
+.bath .fx{ color:var(--ink-mid) }
+.bath .fx b{ color:var(--plate-ink); font-weight:700 }
+.bath tbody tr:hover{ background:var(--plate-wash) }
+.wide{ overflow-x:auto }
+.lines__f{ margin-top:1.2rem; font-size:var(--fs-s); color:var(--ink-mid) }
+
+/* ══ 技術 ══ */
+.bay{ padding-block:var(--bay) }
+.bay--tint{ background:var(--film) }
+.hd{ font-family:var(--ff-d); font-size:var(--fs-h2); letter-spacing:.05em }
+.hd__n{ display:block; font-family:var(--ff-n); font-size:.73rem; font-weight:700; letter-spacing:.16em; color:var(--plate-ink); margin-bottom:.5rem }
+.hd__p{ margin-top:.9rem; color:var(--ink-mid); max-width:45em }
+
+.tech{ margin-top:2.5rem; display:grid; gap:0; border-top:1px solid var(--ink) }
+.tech__s{ display:grid; grid-template-columns:1fr; gap:.5rem 2.2rem; padding:clamp(1.5rem,2.6vw,2.3rem) 0; border-bottom:1px solid var(--rule-thin) }
+.tech__t{ font-size:var(--fs-h3); font-weight:700 }
+.tech__t span{ display:block; font-family:var(--ff-n); font-size:.7rem; letter-spacing:.15em; color:var(--plate-ink); font-weight:700; margin-bottom:.3rem }
+.tech__d{ color:var(--ink-mid) }
+.tech__d b{ color:var(--plate-ink); font-weight:700 }
+.tech__q{ margin-top:.8rem; padding-left:1rem; border-left:2px solid var(--plate); color:var(--ink-mid); font-size:var(--fs-s) }
+
+/* ══ グループ三拠点 ══ */
+.grp{ margin-top:2.4rem; display:grid; grid-template-columns:1fr; gap:1.1rem }
+.gp{ border:1px solid var(--rule); border-radius:var(--r-s); padding:1.3rem 1.25rem; background:var(--bg) }
+.gp--this{ border-color:var(--plate); border-width:2px }
+.gp__r{ font-family:var(--ff-n); font-size:.68rem; letter-spacing:.14em; color:var(--ink-low); font-weight:700 }
+.gp--this .gp__r{ color:var(--plate-ink) }
+.gp__n{ font-size:var(--fs-h3); font-weight:700; margin-top:.28rem }
+.gp__d{ margin-top:.5rem; font-size:var(--fs-s); color:var(--ink-mid) }
+.gp__a{ margin-top:.7rem; font-size:var(--fs-s); color:var(--ink-mid); font-style:normal; line-height:1.9 }
+.gp__a a{ color:var(--plate-ink); font-weight:700; text-decoration:none; min-height:44px; display:inline-flex; align-items:center }
+.gp__a a:hover{ text-decoration:underline }
+
+/* ══ 沿革 ══ */
+.rail{ list-style:none; margin:2.3rem 0 0; padding:0 0 0 1.5rem; border-left:1px solid var(--rule) }
+.rail li{ position:relative; padding:0 0 1.3rem }
+.rail li::before{ content:""; position:absolute; left:calc(-1.5rem - 4px); top:.68rem; width:7px; height:7px; border-radius:50%; background:var(--plate); border:2px solid var(--bg) }
+.rail__y{ font-family:var(--ff-n); font-weight:700; color:var(--plate-ink); font-size:.9rem }
+.rail__t{ color:var(--ink-mid); margin-top:.12rem }
+
+/* ══ 会社概要 ══ */
+.book{ margin:2.3rem 0 0; border-top:1px solid var(--ink) }
+.book__r{ display:grid; grid-template-columns:minmax(7rem,13rem) 1fr; gap:0 clamp(1rem,3vw,2.2rem); border-bottom:1px solid var(--rule-thin); padding:1.05rem 0 }
+.book dt{ font-size:var(--fs-s); font-weight:700; letter-spacing:.06em; color:var(--plate-ink) }
+.book dd{ margin:0 }
+.book dd small{ display:block; color:var(--ink-mid); font-size:var(--fs-s); margin-top:.2rem }
+.book dd a{ min-height:44px; display:inline-flex; align-items:center; font-weight:700; color:var(--plate-ink); text-decoration:none }
+.book dd a:hover{ text-decoration:underline }
+
+/* ══ 問い ══ */
+.ask{ margin-top:2.3rem; border-top:1px solid var(--rule) }
+.ask details{ border-bottom:1px solid var(--rule-thin) }
+.ask summary{ cursor:pointer; list-style:none; padding:1.1rem 2.6rem 1.1rem 0; position:relative; font-weight:700; font-size:var(--fs-h3); min-height:44px; display:flex; align-items:center }
+.ask summary::-webkit-details-marker{ display:none }
+.ask summary::after{ content:""; position:absolute; right:.5rem; top:50%; width:10px; height:10px; border-right:1.5px solid var(--plate); border-bottom:1.5px solid var(--plate); translate:0 -60%; rotate:45deg; transition:rotate var(--t2) var(--ez) }
+.ask details[open] summary::after{ rotate:225deg; translate:0 -25% }
+.ask summary:hover{ color:var(--plate-ink) }
+.ask__a{ padding:0 0 1.25rem; color:var(--ink-mid); max-width:52em }
+
+.map{ display:block; width:100%; grid-column:1 / -1; margin-top:1.1rem }
+.map iframe{ display:block; width:100%; height:clamp(15rem, 26vw, 20rem); border:0; border-radius:var(--r-s) }
+
+.foot{ background:var(--ink); color:oklch(92% .01 268); padding-block:clamp(2.4rem, 1.6rem + 3vw, 3.6rem) }
+.foot__in{ display:grid; grid-template-columns:1fr; gap:1.7rem }
+.foot__n{ font-family:var(--ff-d); font-size:1.2rem; letter-spacing:.09em; color:#fff }
+.foot__a{ margin-top:.7rem; font-style:normal; font-size:var(--fs-s); line-height:2.05; color:oklch(92% .01 268) }
+.foot__a a{ color:#fff; font-weight:700; text-decoration:none; min-height:44px; display:inline-flex; align-items:center }
+.foot__a a:hover{ text-decoration:underline }
+.foot__l{ list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:.5rem 1.4rem }
+.foot__l a{ color:oklch(92% .01 268); text-decoration:none; font-size:var(--fs-s); min-height:44px; display:inline-flex; align-items:center }
+.foot__l a:hover{ color:#fff; text-decoration:underline }
+.foot__c{ margin-top:1.9rem; padding-top:1.1rem; border-top:1px solid oklch(100% 0 0 / .18); font-size:.78rem; color:oklch(87% .01 268) }
+
+@media (min-width:768px){
+  .tech__s{ grid-template-columns:minmax(11rem,17rem) 1fr }
+  .foot__in{ grid-template-columns:1.35fr 1fr }
+}
+@media (min-width:900px){ .grp{ grid-template-columns:repeat(3,1fr) } }
+@media (max-width:860px){
+  .tog{ display:flex }
+  .helm{ position:absolute; inset:100% 0 auto; background:var(--bg); border-bottom:1px solid var(--rule); flex-direction:column; align-items:stretch; gap:0; padding:.5rem var(--gut) 1.15rem; box-shadow:0 8px 26px oklch(22% .014 268 / .1) }
+  .helm[hidden]{ display:none }
+  .helm a{ border-bottom:1px solid var(--rule-thin) }
+  .helm a::after{ display:none }
+  .helm__go{ justify-content:center; margin-top:.8rem; border-bottom:0; padding-block:.7rem!important }
+}
+@media (min-width:861px){ .helm{ display:flex!important } }
+@media (max-width:600px){ .book__r{ grid-template-columns:1fr; gap:.3rem } }
+
+/* ══ 動き ══ */
+.js [data-up]{ opacity:0; translate:0 1rem }
+.js [data-up].is-in{ opacity:1; translate:0 0; transition:opacity var(--t3) var(--ez), translate var(--t3) var(--ez) }
+.js [data-up].is-in[style*="--d"]{ transition-delay:var(--d) }
+.cap{ transition:box-shadow var(--t2) var(--ez) }
+.cap.is-lift{ box-shadow:0 1px 14px oklch(22% .014 268 / .1) }
+
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion: no-preference){
+    .bath tbody th{ background-image:linear-gradient(var(--plate-lift),var(--plate-lift)); background-repeat:no-repeat; background-position:0 100%; background-size:0% 1px; animation:thin linear both; animation-timeline:view(); animation-range:entry 20% cover 45% }
+  }
+}
+@keyframes thin{ to{ background-size:100% 1px } }
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{ animation-duration:.001ms!important; animation-iteration-count:1!important; transition-duration:.001ms!important }
+  .js [data-up]{ opacity:1!important; translate:none!important }
+}
+@media print{
+  .cap,.leap,.map,.gate__acts{ display:none }
+  body{ color:#000 }
+  .foot{ background:#fff!important; color:#000!important }
+  .foot *{ color:#000!important }
+}

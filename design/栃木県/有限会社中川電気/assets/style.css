@@ -1,0 +1,928 @@
+/* transform only — an `opacity: 0` start keyframe under
+   `animation-timeline: view()` + `fill: both` pins every below-fold element
+   at opacity 0 for anyone who does not scroll. Measured on this page. */
+@charset "UTF-8";
+
+/* ============================================================
+   有限会社 中川電気 — v2 ライトベース
+   Art direction:
+   50年分の受賞歴・資格・特許を「営業文句」ではなく「計器の読み値」として提示する。
+   オフホワイト地 / 方眼紙のグリッド / モノスペースの微細ラベル /
+   key:value のスペック表記 / 通し番号による索引 / ヘアライン区切り。
+
+   白地で平坦にならないための3つの仕掛け（海外の電気系10社から共通して抽出）:
+     1. アクセントは1色のみ、操作要素と計器の読み値にだけ使う
+     2. 反転（ダーク）ブロックを2箇所だけ置いて視線の重心を作る
+     3. 面の分離は影ではなく1pxのヘアラインで行う
+   ============================================================ */
+
+/* ── Tokens ─────────────────────────────────────────────── */
+:root {
+  /* Typography */
+  --font-display: "Space Grotesk", "Noto Sans JP", system-ui, sans-serif;
+  --font-sans: "Noto Sans JP", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  /* Fluid scale — min at 375px, max at 1440px */
+  --text-xs: clamp(0.6875rem, 0.66rem + 0.12vw, 0.75rem);
+  --text-sm: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --text-base: clamp(0.9375rem, 0.91rem + 0.12vw, 1rem);
+  --text-lg: clamp(1.0625rem, 1rem + 0.26vw, 1.1875rem);
+  --text-xl: clamp(1.25rem, 1.14rem + 0.47vw, 1.5rem);
+  --text-2xl: clamp(1.625rem, 1.4rem + 0.94vw, 2.125rem);
+  --text-3xl: clamp(2.125rem, 1.72rem + 1.7vw, 3rem);
+  --text-hero: clamp(2.5rem, 1.4rem + 4.7vw, 5.25rem);
+
+  --leading-tight: 1.12;
+  --leading-snug: 1.45;
+  --leading-body: 1.8; /* JA は 1.7-1.9 */
+  --tracking-tight: -0.03em;
+  --tracking-wide: 0.14em;
+
+  /* Color — ライトベース。
+     地は純白ではなく僅かに温かいオフホワイト（大面積の純白は安く見える）。
+     アクセントは1色のみで、操作要素と計器の読み値にだけ使う。
+     ダーク面は「反転ブロック」として意図的に1〜2箇所だけ置き、白地に緊張を作る。 */
+  --color-bg: oklch(100% 0 0);
+  --color-surface: oklch(96.4% 0.004 85);
+  --color-surface-alt: oklch(94% 0.005 85);
+  --color-border: oklch(89% 0.005 85);
+  --color-border-strong: oklch(78% 0.008 85);
+  --color-fg: oklch(21% 0.012 250);
+  --color-fg-muted: oklch(44% 0.012 250);
+  /* 白地では 52% 超で 4.5:1 を割る。ここは上げない（ダーク版とは逆向きの制約）。 */
+  --color-fg-faint: oklch(48% 0.012 250);
+
+  /* アクセント: 白地で 4.5:1 を満たす深めのアンバー。
+     ダーク版の oklch(78% …) は白地だと約2:1でAA未達のため使えない。 */
+  --color-accent: oklch(52% 0.13 62);
+  --color-accent-fg: oklch(99% 0.005 85);
+  --color-accent-soft: oklch(95% 0.035 75);
+
+  /* 反転ブロック用 */
+  --color-ink: oklch(19% 0.014 250);
+  --color-ink-fg: oklch(21% 0.012 250);
+  --color-ink-muted: oklch(45% 0.010 250);
+  --color-ink-border: oklch(32% 0.014 250);
+
+  /* Spacing */
+  --spacing-section: clamp(4.5rem, 9vw, 9rem);
+  --spacing-gutter: clamp(1.25rem, 4vw, 3.5rem);
+  --container-max: 1240px;
+  /* 和文の1文字は ch（0の字幅）の約2倍あるため、欧文の感覚で ch を指定すると
+     極端に狭くなる。和文は1行 38〜45字が読みやすいので em で指定する。 */
+  --measure: 42em;      /* 本文（約42字/行） */
+  --measure-lead: 46em; /* リード文はやや広く */
+
+  /* Radius — near-zero. 角丸は「やわらかさ」を出すので使わない。 */
+  --radius-sm: 2px;
+  --radius-md: 3px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 320ms;
+}
+
+/* ── Base ───────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  font-feature-settings: "palt" 1;
+  letter-spacing: 0.02em;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  font-weight: 700;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* 和文の折り返し。
+   auto-phrase は文節単位で折り返すため「防犯カ / メラ」のような
+   単語途中での分断が減る（非対応ブラウザは normal に落ちるだけで無害）。 */
+p,
+li,
+dd,
+dt,
+summary,
+.hero__body,
+.section__lead {
+  line-break: strict;
+  word-break: auto-phrase;
+}
+
+a {
+  color: inherit;
+}
+
+img,
+svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Layout ─────────────────────────────────────────────── */
+.container {
+  max-inline-size: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--spacing-gutter);
+}
+
+.section {
+  padding-block: var(--spacing-section);
+  border-block-start: 1px solid var(--color-border);
+}
+
+/* 通し番号 + モノスペースラベルのセクション見出し（TeraWulf / PX PUSH 由来） */
+.section__head {
+  display: grid;
+  gap: 0.75rem 2rem;
+  margin-block-end: clamp(2.5rem, 5vw, 4rem);
+}
+@media (min-width: 768px) {
+  .section__head {
+    grid-template-columns: 5.5rem 1fr;
+  }
+}
+
+/* 番号は左マージンに掛けて、見出しと縦のリズムをずらす（エディトリアル・オフセット） */
+.section__index {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-accent);
+  letter-spacing: var(--tracking-wide);
+  padding-block-start: 0.7em;
+}
+@media (min-width: 768px) {
+  .section__index {
+    position: relative;
+  }
+  /* 番号の下に短い罫を引き、索引であることを示す */
+  .section__index::after {
+    content: "";
+    position: absolute;
+    inset-block-start: 2.9em;
+    inset-inline-start: 0;
+    inline-size: 2.25rem;
+    block-size: 1px;
+    background: var(--color-border-strong);
+  }
+}
+
+.section__title {
+  font-size: var(--text-3xl);
+}
+
+.section__lead {
+  margin-block-start: 1rem;
+  color: var(--color-fg-muted);
+  max-inline-size: var(--measure-lead);
+}
+
+/* モノスペースの微細ラベル。装飾ではなく構造言語として使う。 */
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-fg-faint);
+}
+
+/* ── Header ─────────────────────────────────────────────── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in oklab, var(--color-bg) 88%, transparent);
+  backdrop-filter: blur(12px);
+  border-block-end: 1px solid var(--color-border);
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-block-size: 4.25rem;
+}
+
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 0.625rem;
+  text-decoration: none;
+  min-block-size: 44px; /* タップ領域を確保 */
+  align-content: center;
+  flex-wrap: wrap;
+}
+.brand__name {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--tracking-tight);
+}
+.brand__since {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-fg-faint);
+  letter-spacing: 0.08em;
+}
+
+.nav__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 44px;
+  block-size: 44px;
+  background: none;
+  border: 1px solid var(--color-border);
+  color: var(--color-fg);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: border-color var(--dur-base) var(--ease-out);
+}
+.nav__toggle:hover {
+  border-color: var(--color-border-strong);
+}
+@media (min-width: 900px) {
+  .nav__toggle {
+    display: none;
+  }
+}
+
+.nav__menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* モバイル: 既定は閉じている。JS無効時に備え .no-js で必ず開く（下部参照）。 */
+@media (max-width: 899px) {
+  .nav__menu {
+    position: absolute;
+    inset-inline: 0;
+    top: 100%;
+    display: none;
+    flex-direction: column;
+    gap: 0;
+    background: var(--color-surface);
+    border-block-end: 1px solid var(--color-border);
+    padding: 0.5rem var(--spacing-gutter) 1.25rem;
+  }
+  .nav__menu.is-open {
+    display: flex;
+  }
+  .nav__menu a {
+    display: block;
+    padding-block: 0.875rem;
+    border-block-end: 1px solid var(--color-border);
+  }
+}
+
+@media (min-width: 900px) {
+  .nav__menu {
+    display: flex;
+    align-items: center;
+    gap: clamp(1.25rem, 2.2vw, 2.25rem);
+  }
+}
+
+.nav__menu a {
+  font-size: var(--text-sm);
+  text-decoration: none;
+  color: var(--color-fg-muted);
+  transition: color var(--dur-base) var(--ease-out);
+}
+.nav__menu a:hover {
+  color: var(--color-fg);
+}
+
+.nav__cta {
+  font-family: var(--font-mono);
+  color: var(--color-accent) !important;
+  letter-spacing: 0.04em;
+}
+
+/* ── Hero ───────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  padding-block: clamp(3rem, 6vw, 5rem) clamp(3rem, 6vw, 5rem);
+  overflow: hidden;
+}
+
+/* 製図用紙を想起させる背景グリッド。白地では「方眼紙」として読ませる。
+   細目8mm + 太目72mm の二重グリッドで、単色ベタ塗りの平坦さを避ける。 */
+.hero__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, var(--color-border) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-border) 1px, transparent 1px),
+    linear-gradient(to right, var(--color-surface-alt) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-surface-alt) 1px, transparent 1px);
+  background-size: 72px 72px, 72px 72px, 18px 18px, 18px 18px;
+  opacity: 0.9;
+  mask-image: radial-gradient(ellipse 78% 62% at 22% 8%, #000 28%, transparent 76%);
+  pointer-events: none;
+}
+
+.hero__inner {
+  position: relative;
+}
+
+.hero__eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-block-end: clamp(1.5rem, 3vw, 2.5rem);
+}
+.hero__eyebrow-rule {
+  block-size: 1px;
+  inline-size: clamp(2rem, 8vw, 5rem);
+  background: var(--color-border-strong);
+}
+
+.hero__title {
+  font-size: var(--text-hero);
+  max-inline-size: 20ch;
+}
+.hero__title em {
+  font-style: normal;
+  color: var(--color-accent);
+}
+
+/* ヒーロー本文は「この会社が何者か」を一息で読ませたいので、
+   本文より広めに取って行数を抑える。
+   見出し（実測 1089px）と右端を揃えると塊としてまとまるため、
+   58em ≈ 1102px を上限にして 2行に収める。 */
+.hero__body {
+  margin-block-start: clamp(1.5rem, 3vw, 2.25rem);
+  font-size: var(--text-lg);
+  color: var(--color-fg-muted);
+  max-inline-size: 58em;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.875rem;
+  margin-block-start: clamp(2rem, 4vw, 3rem);
+}
+
+/* 計器の読み値としての実績。散文にしない。
+   白地の中で唯一の反転ブロックにして、視線の重心を作る。
+   （白基調で平坦にならないための主要な仕掛け） */
+.hero__readout {
+  margin-block-start: clamp(3rem, 6vw, 5rem);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--color-ink-border);
+  border: 1px solid var(--color-ink);
+  background-color: var(--color-ink);
+}
+@media (min-width: 768px) {
+  .hero__readout {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* pale panel rather than an ink block, for a cleaner corporate read */
+.readout {
+  background: var(--color-surface-alt);
+  padding: clamp(1.125rem, 2.4vw, 1.75rem);
+}
+.readout__value {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  letter-spacing: var(--tracking-tight);
+  line-height: 1.1;
+  color: var(--color-ink-fg);
+}
+.readout__value span {
+  font-size: 0.5em;
+  color: var(--color-ink-muted);
+  margin-inline-start: 0.25em;
+}
+.readout__label {
+  margin-block-start: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-ink-muted);
+  letter-spacing: 0.06em;
+}
+
+/* ── Button ─────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-block-size: 48px;
+  padding-inline: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out),
+    color var(--dur-base) var(--ease-out);
+}
+.btn--primary {
+  background: var(--color-accent);
+  color: var(--color-accent-fg);
+  font-weight: 500;
+}
+.btn--primary:hover {
+  /* 白地では明るくすると弱くなるので、逆に濃くする */
+  background: color-mix(in oklab, var(--color-accent) 86%, black);
+}
+.btn--ghost {
+  border-color: var(--color-border-strong);
+  color: var(--color-fg);
+}
+.btn--ghost:hover {
+  border-color: var(--color-fg-muted);
+  background: var(--color-surface);
+}
+
+/* ── Services ───────────────────────────────────────────── */
+.services {
+  display: grid;
+  gap: 1px;
+  background: var(--color-border);
+  border: 1px solid var(--color-border);
+}
+@media (min-width: 640px) {
+  .services {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .services {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.service {
+  background: #fff;
+  padding: clamp(1.5rem, 3vw, 2rem);
+  transition: background var(--dur-base) var(--ease-out);
+}
+.service:hover {
+  background: var(--color-surface);
+}
+.service__no {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-accent);
+  letter-spacing: 0.08em;
+}
+.service__title {
+  margin-block-start: 0.75rem;
+  font-size: var(--text-lg);
+}
+.service__body {
+  margin-block-start: 0.625rem;
+  font-size: var(--text-sm);
+  color: var(--color-fg-muted);
+}
+
+/* ── Credentials（認証バッジ帯 — MatrixPay 由来） ────────── */
+.creds {
+  display: grid;
+  gap: 1px;
+  background: var(--color-border);
+  border: 1px solid var(--color-border);
+}
+@media (min-width: 768px) {
+  .creds {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* 認定は「バッジとして満身の重さで見せる」（Protec 由来）。
+   発行機関を小さく、認定名を主役に、登録番号を証拠として最後に置く。 */
+.cred {
+  background: #fff;
+  padding: clamp(1.5rem, 3vw, 2rem);
+  /* 左端のアクセント罫のぶんだけ内側に寄せる */
+  padding-inline-start: clamp(1.75rem, 3.4vw, 2.5rem);
+  display: grid;
+  gap: 0.5rem;
+  position: relative;
+  transition: background var(--dur-base) var(--ease-out);
+}
+/* 左端のアクセント罫。認定であることの記号。 */
+.cred::before {
+  content: "";
+  position: absolute;
+  inset-block: clamp(1.5rem, 3vw, 2rem);
+  inset-inline-start: 0;
+  inline-size: 2px;
+  background: var(--color-accent);
+}
+.cred:hover {
+  background: var(--color-surface);
+}
+.cred__label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-fg-faint);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.cred__value {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: var(--tracking-tight);
+  line-height: 1.25;
+}
+/* 登録番号は「証拠」。枠で囲って書類的に見せる。 */
+.cred__meta {
+  justify-self: start;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-fg-muted);
+  letter-spacing: 0.02em;
+  padding: 0.3em 0.6em;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  border-radius: var(--radius-sm);
+}
+
+/* ── Works（絞り込み対象。マークアップは実体としてHTMLに存在する） ── */
+.works__filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block-end: 2rem;
+}
+
+.chip {
+  min-block-size: 44px;
+  padding-inline: 1.125rem;
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-fg-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: border-color var(--dur-base) var(--ease-out),
+    color var(--dur-base) var(--ease-out),
+    background var(--dur-base) var(--ease-out);
+}
+.chip:hover {
+  border-color: var(--color-border-strong);
+  color: var(--color-fg);
+}
+.chip.is-active {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-accent-fg);
+}
+
+.works__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 1px;
+  background: var(--color-border);
+  border: 1px solid var(--color-border);
+}
+
+.work {
+  background: #fff;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  display: grid;
+  gap: 0.5rem 2rem;
+}
+@media (min-width: 768px) {
+  .work {
+    grid-template-columns: 5.5rem 1fr auto;
+    align-items: start;
+  }
+}
+
+.work__index {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-fg-faint);
+  letter-spacing: 0.06em;
+}
+.work__title {
+  font-size: var(--text-lg);
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+.work__body {
+  margin-block-start: 0.5rem;
+  font-size: var(--text-sm);
+  color: var(--color-fg-muted);
+}
+.work__cat {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-accent);
+  white-space: nowrap;
+}
+
+/* ── History（key:value のスペック表記 — ZettaJoule 由来） ── */
+.history {
+  display: grid;
+  gap: 0;
+  border-block-start: 1px solid var(--color-border);
+}
+
+.milestone {
+  display: grid;
+  gap: 0.25rem 2rem;
+  padding-block: 1.125rem;
+  border-block-end: 1px solid var(--color-border);
+}
+@media (min-width: 768px) {
+  .milestone {
+    grid-template-columns: 8.5rem 1fr;
+  }
+}
+
+.milestone__year {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-accent);
+  letter-spacing: 0.04em;
+}
+.milestone__text {
+  font-size: var(--text-base);
+}
+.milestone__note {
+  display: block;
+  margin-block-start: 0.25rem;
+  font-size: var(--text-sm);
+  color: var(--color-fg-faint);
+}
+
+/* ── FAQ（ネイティブ <details>。JSなし） ─────────────────── */
+.faq__item {
+  border-block-end: 1px solid var(--color-border);
+}
+.faq__item:first-of-type {
+  border-block-start: 1px solid var(--color-border);
+}
+
+.faq__item > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-block: 1.25rem;
+  min-block-size: 44px;
+  cursor: pointer;
+  list-style: none;
+  font-weight: 500;
+  transition: color var(--dur-base) var(--ease-out);
+}
+.faq__item > summary::-webkit-details-marker {
+  display: none;
+}
+.faq__item > summary:hover {
+  color: var(--color-accent);
+}
+
+.faq__icon {
+  flex: none;
+  inline-size: 14px;
+  block-size: 14px;
+  position: relative;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.faq__icon::before,
+.faq__icon::after {
+  content: "";
+  position: absolute;
+  background: var(--color-accent);
+  inset-block-start: 50%;
+  inset-inline-start: 0;
+  inline-size: 100%;
+  block-size: 1px;
+}
+.faq__icon::after {
+  transform: rotate(90deg);
+}
+.faq__item[open] .faq__icon {
+  transform: rotate(45deg);
+}
+
+.faq__answer {
+  padding-block-end: 1.5rem;
+  color: var(--color-fg-muted);
+  max-inline-size: var(--measure);
+}
+
+/* ── 反転セクション ─────────────────────────────────────────
+   白地の終盤に重心を置く2つ目の反転ブロック。
+   トークンを内側で上書きするので、子要素は何も変更しなくてよい。 */
+.section--invert {
+  /* was a full-bleed ink slab; a pale panel reads cleaner on a corporate page
+     and keeps the section separation. All scoped tokens flip with it. */
+  background: var(--color-surface-alt);
+  border-block-start: none;
+  --color-bg: var(--color-surface-alt);
+  --color-surface: oklch(94% 0.005 85);
+  --color-border: oklch(88% 0.006 85);
+  --color-border-strong: oklch(78% 0.008 85);
+  --color-fg: oklch(21% 0.012 250);
+  --color-fg-muted: oklch(45% 0.010 250);
+}
+
+/* ── Contact ────────────────────────────────────────────── */
+.contact {
+  display: grid;
+  gap: clamp(2rem, 5vw, 4rem);
+}
+@media (min-width: 900px) {
+  .contact {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.contact__tel {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  letter-spacing: var(--tracking-tight);
+  text-decoration: none;
+  margin-block: 0.5rem 0.25rem;
+}
+.contact__tel:hover {
+  color: var(--color-accent);
+}
+
+.contact__hours {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-fg-faint);
+}
+
+.spec {
+  display: grid;
+  gap: 0;
+  border-block-start: 1px solid var(--color-border);
+}
+.spec__row {
+  display: grid;
+  gap: 0.125rem 1.5rem;
+  padding-block: 0.875rem;
+  border-block-end: 1px solid var(--color-border);
+}
+@media (min-width: 480px) {
+  .spec__row {
+    grid-template-columns: 7rem 1fr;
+  }
+}
+.spec__key {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-fg-faint);
+  letter-spacing: 0.06em;
+  padding-block-start: 0.2em;
+}
+.spec__val {
+  font-size: var(--text-sm);
+}
+
+/* ── Footer ─────────────────────────────────────────────── */
+.site-footer {
+  border-block-start: 1px solid var(--color-border);
+  padding-block: clamp(2.5rem, 5vw, 4rem);
+}
+.site-footer__inner {
+  display: grid;
+  gap: 2rem;
+}
+@media (min-width: 768px) {
+  .site-footer__inner {
+    grid-template-columns: 1fr auto;
+    align-items: end;
+  }
+}
+.site-footer__nap {
+  font-size: var(--text-sm);
+  color: var(--color-fg-muted);
+  font-style: normal;
+}
+/* 電話番号はタップ対象。行内でも高さを確保する。 */
+.site-footer__nap a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+}
+.site-footer__copy {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-fg-faint);
+}
+
+/* ── Scroll reveal ──────────────────────────────────────── */
+/* 既定は「見える」。JSが有効なときだけ隠す（.js は app.js が付与）。
+   こうしないと JS 失敗時にコンテンツが永久に不可視になる。 */
+.js [data-reveal] {
+  translate: 0 0.75rem;
+  transition: opacity var(--dur-slow) var(--ease-out),
+    translate var(--dur-slow) var(--ease-out);
+}
+.js [data-reveal].is-visible {
+  opacity: 1;
+  translate: 0 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .js [data-reveal] {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+/* ==========================================================================
+   MAP (MEO) — a direct lazy iframe per address.
+   `?output=embed` needs no API key; the Static Maps API returns 403 without one.
+
+   These sit inside grid rows (a <dl> row, a card), so without an explicit
+   span they land in the narrow label column — measured at 96x60, unreadable.
+   `grid-column: 1 / -1` makes the map take the whole row wherever it lands.
+   ========================================================================== */
+.map {
+  display:block; width:100%; padding-block-start:.75rem;
+  grid-column: 1 / -1;      /* full width of any grid parent */
+}
+.map iframe {
+  display:block; width:100%;
+  height:clamp(15rem, 26vw, 20rem);
+  border:0; border-radius:8px; background:rgba(128,128,128,.15);
+}

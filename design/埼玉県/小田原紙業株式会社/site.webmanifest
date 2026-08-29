@@ -1,0 +1,13 @@
+{
+  "name": "小田原紙業株式会社",
+  "short_name": "小田原紙業",
+  "lang": "ja",
+  "start_url": "./",
+  "display": "browser",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}

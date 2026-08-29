@@ -1,0 +1,15 @@
+{
+  "name": "株式会社栃澤金型製作所",
+  "short_name": "栃澤金型",
+  "description": "栃木県下野市の航空宇宙部品・金型メーカー。チタン・インコネル等の難切削材加工。",
+  "lang": "ja",
+  "start_url": "index.html",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#f9f8f6",
+  "theme_color": "#22201d",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}

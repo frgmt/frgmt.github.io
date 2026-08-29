@@ -1,0 +1,448 @@
+@charset "utf-8";
+/* ==========================================================================
+   栃木エーエルシー株式会社
+   Art direction: a die-cutting shop reads as clean edges and stacked layers —
+   the page is built from crisp rules and flat planes, no soft shadows.
+   Signature device: the tonnage ladder (5t → 60t drawn to scale).
+   ========================================================================== */
+
+:root {
+  --n:      oklch(96.5% 0.012 245);
+  --n-2:    oklch(95.0% 0.012 245);
+  --bg:     oklch(100% 0 240);
+  --bg-2:   oklch(95% 0.006 240);
+  --tx:     oklch(21% 0.020 245);
+  --tx-2:   oklch(34% 0.017 245);
+  --tx-3:   oklch(46% 0.015 245);      /* 4.5:1 on --bg */
+  --on-n:   oklch(24% 0.004 240);
+  --on-n-2: oklch(45% 0.012 240);      /* 4.5:1+ on --n */
+
+  /* one accent: the blue the company already uses.
+     Sampled from the existing alc.css → #0066ff (OKLCH H 261°); the sample
+     photo's backdrop is the same family. Hue held at 261° (Δ0°); lightness
+     lowered so link text clears 4.5:1. */
+  --ac:      oklch(50% 0.145 261);
+  --ac-lo:   oklch(68% 0.130 261);
+  --ac-tint: oklch(95% 0.032 261);
+
+  --ln:    oklch(89% 0.005 240);
+  --ln-2:  oklch(80% 0.008 240);
+  --ln-d:  oklch(33% 0.020 245);
+
+  --num:   oklch(52% 0.014 245);       /* 14px text on --bg */
+  --num-d: oklch(52% 0.016 245);       /* 14px text on --n */
+
+  --f: "M PLUS 1p", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  --m: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --z1: clamp(.6875rem,.66rem + .12vw,.75rem);
+  --z2: clamp(.8125rem,.79rem + .12vw,.875rem);
+  --z3: clamp(.9375rem,.9rem + .2vw,1.0625rem);
+  --z4: clamp(1.0625rem,1rem + .3vw,1.25rem);
+  --z5: clamp(1.375rem,1.15rem + 1vw,2rem);
+  --z6: clamp(1.75rem,1.3rem + 2vw,2.75rem);
+  --z7: clamp(2.125rem,1.4rem + 3.2vw,4rem);
+
+  --a1:.25rem; --a2:.5rem; --a3:.75rem; --a4:1rem;
+  --a5:1.5rem; --a6:2rem;  --a7:3rem;   --a8:4rem;
+  --a9: clamp(3.25rem,2rem + 5.5vw,6rem);
+
+  --pd: clamp(1.25rem,1rem + 2vw,1.75rem);
+  --mx: 72rem;
+
+  --k1:130ms; --k2:210ms; --k3:330ms; --k4:460ms;
+  --ee: cubic-bezier(.25,.8,.35,1);
+  --ee2: cubic-bezier(.16,1,.3,1);
+}
+
+*, *::before, *::after { box-sizing:border-box }
+html { -webkit-text-size-adjust:100%; scroll-behavior:smooth; scroll-padding-top:5.5rem }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto } }
+body {
+  margin:0; font-family:var(--f); font-size:var(--z3); line-height:1.9;
+  color:var(--tx); background:var(--bg);
+  -webkit-font-smoothing:antialiased; font-feature-settings:"palt" 1;
+  overflow-wrap:anywhere;
+}
+h1,h2,h3,p,dl,dd,ul,ol,figure,blockquote { margin:0 }
+ul,ol { padding:0; list-style:none }
+img { max-width:100%; height:auto; display:block }
+a { color:inherit }
+button { font:inherit; color:inherit; background:none; border:0; cursor:pointer }
+table { border-collapse:collapse; width:100% }
+
+:focus-visible { outline:2px solid var(--ac); outline-offset:3px }
+.vis-hidden {
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip-path:inset(50%); white-space:nowrap; border:0;
+}
+.jump {
+  position:absolute; left:var(--a4); top:-4rem; z-index:200;
+  padding:var(--a3) var(--a5); background:var(--n); color:var(--tx);
+  font-size:var(--z2); text-decoration:none; transition:top var(--k2) var(--ee);
+}
+.jump:focus { top:var(--a4) }
+
+.hold { width:100%; max-width:var(--mx); margin-inline:auto; padding-inline:var(--pd) }
+
+/* ==========================================================================
+   HEADER — stacked identity with a location line
+   ========================================================================== */
+.hdr {
+  position:sticky; top:0; z-index:100;
+  background:oklch(98% .003 240 / .95);
+  backdrop-filter:saturate(1.4) blur(10px);
+  border-block-end:1px solid var(--ln);
+}
+.hdr__row {
+  display:flex; align-items:center; justify-content:space-between; gap:var(--a4);
+  min-height:4.5rem; transition:min-height var(--k3) var(--ee);
+}
+.down .hdr__row { min-height:3.75rem }
+.down .hdr { border-block-end-color:var(--ln-2) }
+
+.id { text-decoration:none; display:inline-flex; flex-direction:column; justify-content:center; min-height:44px; gap:.05rem }
+.id__a {
+  font-size:clamp(1.125rem,.95rem + .85vw,1.5rem); font-weight:700;
+  letter-spacing:.06em; line-height:1.15; color:var(--tx);
+}
+.id__b { font-size:var(--z1); letter-spacing:.1em; color:var(--tx-3) }
+
+.tog { display:none }
+.tog__i, .tog__i::before, .tog__i::after {
+  display:block; width:20px; height:1.5px; background:var(--tx);
+  transition:transform var(--k2) var(--ee), opacity var(--k1) var(--ee);
+}
+.tog__i { position:relative }
+.tog__i::before, .tog__i::after { content:""; position:absolute; left:0 }
+.tog__i::before { top:-6px } .tog__i::after { top:6px }
+.tog[aria-expanded="true"] .tog__i { background:transparent }
+.tog[aria-expanded="true"] .tog__i::before { transform:translateY(6px) rotate(45deg) }
+.tog[aria-expanded="true"] .tog__i::after  { transform:translateY(-6px) rotate(-45deg) }
+
+.mn ul { display:flex; align-items:center; column-gap:1.25rem; row-gap:0 }
+.mn li { flex:0 0 auto }
+.mn a {
+  white-space:nowrap; text-decoration:none; font-size:var(--z2); font-weight:500;
+  color:var(--tx-2); display:inline-flex; align-items:center; min-height:44px;
+  position:relative; transition:color var(--k1) var(--ee);
+}
+.mn a:not(.mn__go)::after {
+  content:""; position:absolute; inset-inline:0; bottom:.65rem; height:2px;
+  background:var(--ac); transform:scaleX(0); transform-origin:left;
+  transition:transform var(--k2) var(--ee);
+}
+.mn a:not(.mn__go):hover { color:var(--tx) }
+.mn a:not(.mn__go):hover::after { transform:scaleX(1) }
+.mn__go {
+  background:var(--ac); color:#fff !important; padding-inline:1.1rem;
+  transition:background var(--k2) var(--ee);
+}
+.mn__go:hover { background: color-mix(in oklab, var(--ac) 82%, #000) }
+
+/* ==========================================================================
+   HERO
+   ========================================================================== */
+.intro { padding-block: clamp(2.25rem,1.5rem + 3.5vw,4rem) var(--a9) }
+.intro__grid { display:grid; gap:var(--a6) var(--a7); grid-template-columns:1fr; align-items:center }
+.intro__h {
+  font-size:var(--z7); font-weight:700; line-height:1.2; letter-spacing:.01em;
+  margin-block-end:var(--a5); text-wrap:balance;
+}
+.intro__p { font-size:var(--z4); color:var(--tx-2); line-height:2; margin-block-end:var(--a6); max-width:34rem }
+.intro__act { display:flex; flex-wrap:wrap; gap:var(--a3) }
+.go {
+  display:inline-flex; align-items:center; justify-content:center;
+  min-height:3rem; padding:.8rem 1.75rem; background:var(--ac); color:#fff;
+  text-decoration:none; font-size:var(--z2); font-weight:700; letter-spacing:.05em;
+  transition:background var(--k2) var(--ee);
+}
+.go:hover { background: color-mix(in oklab, var(--ac) 82%, #000); color: #fff }
+.go--b { background:transparent; color:var(--tx); box-shadow:inset 0 0 0 1.5px var(--ln-2) }
+.go--b:hover { background:var(--ac-tint); color:var(--tx); box-shadow:inset 0 0 0 1.5px var(--ac) }
+
+.intro__f img { width:100%; max-width:32rem; border:1px solid var(--ln) }
+.intro__f figcaption {
+  margin-block-start:var(--a2); font-size:var(--z1); color:var(--tx-3);
+  font-family:var(--m); letter-spacing:.04em;
+}
+
+/* ==========================================================================
+   shared heads
+   ========================================================================== */
+.hd {
+  font-size:var(--z6); font-weight:700; letter-spacing:.05em; line-height:1.3;
+  margin-block-end:var(--a3);
+}
+.hd__p { color:var(--tx-2); max-width:42rem; margin-block-end:var(--a7) }
+.hd--rev { color:var(--on-n) }
+.hd__p--rev { color:var(--on-n-2) }
+
+/* ==========================================================================
+   WORK — chain of steps
+   ========================================================================== */
+.work { padding-block:var(--a9); border-block-start:1px solid var(--ln) }
+.chain { display:grid; gap:0 }
+.ch {
+  display:grid; grid-template-columns:3rem 1fr; gap:var(--a4);
+  padding-block:var(--a5); border-block-start:1px solid var(--ln);
+}
+.ch:last-child { border-block-end:1px solid var(--ln) }
+.ch__n { font-family:var(--m); font-size:var(--z2); color:var(--ac); letter-spacing:.1em; padding-block-start:.3em }
+.ch__h { font-size:var(--z4); font-weight:700; letter-spacing:.03em; margin-block-end:var(--a2) }
+.ch__p { color:var(--tx-2); font-size:var(--z2); line-height:1.9; max-width:44rem }
+
+/* ==========================================================================
+   USES — application index on dark
+   ========================================================================== */
+.uses { background:var(--n); color:var(--on-n); padding-block:var(--a9) }
+.apps { display:grid; gap:1px; background:var(--ln-d); border:1px solid var(--ln-d) }
+.apps li {
+  background:var(--n); padding:var(--a4) var(--a5);
+  display:grid; gap:var(--a1);
+}
+.apps b { font-size:var(--z4); font-weight:700; color:var(--on-n); letter-spacing:.03em }
+.apps span { font-size:var(--z2); color:var(--on-n-2) }
+
+/* ==========================================================================
+   PRESS — the tonnage ladder
+   ========================================================================== */
+.press { padding-block:var(--a9) }
+.ladder { display:grid; gap:var(--a3); margin-block-end:var(--a2) }
+.rung { display:grid; grid-template-columns:3.25rem 1fr; gap:var(--a3); align-items:center }
+.rung__t {
+  font-family:var(--m); font-size:var(--z4); font-weight:500; color:var(--tx);
+  text-align:right; letter-spacing:-.01em;
+}
+.rung__t i { font-style:normal; font-size:.68em; color:var(--tx-3); margin-inline-start:.1em }
+.rung__bar {
+  display:flex; align-items:center; height:2.25rem;
+  background:var(--ac); color:#fff;
+  width:var(--w); min-width:5.5rem;
+  padding-inline:var(--a3);
+  transform-origin:left;
+}
+.rung__bar b { font-size:var(--z2); font-weight:500; letter-spacing:.04em; white-space:nowrap }
+.ladder__n { font-size:var(--z1); color:var(--tx-3); margin-block-end:var(--a7) }
+
+.tw { overflow-x:auto; border:1px solid var(--ln); background:#fff }
+.et { font-size:var(--z2); min-width:38rem }
+.et thead th {
+  text-align:left; font-size:var(--z1); font-weight:700; letter-spacing:.11em;
+  color:var(--tx-3); padding:var(--a3) var(--a4);
+  background:var(--bg-2); border-block-end:2px solid var(--ln-2);
+  position:sticky; top:0;
+}
+.et tbody th, .et tbody td {
+  padding:var(--a3) var(--a4); border-block-start:1px solid var(--ln); vertical-align:top;
+}
+.et tbody th {
+  text-align:left; font-weight:700; white-space:nowrap;
+  background:var(--bg-2); border-inline-end:1px solid var(--ln);
+}
+.et .mn-f { font-family:var(--m); color:var(--tx); line-height:1.7 }
+.et__q { width:1%; text-align:right; font-family:var(--m); white-space:nowrap }
+.et__hl td, .et__hl th { background:var(--ac-tint) }
+.et tbody tr:hover td { background:var(--bg-2) }
+.et__hl:hover td { background:var(--ac-tint) }
+
+.plant { margin-block-start:var(--a6) }
+.plant img { width:100%; max-width:32rem; border:1px solid var(--ln) }
+.plant figcaption {
+  margin-block-start:var(--a2); font-size:var(--z1); color:var(--tx-3);
+  font-family:var(--m); letter-spacing:.03em;
+}
+
+/* ==========================================================================
+   ABOUT
+   ========================================================================== */
+.about { padding-block:var(--a9); background:var(--bg-2); border-block:1px solid var(--ln) }
+.about__grid { display:grid; gap:var(--a8) var(--a7); grid-template-columns:1fr }
+.tbl { border-block-start:2px solid var(--tx) }
+.tr {
+  display:grid; grid-template-columns:1fr; gap:var(--a1) var(--a5);
+  padding-block:var(--a4); border-block-end:1px solid var(--ln);
+}
+.tr dt { font-size:var(--z2); font-weight:700; color:var(--tx-3); letter-spacing:.08em }
+.tr dd { margin:0 }
+.tel { color:var(--ac); text-decoration:none; display:inline-flex; align-items:center; min-height:44px }
+.tel:hover { text-decoration:underline }
+
+.side { align-self:start }
+.side__h {
+  font-size:var(--z2); font-weight:700; letter-spacing:.12em; color:var(--tx-3);
+  padding-block-end:var(--a2); border-block-end:2px solid var(--tx); margin-block-end:var(--a4);
+}
+.hist { display:grid; gap:var(--a4) }
+.hist li { display:grid; grid-template-columns:6.5rem 1fr; gap:var(--a3) }
+.hist__y { font-size:var(--z1); color:var(--tx-3); line-height:1.5 }
+.hist__y i { font-family:var(--m); font-style:normal; color:var(--num) }
+.hist__t { font-size:var(--z2); color:var(--tx-2); line-height:1.8 }
+
+.word {
+  margin-block-start:var(--a6); padding:var(--a5);
+  background:var(--bg); border-inline-start:3px solid var(--ac);
+}
+.word p { font-size:var(--z2); color:var(--tx-2); line-height:1.95 }
+.word__c { margin-block-start:var(--a3); font-size:var(--z1); color:var(--tx-3) }
+
+/* ==========================================================================
+   FAQ
+   ========================================================================== */
+.faq { padding-block:var(--a9) }
+.qs { max-width:52rem }
+.qi { border-block-start:1px solid var(--ln-2) }
+.qi:last-child { border-block-end:1px solid var(--ln-2) }
+.qi summary {
+  display:flex; align-items:flex-start; gap:var(--a4);
+  padding-block:var(--a4); cursor:pointer; list-style:none;
+  transition:color var(--k1) var(--ee);
+}
+.qi summary::-webkit-details-marker { display:none }
+.qi summary h3 { font-size:var(--z3); font-weight:700; line-height:1.6; flex:1; margin:0 }
+.qi summary::after {
+  content:""; flex:0 0 auto; width:12px; height:12px; margin-block-start:.6em;
+  background:
+    linear-gradient(var(--tx-3),var(--tx-3)) center/100% 1.5px no-repeat,
+    linear-gradient(var(--tx-3),var(--tx-3)) center/1.5px 100% no-repeat;
+  transition:transform var(--k3) var(--ee);
+}
+.qi[open] summary::after { transform:rotate(135deg) }
+.qi summary:hover { color:var(--ac) }
+.qi__a { padding-block-end:var(--a5); padding-inline-end:var(--a6) }
+.qi__a p { color:var(--tx-2); font-size:var(--z2); line-height:2 }
+
+/* ==========================================================================
+   CONTACT
+   ========================================================================== */
+.ct { background:var(--n); color:var(--on-n); padding-block:var(--a9) }
+.ct__grid { display:grid; gap:var(--a7); grid-template-columns:1fr }
+.ct__h { font-size:var(--z6); font-weight:700; letter-spacing:.05em; margin-block-end:var(--a4); color:var(--on-n) }
+.ct__p { color:var(--on-n-2); max-width:32rem }
+.dial {
+  display:block; text-decoration:none; padding:var(--a5) var(--a6);
+  background:var(--n-2); border:1px solid var(--ln-d);
+  transition:border-color var(--k2) var(--ee), background var(--k2) var(--ee);
+}
+.dial:hover { border-color:var(--ac-lo); background:var(--ac-tint) }
+.dial__l { display:block; font-size:var(--z1); letter-spacing:.14em; color:var(--on-n-2); margin-block-end:var(--a2) }
+.dial__v {
+  display:block; font-family:var(--m); font-size:clamp(1.625rem,1.2rem + 2vw,2.5rem);
+  font-weight:500; line-height:1.2; color:var(--on-n);
+}
+.ct__fax { margin-block-start:var(--a3); font-size:var(--z2); color:var(--on-n-2) }
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.ft { background:var(--bg-2); border-block-start:1px solid var(--ln); padding-block-start:var(--a8) }
+.ft__grid { display:grid; gap:var(--a6); grid-template-columns:1fr; padding-block-end:var(--a7) }
+.ft__n { font-size:var(--z4); font-weight:700; letter-spacing:.06em; margin-block-end:var(--a3) }
+.ft__a { font-size:var(--z2); color:var(--tx-2); line-height:1.9 }
+.ft__a a { color:var(--ac); text-decoration:none; display:inline-flex; align-items:center; min-height:44px }
+.ft__a a:hover { text-decoration:underline }
+.ft__nav ul { display:grid; gap:0 }
+.ft__nav li + li { border-block-start:1px solid var(--ln) }
+.ft__nav a {
+  font-size:var(--z2); color:var(--tx-2); text-decoration:none;
+  display:flex; align-items:center; min-height:44px; width:100%;
+  transition:color var(--k1) var(--ee);
+}
+.ft__nav a:hover { color:var(--ac) }
+.ft__x { font-family:var(--m); font-size:var(--z1); color:var(--tx-3); line-height:1.9 }
+.ft__b { border-block-start:1px solid var(--ln); padding-block:var(--a4) }
+.ft__b p { font-size:var(--z1); color:var(--tx-3) }
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (min-width:40rem) {
+  .apps { grid-template-columns:repeat(2,1fr) }
+  .tr { grid-template-columns:8rem 1fr }
+}
+@media (min-width:62rem) {
+  .intro__grid { grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) }
+  .apps { grid-template-columns:repeat(4,1fr) }
+  .about__grid { grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) }
+  .ct__grid { grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:center }
+  .ft__grid { grid-template-columns:1.6fr 1fr 1fr }
+}
+
+@media (max-width:61.999rem) {
+  .tog { display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px }
+  .mn {
+    position:absolute; inset-inline:0; top:100%;
+    background:var(--bg); border-block-end:1px solid var(--ln);
+    display:grid; grid-template-rows:0fr; transition:grid-template-rows var(--k3) var(--ee);
+  }
+  .mn--open { grid-template-rows:1fr }
+  .mn ul { overflow:hidden; flex-direction:column; align-items:stretch; column-gap:0; padding-inline:var(--pd) }
+  .mn--open ul { padding-block:var(--a2) var(--a4) }
+  .mn li { border-block-start:1px solid var(--ln) }
+  .mn li:first-child { border-block-start:0 }
+  .mn a { font-size:var(--z3); min-height:3rem }
+  .mn a:not(.mn__go)::after { display:none }
+  .mn__go { justify-content:center; margin-block-start:var(--a3) }
+  html:not(.js) .mn { grid-template-rows:1fr; position:static }
+  html:not(.js) .tog { display:none }
+}
+
+/* ==========================================================================
+   MOTION — transform-only reveals. Never opacity: with
+   `animation-timeline: view()` + `fill: both`, an opacity-0 start keyframe
+   hides every below-fold element from anyone who does not scroll.
+   ========================================================================== */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .js [data-in] {
+      animation:slidein linear both; animation-timeline:view(); animation-range:entry 0% entry 55%;
+    }
+    .js .rung__bar {
+      animation:grow linear both; animation-timeline:view(); animation-range:entry 5% cover 28%;
+    }
+  }
+}
+@keyframes slidein { from { transform:translateY(.8rem) } to { transform:none } }
+@keyframes grow    { from { transform:scaleX(.06) }      to { transform:scaleX(1) } }
+
+@supports not (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .js [data-in] { transform:translateY(.8rem); transition:transform var(--k4) var(--ee2) }
+    .js [data-in].vis { transform:none }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration:.001ms !important; animation-iteration-count:1 !important;
+    transition-duration:.001ms !important; scroll-behavior:auto !important;
+  }
+  .js [data-in] { transform:none !important }
+  .js .rung__bar { transform:scaleX(1) !important }
+}
+
+@media print {
+  .map iframe { display:none }
+  .hdr, .tog, .mn, .intro__act { display:none }
+  body, .uses, .ct { background:#fff; color:#000 }
+  .hd--rev, .hd__p--rev, .apps b, .apps span, .ct__h, .ct__p, .dial__v { color:#000 }
+  .qi__a { display:block !important }
+}
+
+/* ==========================================================================
+   MAP (MEO) — a direct lazy iframe per address.
+   `?output=embed` needs no API key; the Static Maps API returns 403 without one.
+
+   These sit inside grid rows (a <dl> row, a card), so without an explicit
+   span they land in the narrow label column — measured at 96x60, unreadable.
+   `grid-column: 1 / -1` makes the map take the whole row wherever it lands.
+   ========================================================================== */
+.map {
+  display:block; width:100%; padding-block-start:.75rem;
+  grid-column: 1 / -1;      /* full width of any grid parent */
+}
+.map iframe {
+  display:block; width:100%;
+  height:clamp(15rem, 26vw, 20rem);
+  border:0; border-radius:8px; background:rgba(128,128,128,.15);
+}

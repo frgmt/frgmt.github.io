@@ -1,0 +1,238 @@
+/* =========================================================
+   大和プレス株式会社 — リニューアル提案
+   ロゴ画像（img/common/logo.png）から採取した #3078c0。
+   CSS の #2e6aac も同系統（253.1°）で裏付けが取れている。
+   oklch(56.3% .132 251.4) → 面 oklch(46% .125 251) / 文字 oklch(40% .118 251)
+   色相差 0.4°。CSS の #e70014（赤）は警告色として現行サイトでも
+   限定使用のため、こちらでも「一貫生産の流れ」の矢印にだけ使う。
+
+   注：潮工業(253°)・新井製作所(250°)と同域。分離軸は
+   ・地：わずかに紫みのグレー（hue 300）
+   ・署名的装置：トン数のはしご（対数目盛）
+   ・書体：Noto Sans JP + Archivo（欧文を数値に使う）
+   ・律動：工程を横一列の鎖で見せる
+   ========================================================= */
+
+:root{
+  --bg:        oklch(100% 0 0);
+  --floor:     oklch(96.8% .005 300);
+  --floor2:    oklch(93.6% .009 300);
+  --rule:      oklch(87.5% .008 300);
+  --rule-thin: oklch(93.4% .005 300);
+
+  --ink:       oklch(23% .013 251);
+  --ink-mid:   oklch(43% .012 251);
+  --ink-low:   oklch(51% .011 251);
+
+  --steel:     oklch(46% .125 251);
+  --steel-ink: oklch(40% .118 251);
+  --steel-wash:oklch(97.2% .013 251);
+  --steel-lift:oklch(63% .145 251);
+
+  --alert:     oklch(52% .19 28);   /* 現行 #e70014 系。矢印にだけ */
+
+  --ff-d: "Noto Sans JP", "Hiragino Kaku Gothic ProN", sans-serif;
+  --ff-t: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  --ff-n: "Archivo", "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --fs-h1: clamp(1.82rem, 1.05rem + 3vw, 2.92rem);
+  --fs-h2: clamp(1.32rem, 1.05rem + 1.3vw, 1.8rem);
+  --fs-h3: clamp(1.02rem, .94rem + .4vw, 1.18rem);
+  --fs-b:  clamp(.95rem, .9rem + .22vw, 1.02rem);
+  --fs-s:  clamp(.82rem, .79rem + .14vw, .88rem);
+
+  --gut: clamp(1.15rem, .5rem + 2.6vw, 3.4rem);
+  --bay: clamp(3.4rem, 2rem + 5.2vw, 6.4rem);
+  --r-s: 3px;
+
+  --ez: cubic-bezier(.24,.7,.3,1);
+  --t1: 130ms; --t2: 220ms; --t3: 340ms;
+}
+
+*,*::before,*::after{ box-sizing:border-box }
+html{ -webkit-text-size-adjust:100% }
+body{ margin:0; background:var(--bg); color:var(--ink); font-family:var(--ff-t); font-size:var(--fs-b); line-height:1.85; font-feature-settings:"palt" 1; -webkit-font-smoothing:antialiased }
+img,iframe{ max-width:100%; display:block }
+h1,h2,h3{ line-height:1.34; font-weight:700; margin:0 }
+p{ margin:0 }
+:focus-visible{ outline:3px solid var(--steel); outline-offset:3px; border-radius:2px }
+
+.hold{ width:min(100% - var(--gut)*2, 1150px); margin-inline:auto }
+.leap{ position:absolute; left:-9999px; background:var(--steel-ink); color:#fff; padding:.7rem 1.1rem; z-index:99 }
+.leap:focus{ left:0; top:0 }
+
+/* ══ ヘッダー：識別＝「工程の鎖を横一列に置く」 ══ */
+.cap{ position:sticky; top:0; z-index:40; background:oklch(100% 0 0 / .95); backdrop-filter:blur(9px); border-bottom:1px solid var(--rule) }
+.cap__bar{ background:var(--steel-ink); color:#fff }
+.cap__bar .hold{ display:flex; flex-wrap:wrap; gap:.3rem 1.2rem; justify-content:space-between; align-items:center; padding-block:.4rem }
+.flow{ display:flex; flex-wrap:wrap; gap:.1rem .5rem; margin:0; padding:0; list-style:none; font-size:var(--fs-s); color:#fff; letter-spacing:.04em }
+.flow li{ font-weight:700 }
+.flow li + li::before{ content:"▶ "; font-weight:400; color:oklch(72% .13 28); font-size:.72em }
+.bar__t{ font-size:var(--fs-s); color:#fff; text-decoration:none; font-weight:700; letter-spacing:.04em; min-height:44px; display:inline-flex; align-items:center }
+.bar__t:hover{ text-decoration:underline }
+
+.cap__in{ display:flex; align-items:center; justify-content:space-between; gap:1rem; padding-block:.8rem }
+.sign{ text-decoration:none; color:var(--ink); display:flex; flex-direction:column; justify-content:center; min-height:46px }
+.sign__j{ font-family:var(--ff-d); font-size:clamp(1.24rem, 1rem + .82vw, 1.6rem); font-weight:700; letter-spacing:.08em; line-height:1.2 }
+.sign__r{ font-family:var(--ff-n); font-size:.68rem; color:var(--ink-mid); letter-spacing:.14em; margin-top:.2rem }
+
+.helm{ display:flex; align-items:center; gap:clamp(.85rem, 2vw, 1.5rem) }
+.helm a{ color:var(--ink); text-decoration:none; font-size:var(--fs-s); font-weight:500; letter-spacing:.03em; min-height:44px; display:inline-flex; align-items:center; position:relative }
+.helm a::after{ content:""; position:absolute; left:0; right:100%; bottom:.5rem; height:2px; background:var(--steel); transition:right var(--t2) var(--ez) }
+.helm a:hover::after{ right:0 }
+.helm__go{ background:var(--steel-ink); color:#fff!important; padding:0 1.1rem!important; border-radius:var(--r-s); font-weight:700; transition:background var(--t2) var(--ez) }
+.helm__go::after{ display:none }
+.helm__go:hover{ background:color-mix(in oklab, var(--steel-ink) 80%, #000) }
+
+.tog{ display:none; width:46px; height:46px; border:1px solid var(--rule); background:var(--bg); border-radius:var(--r-s); cursor:pointer; align-items:center; justify-content:center; flex-direction:column; gap:5px }
+.tog span{ display:block; width:19px; height:2px; background:var(--ink) }
+
+/* ══ 幕開け ══ */
+.gate{ padding-block:clamp(2.7rem, 1.8rem + 4.2vw, 5rem) clamp(2.2rem, 1.5rem + 2.6vw, 3.6rem); position:relative; overflow:hidden }
+.gate::before{ content:""; position:absolute; inset:0; background:linear-gradient(177deg, var(--steel-wash), transparent 54%); pointer-events:none }
+.gate .hold{ position:relative }
+.gate__k{ display:inline-block; font-family:var(--ff-n); font-size:.75rem; font-weight:700; letter-spacing:.15em; color:var(--steel-ink); border-left:3px solid var(--steel); padding-left:.7rem; margin-bottom:1.25rem }
+.gate__h{ font-family:var(--ff-d); font-size:var(--fs-h1); letter-spacing:.02em; max-width:19em }
+.gate__h em{ font-style:normal; color:var(--steel-ink) }
+.gate__p{ margin-top:1.35rem; max-width:43em; color:var(--ink-mid); font-size:clamp(1rem, .94rem + .3vw, 1.08rem) }
+.gate__acts{ display:flex; flex-wrap:wrap; gap:.75rem; margin-top:1.9rem }
+.go{ display:inline-flex; align-items:center; gap:.5rem; min-height:48px; padding:.72rem 1.5rem; border-radius:var(--r-s); text-decoration:none; font-weight:700; font-size:var(--fs-s); letter-spacing:.04em; transition:background var(--t2) var(--ez), color var(--t2) var(--ez), border-color var(--t2) var(--ez) }
+.go--on{ background:var(--steel-ink); color:#fff; border:2px solid var(--steel-ink) }
+.go--on:hover{ background:color-mix(in oklab, var(--steel-ink) 80%, #000); border-color:color-mix(in oklab, var(--steel-ink) 80%, #000) }
+.go--edge{ background:var(--bg); color:var(--steel-ink); border:2px solid var(--steel) }
+.go--edge:hover{ background:var(--steel-ink); color:#fff; border-color:var(--steel-ink) }
+
+/* ══ 署名的装置 ── トン数のはしご ══
+   プレス屋は「そのトン数があるか」で選ばれる。80t から 1500t までを
+   同じ対数目盛の上に並べ、台数を右に添える。 */
+.ladder{ padding-block:clamp(2.4rem, 1.8rem + 3vw, 4.2rem); background:var(--floor) }
+.ladder__h{ font-family:var(--ff-d); font-size:var(--fs-h2); letter-spacing:.05em }
+.ladder__n{ margin-top:.55rem; font-size:var(--fs-s); color:var(--ink-mid); max-width:46em }
+.rungs{ margin-top:2rem; display:grid; gap:.72rem }
+.rung{ display:grid; grid-template-columns:5.4rem 1fr auto; gap:.75rem; align-items:center }
+.rung__t{ font-family:var(--ff-n); font-weight:700; font-size:1.02rem; color:var(--steel-ink); text-align:right; font-variant-numeric:tabular-nums }
+.rung__track{ display:block; height:20px; background:var(--floor2); border-radius:2px; overflow:hidden }
+.rung__fill{ display:block; height:100%; background:linear-gradient(90deg, var(--steel), var(--steel-lift)); border-radius:2px }
+.rung__q{ font-size:var(--fs-s); color:var(--ink-mid); white-space:nowrap }
+.rung__q b{ font-family:var(--ff-n); color:var(--ink); font-weight:700 }
+.rung__k{ display:block; font-size:.72rem; color:var(--ink-low); letter-spacing:.04em }
+.ladder__f{ margin-top:1.3rem; font-size:var(--fs-s); color:var(--ink-mid) }
+
+/* ══ 一貫生産の鎖 ══ */
+.bay{ padding-block:var(--bay) }
+.bay--tint{ background:var(--floor) }
+.hd{ font-family:var(--ff-d); font-size:var(--fs-h2); letter-spacing:.05em }
+.hd__n{ display:block; font-family:var(--ff-n); font-size:.75rem; font-weight:700; letter-spacing:.15em; color:var(--steel-ink); margin-bottom:.5rem }
+.hd__p{ margin-top:.9rem; color:var(--ink-mid); max-width:45em }
+
+.chain{ list-style:none; margin:2.3rem 0 0; padding:0; counter-reset:c; display:grid; gap:0; border-top:1px solid var(--rule) }
+.chain li{ counter-increment:c; display:grid; grid-template-columns:2.4rem 1fr; gap:.3rem 1.1rem; padding:1.15rem 0; border-bottom:1px solid var(--rule) }
+.chain li::before{ content:counter(c,decimal-leading-zero); font-family:var(--ff-n); font-weight:700; font-size:.85rem; color:var(--steel); letter-spacing:.05em; padding-top:.2rem; grid-row:1 / span 2 }
+.chain__t{ font-size:var(--fs-h3); font-weight:700 }
+.chain__d{ color:var(--ink-mid); font-size:var(--fs-s) }
+
+/* ══ 設備表 ══ */
+.gear{ width:100%; border-collapse:collapse; margin-top:1.8rem; font-size:var(--fs-s) }
+.gear caption{ text-align:left; color:var(--ink-mid); padding-bottom:.6rem; font-size:var(--fs-s) }
+.gear th,.gear td{ padding:.6rem .65rem; border-bottom:1px solid var(--rule-thin); text-align:left; vertical-align:top }
+.gear thead th{ font-size:.72rem; letter-spacing:.11em; border-bottom:2px solid var(--ink); white-space:nowrap; color:var(--ink-mid) }
+.gear tbody th{ font-weight:700; white-space:nowrap }
+.gear .cap2{ font-family:var(--ff-n); color:var(--steel-ink); font-weight:700; white-space:nowrap }
+.gear .q{ text-align:right; font-family:var(--ff-n); white-space:nowrap }
+.gear .grp th{ font-size:.73rem; letter-spacing:.13em; color:var(--steel-ink); background:var(--floor); border-bottom:1px solid var(--rule) }
+.gear tbody tr:hover{ background:var(--steel-wash) }
+.wide{ overflow-x:auto }
+
+/* ══ 拠点 ══ */
+.sites{ margin-top:2.3rem; display:grid; grid-template-columns:1fr; gap:1.4rem }
+.st{ border:1px solid var(--rule); border-top:3px solid var(--steel); border-radius:var(--r-s); padding:1.4rem 1.35rem; background:var(--bg) }
+.st__n{ font-size:var(--fs-h3); font-weight:700 }
+.st__d{ margin-top:.4rem; font-size:var(--fs-s); color:var(--ink-mid) }
+.st__a{ margin-top:.6rem; font-size:var(--fs-s); color:var(--ink-mid); font-style:normal; line-height:1.95 }
+.st__a a{ color:var(--steel-ink); font-weight:700; text-decoration:none; min-height:44px; display:inline-flex; align-items:center }
+.st__a a:hover{ text-decoration:underline }
+.map{ display:block; width:100%; grid-column:1 / -1; margin-top:1.1rem }
+.map iframe{ display:block; width:100%; height:clamp(15rem, 26vw, 20rem); border:0; border-radius:var(--r-s) }
+
+/* ══ 会社概要 ══ */
+.book{ margin:2.3rem 0 0; border-top:2px solid var(--ink) }
+.book__r{ display:grid; grid-template-columns:minmax(7rem,13rem) 1fr; gap:0 clamp(1rem,3vw,2.2rem); border-bottom:1px solid var(--rule-thin); padding:1.05rem 0 }
+.book dt{ font-size:var(--fs-s); font-weight:700; letter-spacing:.06em; color:var(--steel-ink) }
+.book dd{ margin:0 }
+.book dd small{ display:block; color:var(--ink-mid); font-size:var(--fs-s); margin-top:.2rem }
+.book dd a{ min-height:44px; display:inline-flex; align-items:center; font-weight:700; color:var(--steel-ink); text-decoration:none }
+.book dd a:hover{ text-decoration:underline }
+
+/* ══ 問い ══ */
+.ask{ margin-top:2.3rem; border-top:1px solid var(--rule) }
+.ask details{ border-bottom:1px solid var(--rule-thin) }
+.ask summary{ cursor:pointer; list-style:none; padding:1.1rem 2.6rem 1.1rem 0; position:relative; font-weight:700; font-size:var(--fs-h3); min-height:44px; display:flex; align-items:center }
+.ask summary::-webkit-details-marker{ display:none }
+.ask summary::after{ content:""; position:absolute; right:.5rem; top:50%; width:11px; height:11px; border-right:2px solid var(--steel); border-bottom:2px solid var(--steel); translate:0 -60%; rotate:45deg; transition:rotate var(--t2) var(--ez) }
+.ask details[open] summary::after{ rotate:225deg; translate:0 -25% }
+.ask summary:hover{ color:var(--steel-ink) }
+.ask__a{ padding:0 0 1.25rem; color:var(--ink-mid); max-width:52em }
+
+.foot{ background:var(--ink); color:oklch(92% .011 251); padding-block:clamp(2.3rem, 1.6rem + 3vw, 3.5rem) }
+.foot__in{ display:grid; grid-template-columns:1fr; gap:1.7rem }
+.foot__n{ font-family:var(--ff-d); font-size:1.24rem; letter-spacing:.08em; color:#fff }
+.foot__a{ margin-top:.7rem; font-style:normal; font-size:var(--fs-s); line-height:2.05; color:oklch(92% .011 251) }
+.foot__a a{ color:#fff; font-weight:700; text-decoration:none; min-height:44px; display:inline-flex; align-items:center }
+.foot__a a:hover{ text-decoration:underline }
+.foot__l{ list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:.5rem 1.4rem }
+.foot__l a{ color:oklch(92% .011 251); text-decoration:none; font-size:var(--fs-s); min-height:44px; display:inline-flex; align-items:center }
+.foot__l a:hover{ color:#fff; text-decoration:underline }
+.foot__c{ margin-top:1.9rem; padding-top:1.1rem; border-top:1px solid oklch(100% 0 0 / .18); font-size:.78rem; color:oklch(87% .011 251) }
+
+@media (min-width:768px){
+  .chain li{ grid-template-columns:2.8rem minmax(9rem,13rem) 1fr; gap:.3rem 1.5rem }
+  .chain li::before{ grid-row:auto }
+  .sites{ grid-template-columns:1fr 1fr }
+  .foot__in{ grid-template-columns:1.35fr 1fr }
+}
+@media (max-width:860px){
+  .tog{ display:flex }
+  .helm{ position:absolute; inset:100% 0 auto; background:var(--bg); border-bottom:1px solid var(--rule); flex-direction:column; align-items:stretch; gap:0; padding:.5rem var(--gut) 1.15rem; box-shadow:0 8px 26px oklch(23% .013 251 / .1) }
+  .helm[hidden]{ display:none }
+  .helm a{ border-bottom:1px solid var(--rule-thin) }
+  .helm a::after{ display:none }
+  .helm__go{ justify-content:center; margin-top:.8rem; border-bottom:0; padding-block:.7rem!important }
+}
+@media (min-width:861px){ .helm{ display:flex!important } }
+@media (max-width:600px){
+  .book__r{ grid-template-columns:1fr; gap:.3rem }
+  /* 狭幅では機種の但し書きが行を押し広げるため、目盛の下へ回す */
+  .rung{ grid-template-columns:4.4rem 1fr auto; gap:.35rem .5rem }
+  .rung__q{ white-space:normal }
+  .rung__k{ grid-column:1 / -1; white-space:normal }
+}
+@media (max-width:380px){
+  .rung{ grid-template-columns:3.9rem 1fr auto }
+  .rung__t{ font-size:.92rem }
+}
+
+/* ══ 動き ══ */
+.js [data-up]{ opacity:0; translate:0 1.1rem }
+.js [data-up].is-in{ opacity:1; translate:0 0; transition:opacity var(--t3) var(--ez), translate var(--t3) var(--ez) }
+.js [data-up].is-in[style*="--d"]{ transition-delay:var(--d) }
+.cap{ transition:box-shadow var(--t2) var(--ez) }
+.cap.is-lift{ box-shadow:0 2px 18px oklch(23% .013 251 / .1) }
+
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion: no-preference){
+    .rung__fill{ clip-path:inset(0 100% 0 0); animation:stroke linear both; animation-timeline:view(); animation-range:entry 14% cover 36% }
+  }
+}
+@keyframes stroke{ to{ clip-path:inset(0 0 0 0) } }
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{ animation-duration:.001ms!important; animation-iteration-count:1!important; transition-duration:.001ms!important }
+  .js [data-up]{ opacity:1!important; translate:none!important }
+  .rung__fill{ clip-path:none!important }
+}
+@media print{
+  .cap,.leap,.map,.gate__acts{ display:none }
+  body{ color:#000 }
+  .foot{ background:#fff!important; color:#000!important }
+  .foot *{ color:#000!important }
+}

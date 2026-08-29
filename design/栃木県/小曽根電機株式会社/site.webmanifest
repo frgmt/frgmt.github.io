@@ -1,0 +1,15 @@
+{
+  "name": "小曽根電機株式会社",
+  "short_name": "小曽根電機",
+  "description": "栃木県栃木市藤岡町。ギヤードモーター累計250万台。クリーンルーム生産・医療機器製造業登録。",
+  "lang": "ja",
+  "start_url": "index.html",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#f7f9fc",
+  "theme_color": "#0f1d3a",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}

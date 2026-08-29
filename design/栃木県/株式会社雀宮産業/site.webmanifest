@@ -1,0 +1,15 @@
+{
+  "name": "株式会社雀宮産業",
+  "short_name": "雀宮産業",
+  "description": "栃木県宇都宮市。国内最大級のウォータージェットによる形状切断加工。難削材・超大型材料に対応。",
+  "lang": "ja",
+  "start_url": "index.html",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#fafbfc",
+  "theme_color": "#101a22",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}

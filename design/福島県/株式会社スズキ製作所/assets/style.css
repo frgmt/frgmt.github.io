@@ -1,0 +1,253 @@
+/* =========================================================
+   株式会社スズキ製作所 — リニューアル提案
+   現行サイトの色は3つ。いずれも面としては使いにくい。
+     #000033 … oklch(14.5% .101 264)。**暗すぎて白地では黒に見える**
+     #0000ee … ブラウザ既定のリンク青。採らない
+     #800000 … oklch(37.7% .155 29.2)。見出しの罫に使われている
+   主色は #000033 の紺を**明度だけ大きく上げて**使う:
+     oklch(14.5% .101 264) → 面 oklch(40% .11 264) / 文字 oklch(34% .1 264)
+   色相差 0°。14.5% のままでは色として機能しないため明度を上げた。
+
+   注：hue 264 は野口金型製作所と同じ。**色相では分離できない**ので
+   以下の4軸で分ける。
+   ・地の温度：**暖かい灰（hue 55）**。野口は黄み灰(95)。より赤寄りに
+   ・署名的装置：**金属と樹脂の対**（同じ工場で両方を削る会社）
+   ・書体：**Zen Maru Gothic**（丸ゴシック）。野口は太明朝。
+     樹脂を扱う会社なので角を落とす
+   ・第二色：**#800000 の臙脂**を樹脂側の識別にだけ使う
+     （野口は標語の赤を「速さ」側に使用）
+   ・角丸：**12px**。今回のバッチで最大。樹脂の丸み
+   ========================================================= */
+
+:root{
+  --bg:        oklch(100% 0 0);
+  --shop:      oklch(96.8% .006 55);
+  --shop2:     oklch(93.4% .01 55);
+  --rule:      oklch(87.2% .009 55);
+  --rule-thin: oklch(93.4% .006 55);
+
+  --ink:       oklch(22% .012 55);
+  --ink-mid:   oklch(42% .011 55);
+  --ink-low:   oklch(50% .01 55);
+
+  /* 金属側 */
+  --met:       oklch(40% .11 264);
+  --met-ink:   oklch(34% .1 264);
+  --met-wash:  oklch(96.8% .014 264);
+
+  /* 樹脂側。現行サイトの #800000 */
+  --res:       oklch(40% .145 29);
+  --res-ink:   oklch(35% .135 29);
+  --res-wash:  oklch(97% .015 29);
+
+  --ff-d: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", sans-serif;
+  --ff-t: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  --ff-n: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --fs-h1: clamp(1.78rem, 1.04rem + 2.9vw, 2.84rem);
+  --fs-h2: clamp(1.3rem, 1.04rem + 1.26vw, 1.76rem);
+  --fs-h3: clamp(1.02rem, .94rem + .4vw, 1.16rem);
+  --fs-b:  clamp(.95rem, .9rem + .22vw, 1.02rem);
+  --fs-s:  clamp(.82rem, .79rem + .14vw, .88rem);
+
+  --gut: clamp(1.15rem, .5rem + 2.6vw, 3.4rem);
+  --bay: clamp(3.4rem, 2rem + 5.2vw, 6.4rem);
+  --r-s: 12px;
+
+  --ez: cubic-bezier(.24,.7,.3,1);
+  --t1: 130ms; --t2: 220ms; --t3: 340ms;
+}
+
+*,*::before,*::after{ box-sizing:border-box }
+html{ -webkit-text-size-adjust:100% }
+body{ margin:0; background:var(--bg); color:var(--ink); font-family:var(--ff-t); font-size:var(--fs-b); line-height:1.85; font-feature-settings:"palt" 1; -webkit-font-smoothing:antialiased }
+img,iframe{ max-width:100%; display:block }
+h1,h2,h3{ line-height:1.36; font-weight:700; margin:0 }
+p{ margin:0 }
+:focus-visible{ outline:3px solid var(--met); outline-offset:3px }
+
+.hold{ width:min(100% - var(--gut)*2, 1130px); margin-inline:auto }
+.leap{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); background:var(--met-ink); color:#fff; padding:.7rem 1.1rem; z-index:99; white-space:nowrap }
+.leap:focus{ position:fixed; left:0; top:0; width:auto; height:auto; clip:auto; overflow:visible }
+
+/* ══ ヘッダー ══ */
+.cap{ position:sticky; top:0; z-index:40; background:oklch(100% 0 0 / .95); backdrop-filter:blur(9px); border-bottom:1px solid var(--rule) }
+.cap__bar{ background:var(--met-ink); color:#fff }
+.cap__bar .hold{ display:flex; flex-wrap:wrap; gap:.3rem 1.2rem; justify-content:space-between; align-items:center; padding-block:.4rem }
+.claim{ margin:0; font-size:var(--fs-s); color:#fff; letter-spacing:.05em }
+.claim b{ font-family:var(--ff-n); font-weight:700; color:oklch(88% .1 264) }
+.bar__t{ font-size:var(--fs-s); color:#fff; text-decoration:none; font-weight:700; letter-spacing:.04em; min-height:44px; display:inline-flex; align-items:center }
+.bar__t:hover{ text-decoration:underline }
+
+.cap__in{ display:flex; align-items:center; justify-content:space-between; gap:1rem; padding-block:.8rem }
+.sign{ text-decoration:none; color:var(--ink); display:flex; flex-direction:column; justify-content:center; min-height:46px }
+.sign__j{ font-family:var(--ff-d); font-size:clamp(1.18rem, 1rem + .78vw, 1.5rem); font-weight:700; letter-spacing:.06em; line-height:1.2 }
+.sign__r{ font-family:var(--ff-n); font-size:.66rem; color:var(--ink-mid); letter-spacing:.13em; margin-top:.2rem }
+
+.helm{ display:flex; align-items:center; gap:clamp(.85rem, 2vw, 1.5rem) }
+.helm a{ color:var(--ink); text-decoration:none; font-size:var(--fs-s); font-weight:500; letter-spacing:.03em; min-height:44px; display:inline-flex; align-items:center; position:relative }
+.helm a::after{ content:""; position:absolute; left:0; right:100%; bottom:.5rem; height:2px; background:var(--met); transition:right var(--t2) var(--ez) }
+.helm a:hover::after{ right:0 }
+.helm__go{ background:var(--met-ink); color:#fff!important; padding:0 1.1rem!important; border-radius:var(--r-s); font-weight:700; transition:background var(--t2) var(--ez) }
+.helm__go::after{ display:none }
+.helm__go:hover{ background:color-mix(in oklab, var(--met-ink) 80%, #000) }
+
+.tog{ display:none; width:46px; height:46px; border:1px solid var(--rule); background:var(--bg); border-radius:var(--r-s); cursor:pointer; align-items:center; justify-content:center; flex-direction:column; gap:5px }
+.tog span{ display:block; width:19px; height:2px; background:var(--ink) }
+
+/* ══ 幕開け ══ */
+.gate{ padding-block:clamp(2.7rem, 1.8rem + 4.2vw, 5rem) clamp(2.2rem, 1.5rem + 2.6vw, 3.6rem); position:relative; overflow:hidden }
+/* 幕開けは金属と樹脂の二層。左右で色を変えた面を斜めに割る */
+.gate::before{ content:""; position:absolute; inset:0;
+  background:linear-gradient(100deg, var(--met-wash) 0 42%, transparent 42% 58%, var(--res-wash) 58%);
+  pointer-events:none }
+.gate .hold{ position:relative }
+.gate__k{ display:inline-block; font-family:var(--ff-n); font-size:.74rem; font-weight:700; letter-spacing:.15em; color:var(--met-ink); border-left:3px solid var(--met); padding-left:.7rem; margin-bottom:1.25rem }
+.gate__h{ font-family:var(--ff-d); font-size:var(--fs-h1); letter-spacing:.02em; max-width:19em }
+.gate__h em{ font-style:normal; color:var(--met-ink) }
+.gate__h b{ font-family:var(--ff-d); color:var(--res-ink); font-weight:700 }
+.gate__p{ margin-top:1.35rem; max-width:43em; color:var(--ink-mid); font-size:clamp(1rem, .94rem + .3vw, 1.08rem) }
+.gate__acts{ display:flex; flex-wrap:wrap; gap:.75rem; margin-top:1.9rem }
+.go{ display:inline-flex; align-items:center; gap:.5rem; min-height:48px; padding:.72rem 1.5rem; border-radius:var(--r-s); text-decoration:none; font-weight:700; font-size:var(--fs-s); letter-spacing:.04em; transition:background var(--t2) var(--ez), color var(--t2) var(--ez), border-color var(--t2) var(--ez) }
+.go--on{ background:var(--met-ink); color:#fff; border:2px solid var(--met-ink) }
+.go--on:hover{ background:color-mix(in oklab, var(--met-ink) 80%, #000); border-color:color-mix(in oklab, var(--met-ink) 80%, #000) }
+.go--edge{ background:var(--bg); color:var(--met-ink); border:2px solid var(--met) }
+.go--edge:hover{ background:var(--met-ink); color:#fff; border-color:var(--met-ink) }
+
+/* ══ 署名的装置 ── 金属と樹脂の対 ══
+   この会社の珍しさは「同じ工場で金属も樹脂も削る」こと。
+   現行サイトは材質が1ページに列挙されるだけで、その構造が見えない。 */
+.duo{ padding-block:clamp(2.4rem, 1.8rem + 3vw, 4.2rem); background:var(--shop) }
+.duo__h{ font-family:var(--ff-d); font-size:var(--fs-h2); letter-spacing:.05em }
+.duo__n{ margin-top:.55rem; font-size:var(--fs-s); color:var(--ink-mid); max-width:47em }
+.pair{ margin-top:1.9rem; display:grid; grid-template-columns:1fr; gap:1.3rem }
+.pair > *{ min-width:0 }
+.side{ background:var(--bg); border:1px solid var(--rule); border-top:4px solid var(--met); border-radius:var(--r-s); padding:1.4rem 1.35rem }
+.side--res{ border-top-color:var(--res) }
+.side__r{ font-family:var(--ff-n); font-size:.66rem; letter-spacing:.14em; color:var(--ink-low); font-weight:700 }
+.side__t{ font-family:var(--ff-d); font-size:var(--fs-h3); font-weight:700; margin-top:.28rem; letter-spacing:.04em }
+.side__d{ margin-top:.6rem; color:var(--ink-mid); font-size:var(--fs-s) }
+.mats{ margin-top:.9rem; display:flex; flex-wrap:wrap; gap:.4rem }
+.mat{ font-family:var(--ff-n); font-size:.74rem; font-weight:700; color:var(--met-ink); background:var(--met-wash); border:1px solid var(--rule); border-radius:5px; padding:.22rem .55rem }
+.side--res .mat{ color:var(--res-ink); background:var(--res-wash) }
+.mats__k{ font-size:.74rem; color:var(--ink-low); width:100%; margin-top:.5rem; font-weight:700 }
+.duo__f{ margin-top:1.4rem; font-size:var(--fs-s); color:var(--ink-mid) }
+.duo__f b{ font-family:var(--ff-n); color:var(--met-ink); font-weight:700 }
+
+/* 一貫の鎖 */
+.chain{ margin-top:1.9rem; display:flex; flex-wrap:wrap; gap:.5rem; align-items:center }
+.link{ font-family:var(--ff-d); font-size:.86rem; font-weight:700; color:#fff; background:var(--met-ink); padding:.42rem .85rem; border-radius:var(--r-s) }
+.link--res{ background:var(--res-ink) }
+.arrow{ color:var(--ink-low); font-family:var(--ff-n); font-size:.8rem }
+
+/* ══ 節 ══ */
+.bay{ padding-block:var(--bay) }
+.bay--tint{ background:var(--shop) }
+.hd{ font-family:var(--ff-d); font-size:var(--fs-h2); letter-spacing:.05em }
+.hd__n{ display:block; font-family:var(--ff-n); font-size:.74rem; font-weight:700; letter-spacing:.15em; color:var(--met-ink); margin-bottom:.5rem }
+.hd__p{ margin-top:.9rem; color:var(--ink-mid); max-width:45em }
+
+/* 設備表 */
+.grid{ margin-top:1.6rem; overflow-x:auto; -webkit-overflow-scrolling:touch }
+.tbl{ width:100%; min-width:36rem; border-collapse:collapse; font-size:var(--fs-s); background:var(--bg) }
+.tbl caption{ text-align:left; font-size:var(--fs-s); color:var(--ink-low); padding-bottom:.6rem }
+.tbl th,.tbl td{ text-align:left; padding:.6rem .8rem; border-bottom:1px solid var(--rule-thin) }
+.tbl thead th{ background:var(--met-ink); color:#fff; font-weight:700; letter-spacing:.05em; border-bottom:0 }
+.tbl tbody th{ font-family:var(--ff-d); font-weight:700; white-space:nowrap }
+.tbl td{ font-family:var(--ff-n); font-size:.78rem; color:var(--ink-mid) }
+.tbl td.num{ text-align:right; white-space:nowrap }
+.tbl tbody tr:hover{ background:var(--met-wash) }
+
+/* 拠点 */
+.lots{ margin-top:2.3rem; display:grid; grid-template-columns:1fr; gap:1.2rem }
+.lots > *{ min-width:0 }
+.lot{ border:1px solid var(--rule); padding:1.25rem 1.2rem; background:var(--bg); border-radius:var(--r-s) }
+.lot__r{ font-family:var(--ff-n); font-size:.66rem; letter-spacing:.14em; color:var(--ink-low); font-weight:700 }
+.lot__n{ font-family:var(--ff-d); font-size:var(--fs-h3); font-weight:700; margin-top:.25rem; letter-spacing:.04em }
+.lot__c{ font-size:.78rem; font-weight:700; color:var(--met-ink); margin-top:.25rem }
+.lot__a{ margin-top:.5rem; font-size:var(--fs-s); color:var(--ink-mid); font-style:normal; line-height:1.95 }
+.lot__a a{ color:var(--met-ink); font-weight:700; text-decoration:none; min-height:44px; display:inline-flex; align-items:center }
+.lot__a a:hover{ text-decoration:underline }
+.map{ display:block; width:100%; margin-top:1rem }
+.map iframe{ display:block; width:100%; height:clamp(12rem, 20vw, 15rem); border:0; border-radius:var(--r-s) }
+
+/* 台帳 */
+.gear{ margin-top:1.6rem; border-top:2px solid var(--ink) }
+.gear__r{ display:grid; grid-template-columns:1fr auto; gap:.3rem 1rem; align-items:baseline; padding:.68rem 0; border-bottom:1px solid var(--rule-thin) }
+.gear__n{ font-size:var(--fs-s) }
+.gear__v{ font-family:var(--ff-n); font-weight:700; color:var(--met-ink); text-align:right; white-space:nowrap }
+
+/* 沿革 */
+.rail{ margin-top:2.3rem; border-left:2px solid var(--rule); padding-left:clamp(1rem, 3vw, 1.9rem) }
+.rail__r{ position:relative; padding:0 0 1.4rem }
+.rail__r::before{ content:""; position:absolute; left:calc(-1*clamp(1rem,3vw,1.9rem) - 6px); top:.55rem; width:10px; height:10px; background:var(--met); border:2px solid var(--bg); border-radius:50% }
+.rail__y{ font-family:var(--ff-n); font-size:.8rem; font-weight:700; color:var(--met-ink) }
+.rail__t{ margin-top:.2rem; font-size:var(--fs-s); color:var(--ink-mid) }
+
+/* 会社概要 */
+.book{ margin:2.3rem 0 0; border-top:2px solid var(--ink) }
+.book__r{ display:grid; grid-template-columns:minmax(7rem,13rem) 1fr; gap:0 clamp(1rem,3vw,2.2rem); border-bottom:1px solid var(--rule-thin); padding:1.05rem 0 }
+.book dt{ font-size:var(--fs-s); font-weight:700; letter-spacing:.06em; color:var(--met-ink) }
+.book dd{ margin:0 }
+.book dd small{ display:block; color:var(--ink-mid); font-size:var(--fs-s); margin-top:.2rem }
+.book dd a{ min-height:44px; display:inline-flex; align-items:center; font-weight:700; color:var(--met-ink); text-decoration:none }
+.book dd a:hover{ text-decoration:underline }
+
+/* 問い */
+.ask{ margin-top:2.3rem; border-top:1px solid var(--rule) }
+.ask details{ border-bottom:1px solid var(--rule-thin) }
+.ask summary{ cursor:pointer; list-style:none; padding:1.1rem 2.6rem 1.1rem 0; position:relative; font-weight:700; font-size:var(--fs-h3); min-height:44px; display:flex; align-items:center }
+.ask summary::-webkit-details-marker{ display:none }
+.ask summary::after{ content:""; position:absolute; right:.5rem; top:50%; width:11px; height:11px; border-right:2px solid var(--met); border-bottom:2px solid var(--met); translate:0 -60%; rotate:45deg; transition:rotate var(--t2) var(--ez) }
+.ask details[open] summary::after{ rotate:225deg; translate:0 -25% }
+.ask summary:hover{ color:var(--met-ink) }
+.ask__a{ padding:0 0 1.25rem; color:var(--ink-mid); max-width:52em }
+
+.spot{ margin-top:2.3rem; border:1px solid var(--rule); padding:1.5rem; background:var(--bg); border-radius:var(--r-s) }
+.spot__n{ font-size:var(--fs-h3); font-weight:700 }
+.spot__a{ margin-top:.6rem; color:var(--ink-mid); font-size:var(--fs-s); font-style:normal; line-height:2 }
+.spot__a a{ color:var(--met-ink); font-weight:700; text-decoration:none; min-height:44px; display:inline-flex; align-items:center }
+.spot__a a:hover{ text-decoration:underline }
+
+.foot{ background:var(--ink); color:oklch(92% .011 55); padding-block:clamp(2.3rem, 1.6rem + 3vw, 3.5rem) }
+.foot__in{ display:grid; grid-template-columns:1fr; gap:1.7rem }
+.foot__n{ font-family:var(--ff-d); font-size:1.2rem; letter-spacing:.06em; color:#fff }
+.foot__a{ margin-top:.7rem; font-style:normal; font-size:var(--fs-s); line-height:2.05; color:oklch(92% .011 55) }
+.foot__a a{ color:#fff; font-weight:700; text-decoration:none; min-height:44px; display:inline-flex; align-items:center }
+.foot__a a:hover{ text-decoration:underline }
+.foot__l{ list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:.5rem 1.4rem }
+.foot__l a{ color:oklch(92% .011 55); text-decoration:none; font-size:var(--fs-s); min-height:44px; display:inline-flex; align-items:center }
+.foot__l a:hover{ color:#fff; text-decoration:underline }
+.foot__c{ margin-top:1.9rem; padding-top:1.1rem; border-top:1px solid oklch(100% 0 0 / .18); font-size:.78rem; color:oklch(87% .011 55) }
+
+@media (min-width:800px){ .pair{ grid-template-columns:1fr 1fr } .lots{ grid-template-columns:1fr 1fr } }
+@media (min-width:768px){ .foot__in{ grid-template-columns:1.35fr 1fr } }
+@media (max-width:860px){
+  .tog{ display:flex }
+  .helm{ position:absolute; inset:100% 0 auto; background:var(--bg); border-bottom:1px solid var(--rule); flex-direction:column; align-items:stretch; gap:0; padding:.5rem var(--gut) 1.15rem; box-shadow:0 8px 26px oklch(22% .012 55 / .1) }
+  .helm[hidden]{ display:none }
+  .helm a{ border-bottom:1px solid var(--rule-thin) }
+  .helm a::after{ display:none }
+  .helm__go{ justify-content:center; margin-top:.8rem; border-bottom:0; padding-block:.7rem!important }
+}
+@media (min-width:861px){ .helm{ display:flex!important } }
+@media (max-width:600px){ .book__r{ grid-template-columns:1fr; gap:.3rem } }
+
+/* ══ 動き ══ */
+.js [data-up]{ opacity:0; translate:0 1.1rem }
+.js [data-up].is-in{ opacity:1; translate:0 0; transition:opacity var(--t3) var(--ez), translate var(--t3) var(--ez) }
+.js [data-up].is-in[style*="--d"]{ transition-delay:var(--d) }
+.cap{ transition:box-shadow var(--t2) var(--ez) }
+.cap.is-lift{ box-shadow:0 2px 18px oklch(22% .012 55 / .1) }
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{ animation-duration:.001ms!important; animation-iteration-count:1!important; transition-duration:.001ms!important }
+  .js [data-up]{ opacity:1!important; translate:none!important }
+}
+@media print{
+  .cap,.leap,.map,.gate__acts{ display:none }
+  body{ color:#000 }
+  .foot{ background:#fff!important; color:#000!important }
+  .foot *{ color:#000!important }
+  .tbl thead th{ background:#fff!important; color:#000!important; border-bottom:2px solid #000 }
+}

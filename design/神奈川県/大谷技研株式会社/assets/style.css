@@ -1,0 +1,357 @@
+/* 大谷技研株式会社 — 技術情報を主役にした一枚もの
+   主色は原サイトのバナー画像から採色した rgb(128,208,240)（oklch 81.8% .09 225.6）。
+   吸着パッドの商社であり、売りは「選定できること」なので、
+   写真より表と説明文に重心を置いている。 */
+
+:root{
+  --sky:     oklch(48% .105 226);    /* バナー rgb(128,208,240) と同色相・白地用に暗く */
+  --sky-br:  oklch(66% .13 226);     /* 罫・面用 */
+  --sky-pl:  oklch(96.8% .015 226);
+  --sky-md:  oklch(88% .04 228);
+  --sky-dp:  oklch(35% .085 226);
+
+  --pg:      oklch(100% 0 0);
+  --bd:      oklch(97.6% .003 226);
+  --ln:      oklch(89.5% .006 226);
+  --ln-f:    oklch(94.2% .004 226);
+
+  --k1:      oklch(23% .011 226);
+  --k2:      oklch(40.5% .01 226);
+  --k3:      oklch(53% .008 226);
+
+  --sa: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif;
+  --mo: "SFMono-Regular", Menlo, Consolas, "Courier New", monospace;
+
+  --e1: cubic-bezier(.24,.6,.36,1);
+  --e2: cubic-bezier(.16,1,.3,1);
+
+  --gp: clamp(1.15rem, .6rem + 2.4vw, 3rem);
+  --mx: 78rem;
+}
+
+*,*::before,*::after{ box-sizing:border-box }
+html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth }
+@media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto } }
+
+body{
+  margin:0; background:var(--pg); color:var(--k1);
+  font-family:var(--sa); font-size:1rem; line-height:1.9;
+  font-feature-settings:"palt" 1; -webkit-font-smoothing:antialiased;
+}
+img{ max-width:100%; height:auto; display:block }
+a{ color:inherit }
+h1,h2,h3{ margin:0; line-height:1.4; font-weight:700; letter-spacing:.02em }
+p{ margin:0 }
+.skip{ position:absolute; left:-9999px; top:0; z-index:100; background:var(--sky); color:#fff; padding:.7rem 1.1rem }
+.skip:focus{ left:0 }
+:focus-visible{ outline:2px solid var(--sky); outline-offset:3px }
+
+.wrap{ max-width:var(--mx); margin-inline:auto; padding-inline:var(--gp) }
+.nb{ display:none }
+@media (min-width:56rem){ .nb{ display:inline } }
+
+/* ── ヘッダー ───────────────────────────── */
+.hd{
+  position:sticky; top:0; z-index:40; background:rgba(255,255,255,.95);
+  -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+  border-block-end:1px solid var(--ln);
+}
+.hd__in{
+  max-width:var(--mx); margin-inline:auto; padding:.5rem var(--gp);
+  display:flex; align-items:center; justify-content:space-between; column-gap:1rem;
+}
+.mk{ display:flex; align-items:center; column-gap:.5rem; text-decoration:none; min-block-size:44px }
+.mk__n{ font-size:1.12rem; font-weight:700; letter-spacing:.1em; color:var(--sky) }
+/* ロゴ脇のチップ。白抜き文字を載せるため --sky-br ではなく --sky を使う
+   （--sky-br は 66% と明るく、白文字では 3.0:1 しか出ない）。 */
+.mk__e{
+  font-family:var(--mo); font-size:.6rem; letter-spacing:.18em; color:#fff;
+  background:var(--sky); padding:.2rem .5rem; border-radius:2px;
+}
+
+.nv{ display:none }
+@media (min-width:64rem){
+  .nv{ display:flex; align-items:center; column-gap:1.05rem }
+  .nv a{
+    text-decoration:none; font-size:.81rem; letter-spacing:.05em; color:var(--k2);
+    min-block-size:44px; display:inline-flex; align-items:center;
+    transition:color .18s var(--e1);
+  }
+  .nv a:not(.nv__go):hover{ color:var(--sky) }
+}
+.nv__go{
+  background:var(--sky); color:#fff !important; border-radius:4px;
+  padding:.5rem 1rem; font-weight:700; min-block-size:0 !important;
+  transition:background .18s var(--e1);
+}
+.nv__go:hover{ background:color-mix(in oklab, var(--sky) 82%, #000) }
+
+.bt{
+  display:grid; place-content:center; gap:4px; inline-size:44px; block-size:44px;
+  padding:0; background:none; border:1px solid var(--ln); border-radius:4px; cursor:pointer;
+}
+.bt span{ display:block; inline-size:17px; block-size:1.5px; background:var(--k1); transition:transform .25s var(--e1), opacity .18s }
+.bt[aria-expanded="true"] span:nth-child(1){ transform:translateY(5.5px) rotate(45deg) }
+.bt[aria-expanded="true"] span:nth-child(2){ opacity:0 }
+.bt[aria-expanded="true"] span:nth-child(3){ transform:translateY(-5.5px) rotate(-45deg) }
+@media (min-width:64rem){ .bt{ display:none } }
+
+@media (max-width:63.99rem){
+  .nv.is-open{
+    display:flex; flex-direction:column; align-items:stretch;
+    position:absolute; inset-inline:0; inset-block-start:100%;
+    background:#fff; border-block-end:1px solid var(--ln);
+    padding:.3rem var(--gp) 1rem;
+  }
+  .nv.is-open a{
+    text-decoration:none; padding:.8rem .2rem; font-size:.94rem;
+    border-block-end:1px solid var(--ln-f); color:var(--k1);
+    min-block-size:44px; display:flex; align-items:center;
+  }
+  .nv.is-open .nv__go{ margin-block-start:.8rem; border:0; justify-content:center }
+}
+
+/* ── 共通 ─────────────────────────────── */
+section{ padding-block:clamp(3.2rem, 1.7rem + 5.6vw, 6rem) }
+.ey{
+  font-family:var(--mo); font-size:.69rem; letter-spacing:.2em; color:var(--sky);
+  margin-block-end:.9rem; font-weight:700;
+}
+.h2{
+  font-size:clamp(1.45rem, 1.02rem + 1.95vw, 2.4rem); line-height:1.4;
+  margin-block-end:1.1rem;
+}
+.h2--c{ text-align:center }
+.tx{ max-width:45rem; color:var(--k2); font-size:clamp(.92rem, .88rem + .18vw, .99rem) }
+.tx--c{ margin-inline:auto }
+@media (min-width:48rem){ .tx--c{ text-align:center } }
+.note{
+  margin-block-start:clamp(1.4rem, .9rem + 1.8vw, 2rem); padding:.95rem 1.25rem;
+  background:var(--sky-pl); border-radius:6px;
+  font-size:.87rem; color:var(--k1);
+}
+.note--warn{ background:#fff; border:1px solid var(--sky-md) }
+.note strong{ color:var(--sky); font-weight:700 }
+
+/* ── 冒頭 ─────────────────────────────── */
+.top{ padding-block:clamp(2.8rem, 1.4rem + 6vw, 5.2rem) 0 }
+.up{
+  font-size:.75rem; letter-spacing:.14em; color:#fff; background:var(--sky);
+  display:inline-block; padding:.3rem .95rem; margin-block-end:1.15rem; border-radius:999px;
+}
+.top__h{
+  font-size:clamp(1.85rem, 1.05rem + 3.5vw, 3.4rem);
+  line-height:1.3; letter-spacing:.01em; margin-block-end:1.45rem;
+}
+.top__p{ max-width:43rem; color:var(--k2); font-size:clamp(.94rem, .89rem + .2vw, 1.01rem) }
+.top__p + .top__p{ margin-block-start:.85rem }
+.top__p strong{ color:var(--sky); font-weight:700 }
+.top__b{ display:flex; flex-wrap:wrap; gap:.7rem; margin-block-start:1.9rem }
+.ac{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-block-size:48px; padding:.7rem 1.6rem; border-radius:999px;
+  text-decoration:none; font-size:.91rem; font-weight:700; letter-spacing:.04em;
+  transition:background .2s var(--e1), border-color .2s var(--e1);
+}
+.ac--f{ background:var(--sky); color:#fff; border:1px solid var(--sky) }
+.ac--f:hover{ background:color-mix(in oklab, var(--sky) 82%, #000); border-color:color-mix(in oklab, var(--sky) 82%, #000) }
+.ac--l{ background:#fff; color:var(--k1); border:1px solid var(--ln) }
+.ac--l:hover{ background:var(--sky-pl); border-color:var(--sky) }
+
+/* 吸着パッドの見本を6点、丸窓で並べる */
+.cups{
+  list-style:none; margin:clamp(2.2rem, 1.3rem + 3.2vw, 3.4rem) auto 0;
+  max-width:var(--mx); padding:0 var(--gp);
+  display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(.7rem,.4rem + 1vw,1.2rem);
+}
+@media (min-width:52rem){ .cups{ grid-template-columns:repeat(6,1fr) } }
+.cups li{ display:flex; flex-direction:column; align-items:center; row-gap:.55rem }
+.cups img{
+  inline-size:100%; aspect-ratio:1; object-fit:cover;
+  border-radius:50%; border:1px solid var(--ln); background:var(--bd);
+}
+.cups span{ font-size:.76rem; color:var(--k2); font-weight:700; text-align:center }
+
+/* ── 表（この案件の見せ場） ───────────────── */
+.pads{ background:var(--bd); border-block:1px solid var(--ln) }
+.tw{ overflow-x:auto; -webkit-overflow-scrolling:touch; margin-block-start:clamp(1.8rem, 1.1rem + 2.4vw, 2.6rem) }
+.tb{ inline-size:100%; border-collapse:collapse; font-size:.85rem; min-inline-size:40rem; background:#fff }
+.tb__c{ text-align:left; font-size:.73rem; color:var(--k3); padding-block-end:.5rem; letter-spacing:.05em }
+.tb th, .tb td{ padding:.7rem .9rem; text-align:left; border-block-end:1px solid var(--ln-f) }
+.tb thead th{
+  background:var(--sky); color:#fff; font-size:.74rem; letter-spacing:.06em;
+  vertical-align:bottom; line-height:1.5;
+}
+.tb tbody th{
+  font-weight:700; color:var(--k1); white-space:nowrap;
+  border-inline-end:1px solid var(--ln-f); background:var(--sky-pl);
+}
+.tb tbody td{ color:var(--k2) }
+.tb tbody td b{ font-family:var(--mo); font-size:1.05em; color:var(--sky); font-weight:700 }
+.tb tbody tr:hover td{ background:var(--sky-pl) }
+/* 材質表は列が多く数値が中心なので、中央寄せの等幅で読ませる */
+.tb--mat{ min-inline-size:52rem; font-size:.82rem }
+.tb--mat td{ text-align:center; font-family:var(--mo); white-space:nowrap }
+.tb--mat tbody th{ font-size:.8rem; font-family:var(--sa) }
+.tb__g th{
+  background:var(--sky-md) !important; color:var(--sky-dp) !important;
+  font-size:.74rem !important; letter-spacing:.1em; text-align:left !important;
+}
+.legend{ margin-block-start:.9rem; font-size:.79rem; color:var(--k3) }
+.legend b{ color:var(--sky); font-family:var(--mo) }
+
+.chars{
+  list-style:none; margin:clamp(1.6rem, 1rem + 2vw, 2.2rem) 0 0; padding:0;
+  display:grid; gap:.6rem; grid-template-columns:repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+}
+.chars li{
+  background:#fff; border:1px solid var(--ln); border-radius:6px;
+  padding:.8rem 1.05rem; display:flex; align-items:baseline; column-gap:.8rem;
+}
+.chars__k{
+  font-family:var(--mo); font-size:.82rem; font-weight:700; color:#fff;
+  background:var(--sky); padding:.15rem .55rem; border-radius:3px; flex:none;
+}
+.chars__v{ font-size:.84rem; color:var(--k2); line-height:1.75 }
+
+/* ── 吸着力 ───────────────────────────── */
+.force{ background:var(--bd); border-block:1px solid var(--ln) }
+.calc{
+  margin-block-start:clamp(1.8rem, 1.1rem + 2.4vw, 2.6rem);
+  display:grid; gap:clamp(1rem, .6rem + 1.4vw, 1.5rem);
+}
+@media (min-width:54rem){ .calc{ grid-template-columns:repeat(2,1fr) } }
+.cl{
+  background:#fff; border:1px solid var(--ln); border-radius:8px;
+  padding:1.4rem 1.5rem 1.6rem;
+}
+.cl__n{
+  inline-size:2rem; block-size:2rem; border-radius:50%;
+  display:grid; place-content:center; background:var(--sky); color:#fff;
+  font-family:var(--mo); font-size:.9rem; font-weight:700; margin-block-end:.75rem;
+}
+.cl__h{ font-size:1.05rem; color:var(--sky); margin-block-end:.6rem }
+.cl__p{ font-size:.88rem; color:var(--k2); line-height:1.95 }
+.cl__p strong{ color:var(--k1); font-weight:700 }
+
+/* ── 応答 ─────────────────────────────── */
+.notes{
+  margin-block-start:clamp(1.8rem, 1.1rem + 2.4vw, 2.6rem);
+  display:grid; gap:clamp(1rem, .6rem + 1.4vw, 1.5rem);
+}
+@media (min-width:60rem){ .notes{ grid-template-columns:repeat(2,1fr) } }
+.nt{
+  background:var(--bd); border:1px solid var(--ln); border-radius:8px;
+  border-block-start:3px solid var(--sky-br);
+  padding:1.4rem 1.5rem 1.6rem; display:flex; flex-direction:column; row-gap:.75rem;
+}
+.nt__h{ font-size:1.02rem; color:var(--sky) }
+.nt__p{ font-size:.87rem; color:var(--k2); line-height:1.95 }
+.nt__p strong{ color:var(--k1); font-weight:700 }
+.nt__p--out{
+  background:#fff; padding:.85rem 1.05rem; border-radius:6px;
+  border-inline-start:3px solid var(--sky);
+}
+
+/* ── 使用事例 ─────────────────────────── */
+.use{ background:var(--bd); border-block:1px solid var(--ln) }
+.cases{
+  list-style:none; margin:clamp(1.8rem, 1.1rem + 2.4vw, 2.6rem) 0 0; padding:0;
+  display:grid; gap:1px; background:var(--ln); border:1px solid var(--ln); border-radius:8px; overflow:hidden;
+}
+@media (min-width:44rem){ .cases{ grid-template-columns:repeat(2,1fr) } }
+@media (min-width:70rem){ .cases{ grid-template-columns:repeat(3,1fr) } }
+.cases li{ background:#fff; padding:1.2rem 1.3rem 1.35rem; display:flex; flex-direction:column; row-gap:.4rem }
+.cases__w{
+  align-self:flex-start; font-size:.78rem; font-weight:700; color:#fff;
+  background:var(--sky); padding:.22rem .75rem; border-radius:999px;
+}
+.cases p{ font-size:.86rem; color:var(--k2); line-height:1.86 }
+
+/* ── FAQ ──────────────────────────────── */
+.qw{ margin-block-start:clamp(1.4rem, .9rem + 1.8vw, 2rem); border-block-start:1px solid var(--ln) }
+.qi{ border-block-end:1px solid var(--ln) }
+.qi summary{
+  cursor:pointer; list-style:none; padding:1.05rem 2.4rem 1.05rem 0;
+  font-weight:700; font-size:.92rem; position:relative; min-block-size:44px;
+  display:flex; align-items:center; transition:color .18s var(--e1);
+}
+.qi summary::-webkit-details-marker{ display:none }
+.qi summary:hover{ color:var(--sky) }
+.qi summary::after{
+  content:""; position:absolute; inset-inline-end:.7rem; inset-block-start:50%;
+  inline-size:8px; block-size:8px; margin-block-start:-5px;
+  border-inline-end:1.5px solid var(--sky); border-block-end:1.5px solid var(--sky);
+  transform:rotate(45deg); transition:transform .25s var(--e1);
+}
+.qi[open] summary::after{ transform:rotate(-135deg); margin-block-start:-2px }
+.qi p{ padding-block:0 1.2rem; color:var(--k2); font-size:.87rem; max-width:50rem }
+
+/* ── 会社案内 ─────────────────────────── */
+.firm{ background:var(--bd); border-block:1px solid var(--ln) }
+.fg{ display:grid; gap:clamp(1.4rem, .8rem + 2.2vw, 2.4rem); margin-block-start:clamp(1.4rem, .9rem + 1.8vw, 2rem) }
+@media (min-width:60rem){ .fg{ grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:start } }
+.rows{ margin:0; border-block-start:3px solid var(--sky); background:#fff }
+.rows > div{ display:grid; border-block-end:1px solid var(--ln-f); padding:.85rem 1rem }
+@media (min-width:34rem){ .rows > div{ grid-template-columns:6rem minmax(0,1fr); column-gap:1.4rem } }
+.rows dt{ font-size:.78rem; color:var(--k3); letter-spacing:.06em; padding-block-start:.15rem }
+.rows dd{ margin:0; font-size:.89rem }
+.rows a{ color:var(--sky); display:inline-flex; align-items:center; min-block-size:44px; text-underline-offset:2px; word-break:break-all }
+.mp{ display:block; inline-size:100% }
+.mp iframe{
+  display:block; inline-size:100%; block-size:clamp(15rem, 26vw, 20rem);
+  border:0; border-radius:8px; background:var(--sky-pl);
+}
+
+/* ── 連絡 ─────────────────────────────── */
+.ways{
+  margin-block-start:clamp(1.8rem, 1.1rem + 2.4vw, 2.6rem);
+  display:grid; gap:clamp(.8rem, .5rem + 1vw, 1.1rem);
+  grid-template-columns:repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  max-width:44rem; margin-inline:auto;
+}
+.wy{
+  background:#fff; border:1px solid var(--ln); border-radius:8px;
+  padding:1.3rem 1.5rem 1.45rem; text-decoration:none;
+  display:flex; flex-direction:column; row-gap:.3rem; min-block-size:44px;
+  transition:border-color .22s var(--e1), transform .22s var(--e2);
+}
+a.wy:hover{ border-color:var(--sky); transform:translateY(-2px) }
+.wy--main{ background:var(--sky-pl); border-color:var(--sky-md) }
+.wy__k{ font-family:var(--mo); font-size:.71rem; letter-spacing:.15em; color:var(--k3) }
+.wy__v{
+  font-family:var(--mo); font-weight:700; color:var(--sky);
+  font-size:clamp(1.08rem, .93rem + .68vw, 1.42rem); letter-spacing:-.01em; line-height:1.4;
+}
+.wy__v--m{ font-size:clamp(.8rem, .72rem + .35vw, .95rem); word-break:break-all; letter-spacing:0 }
+.wy__s{ font-size:.76rem; color:var(--k3) }
+
+/* ── フッター ─────────────────────────── */
+.ft{ background:#fff; border-block-start:3px solid var(--sky); padding-block:2.5rem 1.3rem }
+.ft__in{ display:grid; gap:1.5rem }
+@media (min-width:56rem){ .ft__in{ grid-template-columns:minmax(0,1fr) auto; column-gap:2.5rem; align-items:start } }
+.ft__n{ font-weight:700; letter-spacing:.1em; color:var(--sky); margin-block-end:.45rem }
+.ft__a{ font-size:.79rem; color:var(--k3); line-height:1.95 }
+.ft__v{ display:flex; flex-wrap:wrap; gap:.2rem 1.05rem }
+.ft__v a{
+  font-size:.79rem; color:var(--k2); text-decoration:none;
+  display:inline-flex; align-items:center; min-block-size:44px;
+  transition:color .18s var(--e1);
+}
+.ft__v a:hover{ color:var(--sky); text-decoration:underline; text-underline-offset:3px }
+.ft__c{
+  max-width:var(--mx); margin:1.6rem auto 0; padding:1rem var(--gp) 0;
+  border-block-start:1px solid var(--ln-f);
+  font-family:var(--mo); font-size:.69rem; letter-spacing:.06em; color:var(--k3);
+}
+
+/* ── スクロール演出（transform のみ） ─────── */
+@media (prefers-reduced-motion: no-preference){
+  @supports (animation-timeline: view()){
+    .js [data-reveal]{
+      animation:ou linear both; animation-timeline:view();
+      animation-range:entry 5% cover 24%;
+    }
+    @keyframes ou{ from{ transform:translateY(14px) } to{ transform:none } }
+  }
+}

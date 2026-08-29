@@ -1,0 +1,10 @@
+{
+  "name": "株式会社増保鉄工 採用サイト",
+  "short_name": "増保鉄工",
+  "lang": "ja",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f7f8",
+  "theme_color": "#0031e6",
+  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

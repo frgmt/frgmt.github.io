@@ -1,0 +1,17 @@
+User-agent: *
+Disallow: /design/
+
+User-agent: GPTBot
+Disallow: /design/
+
+User-agent: ClaudeBot
+Disallow: /design/
+
+User-agent: Google-Extended
+Disallow: /design/
+
+User-agent: CCBot
+Disallow: /design/
+
+User-agent: PerplexityBot
+Disallow: /design/

@@ -1,0 +1,13 @@
+{
+  "name": "株式会社上島熱処理工業所",
+  "short_name": "上島熱処理",
+  "lang": "ja",
+  "start_url": "./",
+  "display": "browser",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}

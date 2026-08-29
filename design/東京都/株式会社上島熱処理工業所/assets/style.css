@@ -1,0 +1,260 @@
+/* =========================================================
+   株式会社上島熱処理工業所 — リニューアル提案
+   現行サイトから採取した唯一の実色は緑（#009933 / 地の #ccffcc）。
+   青系リンク #0000ee はブラウザ既定色なので採らない。
+   #009933 → oklch(57.4% .157 148) を基準に、面 oklch(43% .1 150)、
+   文字 oklch(37% .09 150)。色相差 +2°（±10°以内）。
+   彩度を .157 → .10 に落としたのは、白地の広い面で .157 が
+   「新緑」に寄り、熱処理という高温の仕事の声に合わないため。
+
+   注：本バッチで緑は2社目（1社目は 143°）。分離軸は
+   ・地：冷たい灰（hue 230）。緑の補色側に振り、緑を「炉の緑」に見せる
+   ・第二色：炉温を示す橙〜赤（ソルトバス 1300℃ / 真空炉 1250℃）
+   ・署名的装置：名工の台帳（3人の現代の名工 + 10人の特級技能士）
+   ・書体：Zen Old Mincho（明朝）。1956年創業・褒章の会社の声に合わせる
+   ========================================================= */
+
+:root{
+  --bg:        oklch(100% 0 0);
+  --bench:     oklch(96.6% .006 230);
+  --bench2:    oklch(93.4% .009 230);
+  --rule:      oklch(87.2% .008 230);
+  --rule-thin: oklch(93.2% .005 230);
+
+  --ink:       oklch(22% .012 230);
+  --ink-mid:   oklch(42% .011 230);
+  --ink-low:   oklch(50% .01 230);
+
+  --salt:      oklch(43% .1 150);
+  --salt-ink:  oklch(37% .09 150);
+  --salt-wash: oklch(97% .014 150);
+  --salt-lift: oklch(58% .13 150);
+
+  /* 炉温。ソルトバス1300℃ / 真空炉1250℃ / 焼戻し650℃ */
+  --heat-900:  oklch(54% .16 30);
+  --heat-800:  oklch(65% .16 48);
+  --heat-700:  oklch(73% .14 70);
+
+  --ff-d: "Zen Old Mincho", "BIZ UDPMincho", "Yu Mincho", "Hiragino Mincho ProN", serif;
+  --ff-t: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  --ff-n: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --fs-h1: clamp(1.8rem, 1.05rem + 2.95vw, 2.88rem);
+  --fs-h2: clamp(1.3rem, 1.04rem + 1.28vw, 1.78rem);
+  --fs-h3: clamp(1.02rem, .94rem + .4vw, 1.17rem);
+  --fs-b:  clamp(.95rem, .9rem + .22vw, 1.02rem);
+  --fs-s:  clamp(.82rem, .79rem + .14vw, .88rem);
+
+  --gut: clamp(1.15rem, .5rem + 2.6vw, 3.4rem);
+  --bay: clamp(3.4rem, 2rem + 5.2vw, 6.4rem);
+  --r-s: 2px;            /* 角丸はほぼ無し。図面・仕様書の声 */
+
+  --ez: cubic-bezier(.24,.7,.3,1);
+  --t1: 130ms; --t2: 220ms; --t3: 340ms;
+}
+
+*,*::before,*::after{ box-sizing:border-box }
+html{ -webkit-text-size-adjust:100% }
+body{ margin:0; background:var(--bg); color:var(--ink); font-family:var(--ff-t); font-size:var(--fs-b); line-height:1.85; font-feature-settings:"palt" 1; -webkit-font-smoothing:antialiased }
+img,iframe{ max-width:100%; display:block }
+h1,h2,h3{ line-height:1.36; font-weight:700; margin:0 }
+p{ margin:0 }
+:focus-visible{ outline:3px solid var(--salt); outline-offset:3px; border-radius:2px }
+
+.hold{ width:min(100% - var(--gut)*2, 1130px); margin-inline:auto }
+.leap{ position:absolute; left:-9999px; background:var(--salt-ink); color:#fff; padding:.7rem 1.1rem; z-index:99 }
+.leap:focus{ left:0; top:0 }
+
+/* ══ ヘッダー：識別＝「認証を掲げる」 ══ */
+.cap{ position:sticky; top:0; z-index:40; background:oklch(100% 0 0 / .95); backdrop-filter:blur(9px); border-bottom:1px solid var(--rule) }
+.cap__bar{ background:var(--salt-ink); color:#fff }
+.cap__bar .hold{ display:flex; flex-wrap:wrap; gap:.3rem 1.2rem; justify-content:space-between; align-items:center; padding-block:.4rem }
+.cert{ margin:0; font-size:var(--fs-s); color:#fff; letter-spacing:.05em }
+.cert b{ font-family:var(--ff-n); font-weight:700; color:oklch(85% .11 70) }
+.bar__t{ font-size:var(--fs-s); color:#fff; text-decoration:none; font-weight:700; letter-spacing:.04em; min-height:44px; display:inline-flex; align-items:center }
+.bar__t:hover{ text-decoration:underline }
+
+.cap__in{ display:flex; align-items:center; justify-content:space-between; gap:1rem; padding-block:.8rem }
+.sign{ text-decoration:none; color:var(--ink); display:flex; flex-direction:column; justify-content:center; min-height:46px }
+.sign__j{ font-family:var(--ff-d); font-size:clamp(1.18rem, 1rem + .78vw, 1.52rem); font-weight:700; letter-spacing:.08em; line-height:1.2 }
+.sign__r{ font-family:var(--ff-n); font-size:.66rem; color:var(--ink-mid); letter-spacing:.13em; margin-top:.2rem }
+
+.helm{ display:flex; align-items:center; gap:clamp(.85rem, 2vw, 1.5rem) }
+.helm a{ color:var(--ink); text-decoration:none; font-size:var(--fs-s); font-weight:500; letter-spacing:.03em; min-height:44px; display:inline-flex; align-items:center; position:relative }
+.helm a::after{ content:""; position:absolute; left:0; right:100%; bottom:.5rem; height:2px; background:var(--salt); transition:right var(--t2) var(--ez) }
+.helm a:hover::after{ right:0 }
+.helm__go{ background:var(--salt-ink); color:#fff!important; padding:0 1.1rem!important; border-radius:var(--r-s); font-weight:700; transition:background var(--t2) var(--ez) }
+.helm__go::after{ display:none }
+.helm__go:hover{ background:color-mix(in oklab, var(--salt-ink) 80%, #000) }
+
+.tog{ display:none; width:46px; height:46px; border:1px solid var(--rule); background:var(--bg); border-radius:var(--r-s); cursor:pointer; align-items:center; justify-content:center; flex-direction:column; gap:5px }
+.tog span{ display:block; width:19px; height:2px; background:var(--ink) }
+
+/* ══ 幕開け ══ */
+.gate{ padding-block:clamp(2.7rem, 1.8rem + 4.2vw, 5rem) clamp(2.2rem, 1.5rem + 2.6vw, 3.6rem); position:relative; overflow:hidden }
+/* 幕開けは炉の温度勾配。下から熱が立つように敷く */
+.gate::before{ content:""; position:absolute; inset:auto 0 0 0; height:64%;
+  background:linear-gradient(0deg, var(--salt-wash) 0 18%, transparent);
+  pointer-events:none }
+.gate .hold{ position:relative }
+.gate__k{ display:inline-block; font-family:var(--ff-n); font-size:.74rem; font-weight:700; letter-spacing:.15em; color:var(--salt-ink); border-left:3px solid var(--salt); padding-left:.7rem; margin-bottom:1.25rem }
+.gate__h{ font-family:var(--ff-d); font-size:var(--fs-h1); letter-spacing:.03em; max-width:19em }
+.gate__h em{ font-style:normal; color:var(--salt-ink); border-bottom:5px solid var(--heat-700); padding-bottom:.05em }
+.gate__h b{ font-family:var(--ff-n); color:var(--heat-900); font-weight:700 }
+.gate__p{ margin-top:1.35rem; max-width:43em; color:var(--ink-mid); font-size:clamp(1rem, .94rem + .3vw, 1.08rem) }
+.gate__acts{ display:flex; flex-wrap:wrap; gap:.75rem; margin-top:1.9rem }
+.go{ display:inline-flex; align-items:center; gap:.5rem; min-height:48px; padding:.72rem 1.5rem; border-radius:var(--r-s); text-decoration:none; font-weight:700; font-size:var(--fs-s); letter-spacing:.04em; transition:background var(--t2) var(--ez), color var(--t2) var(--ez), border-color var(--t2) var(--ez) }
+.go--on{ background:var(--salt-ink); color:#fff; border:2px solid var(--salt-ink) }
+.go--on:hover{ background:color-mix(in oklab, var(--salt-ink) 80%, #000); border-color:color-mix(in oklab, var(--salt-ink) 80%, #000) }
+.go--edge{ background:var(--bg); color:var(--salt-ink); border:2px solid var(--salt) }
+.go--edge:hover{ background:var(--salt-ink); color:#fff; border-color:var(--salt-ink) }
+
+/* ══ 署名的装置 ── 名工の台帳 ══
+   熱処理は炉ではなく人が決める仕事。現行サイトでは「現代の名工3名」が
+   お知らせの行に埋もれていた。氏名と受章年を全幅の台帳として置く。 */
+.mast{ padding-block:clamp(2.4rem, 1.8rem + 3vw, 4.2rem); background:var(--salt-wash) }
+.mast__h{ font-family:var(--ff-d); font-size:var(--fs-h2); letter-spacing:.06em; color:var(--ink) }
+.mast__n{ margin-top:.55rem; font-size:var(--fs-s); color:var(--ink-mid); max-width:46em }
+.crafts{ margin-top:1.9rem; display:grid; grid-template-columns:1fr; gap:0; border-top:2px solid var(--salt-ink) }
+.craft{ display:grid; grid-template-columns:1fr auto; gap:.3rem 1rem; align-items:baseline; padding:1rem 0; border-bottom:1px solid var(--rule) }
+.craft__n{ font-family:var(--ff-d); font-size:clamp(1.1rem, .98rem + .6vw, 1.4rem); font-weight:700; letter-spacing:.12em; color:var(--ink) }
+.craft__y{ font-family:var(--ff-n); font-size:.8rem; font-weight:700; color:var(--heat-900); white-space:nowrap }
+.craft__t{ grid-column:1 / -1; font-size:var(--fs-s); color:var(--ink-mid) }
+.tally{ margin-top:1.7rem; display:grid; grid-template-columns:1fr; gap:.9rem }
+.tal{ background:var(--bg); border:1px solid var(--rule); border-left:3px solid var(--salt); padding:.9rem 1.05rem }
+.tal__v{ font-family:var(--ff-n); font-size:clamp(1.5rem, 1.2rem + 1.4vw, 2.1rem); font-weight:700; color:var(--salt-ink); line-height:1.2 }
+.tal__k{ font-size:var(--fs-s); color:var(--ink-mid); margin-top:.2rem }
+
+/* ══ 二つの炉 ══ */
+.bay{ padding-block:var(--bay) }
+.bay--tint{ background:var(--bench) }
+.hd{ font-family:var(--ff-d); font-size:var(--fs-h2); letter-spacing:.06em }
+.hd__n{ display:block; font-family:var(--ff-n); font-size:.74rem; font-weight:700; letter-spacing:.15em; color:var(--salt-ink); margin-bottom:.5rem }
+.hd__p{ margin-top:.9rem; color:var(--ink-mid); max-width:45em }
+
+.kilns{ margin-top:2.3rem; display:grid; grid-template-columns:1fr; gap:1.3rem }
+/* グリッド項目の既定 min-width:auto は、中の長い型番（FW70U / FW60H×2 …）を
+   最小幅として要求し 320px で列を押し広げる。列自体を縮められるようにする。 */
+.kilns > *{ min-width:0 }
+.kiln__s li b{ white-space:normal; overflow-wrap:anywhere }
+.kiln{ border:1px solid var(--rule); border-top:3px solid var(--salt); padding:1.4rem 1.3rem; background:var(--bg) }
+.kiln__r{ font-family:var(--ff-n); font-size:.66rem; letter-spacing:.14em; color:var(--ink-low); font-weight:700 }
+.kiln__t{ font-family:var(--ff-d); font-size:var(--fs-h3); font-weight:700; margin-top:.3rem; letter-spacing:.05em }
+.kiln__d{ margin-top:.6rem; color:var(--ink-mid); font-size:var(--fs-s) }
+.kiln__s{ margin:1rem 0 0; padding:0; list-style:none; border-top:1px solid var(--rule-thin) }
+.kiln__s li{ display:grid; grid-template-columns:1fr auto; gap:.4rem 1rem; padding:.55rem 0; border-bottom:1px solid var(--rule-thin); font-size:var(--fs-s) }
+.kiln__s b{ font-family:var(--ff-n); font-weight:700; color:var(--salt-ink); text-align:right }
+
+/* 温度帯。装飾ではなく凡例 */
+.tband{ margin-top:1rem; display:grid; gap:.45rem }
+.tb{ display:grid; grid-template-columns:6.4rem 1fr; gap:.3rem .8rem; align-items:center }
+.tb__k{ font-family:var(--ff-n); font-size:.72rem; color:var(--ink-mid); text-align:right; white-space:nowrap }
+.tb__t{ display:block; position:relative; height:16px; background:var(--bench2) }
+.tb__f{ display:block; position:absolute; inset-block:0; left:0; background:linear-gradient(90deg, var(--heat-700), var(--heat-900)) }
+
+/* ══ 設備台帳 ══ */
+.gear{ margin-top:2.3rem; border-top:2px solid var(--ink) }
+.gear__r{ display:grid; grid-template-columns:1fr auto; gap:.3rem 1rem; align-items:baseline; padding:.75rem 0; border-bottom:1px solid var(--rule-thin) }
+.gear__n{ font-size:var(--fs-s) }
+.gear__d{ grid-column:1 / -1; font-family:var(--ff-n); font-size:.76rem; color:var(--ink-low) }
+.gear__v{ font-family:var(--ff-n); font-weight:700; color:var(--salt-ink); white-space:nowrap }
+
+/* ══ 沿革 ══ */
+.rail{ margin-top:2.3rem; border-left:2px solid var(--rule); padding-left:clamp(1rem, 3vw, 1.9rem) }
+.rail__r{ position:relative; padding:0 0 1.5rem }
+.rail__r::before{ content:""; position:absolute; left:calc(-1*clamp(1rem,3vw,1.9rem) - 6px); top:.55rem; width:10px; height:10px; background:var(--salt); border:2px solid var(--bg); border-radius:50% }
+.rail__y{ font-family:var(--ff-n); font-size:.8rem; font-weight:700; color:var(--salt-ink) }
+.rail__t{ margin-top:.2rem; font-size:var(--fs-s); color:var(--ink-mid) }
+
+/* ══ 会社概要 ══ */
+.book{ margin:2.3rem 0 0; border-top:2px solid var(--ink) }
+.book__r{ display:grid; grid-template-columns:minmax(7rem,13rem) 1fr; gap:0 clamp(1rem,3vw,2.2rem); border-bottom:1px solid var(--rule-thin); padding:1.05rem 0 }
+.book dt{ font-size:var(--fs-s); font-weight:700; letter-spacing:.06em; color:var(--salt-ink) }
+.book dd{ margin:0 }
+.book dd small{ display:block; color:var(--ink-mid); font-size:var(--fs-s); margin-top:.2rem }
+.book dd a{ min-height:44px; display:inline-flex; align-items:center; font-weight:700; color:var(--salt-ink); text-decoration:none }
+.book dd a:hover{ text-decoration:underline }
+
+/* ══ 問い ══ */
+.ask{ margin-top:2.3rem; border-top:1px solid var(--rule) }
+.ask details{ border-bottom:1px solid var(--rule-thin) }
+.ask summary{ cursor:pointer; list-style:none; padding:1.1rem 2.6rem 1.1rem 0; position:relative; font-weight:700; font-size:var(--fs-h3); min-height:44px; display:flex; align-items:center }
+.ask summary::-webkit-details-marker{ display:none }
+.ask summary::after{ content:""; position:absolute; right:.5rem; top:50%; width:11px; height:11px; border-right:2px solid var(--salt); border-bottom:2px solid var(--salt); translate:0 -60%; rotate:45deg; transition:rotate var(--t2) var(--ez) }
+.ask details[open] summary::after{ rotate:225deg; translate:0 -25% }
+.ask summary:hover{ color:var(--salt-ink) }
+.ask__a{ padding:0 0 1.25rem; color:var(--ink-mid); max-width:52em }
+
+.spot{ margin-top:2.3rem; border:1px solid var(--rule); padding:1.5rem; background:var(--bg) }
+.spot__n{ font-size:var(--fs-h3); font-weight:700 }
+.spot__a{ margin-top:.6rem; color:var(--ink-mid); font-size:var(--fs-s); font-style:normal; line-height:2 }
+.spot__a a{ color:var(--salt-ink); font-weight:700; text-decoration:none; min-height:44px; display:inline-flex; align-items:center }
+.spot__a a:hover{ text-decoration:underline }
+.ways{ margin:1.1rem 0 0; padding:0; list-style:none; border-top:1px solid var(--rule-thin) }
+.ways li{ padding:.55rem 0; border-bottom:1px solid var(--rule-thin); font-size:var(--fs-s); color:var(--ink-mid) }
+.ways b{ color:var(--ink); font-weight:700 }
+.map{ display:block; width:100%; margin-top:1.1rem }
+.map iframe{ display:block; width:100%; height:clamp(15rem, 26vw, 20rem); border:0 }
+
+.foot{ background:var(--ink); color:oklch(92% .011 230); padding-block:clamp(2.3rem, 1.6rem + 3vw, 3.5rem) }
+.foot__in{ display:grid; grid-template-columns:1fr; gap:1.7rem }
+.foot__n{ font-family:var(--ff-d); font-size:1.2rem; letter-spacing:.08em; color:#fff }
+.foot__a{ margin-top:.7rem; font-style:normal; font-size:var(--fs-s); line-height:2.05; color:oklch(92% .011 230) }
+.foot__a a{ color:#fff; font-weight:700; text-decoration:none; min-height:44px; display:inline-flex; align-items:center }
+.foot__a a:hover{ text-decoration:underline }
+.foot__l{ list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:.5rem 1.4rem }
+.foot__l a{ color:oklch(92% .011 230); text-decoration:none; font-size:var(--fs-s); min-height:44px; display:inline-flex; align-items:center }
+.foot__l a:hover{ color:#fff; text-decoration:underline }
+.foot__c{ margin-top:1.9rem; padding-top:1.1rem; border-top:1px solid oklch(100% 0 0 / .18); font-size:.78rem; color:oklch(87% .011 230) }
+
+@media (min-width:700px){ .tally{ grid-template-columns:1fr 1fr 1fr } }
+@media (min-width:800px){ .kilns{ grid-template-columns:1fr 1fr } }
+@media (min-width:768px){
+  .craft{ grid-template-columns:14rem auto 1fr }
+  .craft__t{ grid-column:auto; text-align:right }
+  .foot__in{ grid-template-columns:1.35fr 1fr }
+}
+@media (max-width:860px){
+  .tog{ display:flex }
+  .helm{ position:absolute; inset:100% 0 auto; background:var(--bg); border-bottom:1px solid var(--rule); flex-direction:column; align-items:stretch; gap:0; padding:.5rem var(--gut) 1.15rem; box-shadow:0 8px 26px oklch(22% .012 230 / .1) }
+  .helm[hidden]{ display:none }
+  .helm a{ border-bottom:1px solid var(--rule-thin) }
+  .helm a::after{ display:none }
+  .helm__go{ justify-content:center; margin-top:.8rem; border-bottom:0; padding-block:.7rem!important }
+}
+@media (min-width:861px){ .helm{ display:flex!important } }
+@media (max-width:600px){
+  .book__r{ grid-template-columns:1fr; gap:.3rem }
+  .tb{ grid-template-columns:5rem 1fr; gap:.25rem .5rem }
+  .tb__k{ font-size:.68rem }
+}
+
+/* ══ 動き ══ */
+.js [data-up]{ opacity:0; translate:0 1.1rem }
+.js [data-up].is-in{ opacity:1; translate:0 0; transition:opacity var(--t3) var(--ez), translate var(--t3) var(--ez) }
+.js [data-up].is-in[style*="--d"]{ transition-delay:var(--d) }
+.cap{ transition:box-shadow var(--t2) var(--ez) }
+.cap.is-lift{ box-shadow:0 2px 18px oklch(22% .012 230 / .1) }
+
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion: no-preference){
+    .tb__f{ clip-path:inset(0 100% 0 0); animation:fire linear both; animation-timeline:view(); animation-range:entry 14% cover 36% }
+  }
+}
+@keyframes fire{ to{ clip-path:inset(0 0 0 0) } }
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{ animation-duration:.001ms!important; animation-iteration-count:1!important; transition-duration:.001ms!important }
+  .js [data-up]{ opacity:1!important; translate:none!important }
+  .tb__f{ clip-path:none!important }
+}
+@media print{
+  .cap,.leap,.map,.gate__acts{ display:none }
+  body{ color:#000 }
+  .foot{ background:#fff!important; color:#000!important }
+  .foot *{ color:#000!important }
+}
+
+/* 営業品目は3本柱を縦に積む（横並びにすると仕様の行が潰れる） */
+.kilns--one{ grid-template-columns:1fr }
+@media (min-width:800px){ .kilns--one{ grid-template-columns:1fr } }

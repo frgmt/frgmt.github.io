@@ -1,0 +1,720 @@
+@charset "UTF-8";
+
+/* ============================================================
+   赤心堂病院 — Design Tokens
+   Art direction: 和紙のようなクリーム地 × 直交グリッド × セリフ見出し
+   既存サイト実測色を継承: 朱 #d72850 / 紺 #0a4691 / クリーム #f4efe5
+
+   ※ Nuxt + Tailwind v4 版から静的HTMLへ書き換え。
+      デザイン（トークン・構成・配色・セクション順）は元版をそのまま踏襲。
+      Tailwind のユーティリティは、対応する素のCSSに置き換えた。
+      文字の減光は opacity ではなく実色で指定している
+      （opacity は「非表示」と誤判定され、コントラストも測れないため）。
+   ============================================================ */
+
+:root {
+  /* ── Typography: 2書体のみ ───────────────────── */
+  --font-display: "Shippori Mincho", "Noto Serif JP", "Times New Roman", serif;
+  --font-sans: "Noto Sans JP", "Helvetica Neue", system-ui, sans-serif;
+
+  /* Fluid scale: 375px → 1440px */
+  --text-2xs:   clamp(0.6875rem, 0.67rem + 0.08vw, 0.75rem);
+  --text-xs:    clamp(0.75rem, 0.73rem + 0.11vw, 0.8125rem);
+  --text-sm:    clamp(0.8125rem, 0.79rem + 0.13vw, 0.875rem);
+  --text-base:  clamp(0.9375rem, 0.91rem + 0.15vw, 1rem);
+  --text-lg:    clamp(1.0625rem, 1.02rem + 0.21vw, 1.1875rem);
+  --text-xl:    clamp(1.1875rem, 1.11rem + 0.34vw, 1.375rem);
+  --text-2xl:   clamp(1.375rem, 1.24rem + 0.58vw, 1.75rem);
+  --text-3xl:   clamp(1.625rem, 1.38rem + 1.04vw, 2.375rem);
+  --text-4xl:   clamp(2rem, 1.6rem + 1.7vw, 3.25rem);
+  --text-hero:  clamp(2.125rem, 1.35rem + 3.3vw, 4.25rem);
+
+  --leading-tight: 1.22;
+  --leading-snug: 1.45;
+  --leading-body: 1.85;          /* 日本語本文は広め */
+  --tracking-tight: -0.01em;
+  --tracking-body: 0.02em;
+  --tracking-wide: 0.18em;       /* 小見出しラベル用 */
+
+  /* ── Color — 白ベース（ダークモードは持たない）─────────
+     病院サイトのため黒基調にはしない。元サイトを実測した結果:
+       地      #ffffff（純白）
+       本文    #464646
+       濃茶    #501e0a
+       朱      #db2850  ← ブランド色
+       生成り  #f0ebe6  ← 面の切り替えに使う
+     これに合わせ、地は純白、面の切り替えのみ生成りにする。 */
+  --color-bg:          #ffffff;
+  --color-surface:     #ffffff;
+  --color-surface-alt: #f0ebe6;   /* 元サイトの生成り */
+  --color-border:      #e2dcd4;
+  --color-border-firm: #c9c1b6;
+
+  --color-fg:          #333333;   /* 元サイト #464646 よりやや締めて可読性を確保 */
+  --color-fg-muted:    #4f4f4f;
+  --color-fg-subtle:   #5c5c5c;
+
+  /* 朱色 = 赤心堂のブランド色。旧 #d72850 */
+  --color-accent:      oklch(56% 0.192 18);
+  --color-accent-hover: oklch(49% 0.185 18);
+  --color-accent-fg:   oklch(99% 0.004 18);
+  --color-accent-soft: oklch(94% 0.032 18);
+
+  /* 紺 = 権威・構造色。旧 #0a4691 */
+  --color-navy:        oklch(36% 0.115 258);
+  --color-navy-soft:   oklch(93% 0.022 258);
+  --color-navy-fg:     oklch(99% 0.003 258);
+  /* 紺地の上で使う減光テキスト（opacity ではなく実色で持つ） */
+  --color-navy-fg-dim: oklch(86% 0.02 258);
+  --color-navy-fg-dim2: oklch(79% 0.025 258);
+
+  --color-focus:       oklch(45% 0.16 250);
+
+  /* ── Spacing ─────────────────────────────────── */
+  --spacing-section: clamp(3.5rem, 7vw, 7.5rem);
+  --spacing-gutter:  clamp(1.25rem, 4vw, 3.5rem);
+  --container-max:   1240px;
+  /* 和文は em で行長を取る（ch は欧文の 0 の字幅基準のため半分になる） */
+  --measure:         40em;
+
+  /* ── Radius: 3段。病院なので角は控えめ ────────── */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+
+  /* ── Shadow: 3段 ─────────────────────────────── */
+  --shadow-sm: 0 1px 2px oklch(24% 0.018 45 / 0.06);
+  --shadow-md: 0 2px 12px -2px oklch(24% 0.018 45 / 0.09);
+  --shadow-lg: 0 16px 48px -16px oklch(24% 0.018 45 / 0.18);
+
+  /* ── Motion ──────────────────────────────────── */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 320ms;
+}
+
+/* ── ダークモードは持たない ────────────────────────
+   病院サイトのため、OSの設定にかかわらず白基調を維持する。
+   黒基調は緊急性・重篤さを連想させ、医療機関の第一印象として適さない。
+   元サイトも純白（実測 #ffffff）。
+   ここに @media (prefers-color-scheme: dark) を足さないこと。 */
+
+/* ── Base ──────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-block-start: 6rem;
+}
+
+body {
+  min-block-size: 100dvh;
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  letter-spacing: var(--tracking-body);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "palt" 1;   /* 日本語の詰め */
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  font-weight: 600;
+  text-wrap: balance;
+}
+
+p, li, dd, dt, summary, th, td {
+  text-wrap: pretty;
+  line-break: strict;
+  word-break: auto-phrase;
+}
+
+a { color: inherit; }
+img, svg, video { max-width: 100%; height: auto; }
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-accent-fg);
+}
+
+.sr-only {
+  position: absolute; inline-size: 1px; block-size: 1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.skip:focus-visible {
+  position: fixed; inset-block-start: 1rem; inset-inline-start: 1rem; z-index: 100;
+  inline-size: auto; block-size: auto; clip: auto; overflow: visible;
+  background: var(--color-accent); color: var(--color-accent-fg);
+  padding: 0.75rem 1.25rem; white-space: normal;
+}
+
+.container-page {
+  inline-size: 100%;
+  max-inline-size: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--spacing-gutter);
+}
+.py-section { padding-block: var(--spacing-section); }
+.tnum { font-variant-numeric: tabular-nums; }
+.serif { font-family: var(--font-display); }
+
+/* 罫線グリッド — 診察券・カルテの質感 */
+.rule-grid {
+  background-image:
+    linear-gradient(to right, var(--color-border) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-border) 1px, transparent 1px);
+  background-size: 88px 88px;
+}
+
+/* 見出し上のラベル。トラッキングを開いて格式を出す */
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking-wide);
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+/* ── ボタン ────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.625rem;
+  border-radius: var(--radius-sm);
+  font-weight: 500; letter-spacing: 0.04em; text-decoration: none; cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color var(--dur-base) var(--ease-out),
+              color var(--dur-base) var(--ease-out),
+              border-color var(--dur-base) var(--ease-out);
+}
+.btn--md { min-block-size: 2.75rem; padding-inline: 1.5rem; font-size: var(--text-sm); }
+.btn--lg { min-block-size: 3.5rem; padding-inline: 2rem; font-size: var(--text-base); }
+.btn--accent { background: var(--color-accent); color: var(--color-accent-fg); }
+.btn--accent:hover { background: var(--color-accent-hover); }
+.btn--navy { background: var(--color-navy); color: var(--color-navy-fg); }
+.btn--navy:hover { background: var(--color-navy); filter: brightness(1.12); }
+.btn--outline { background: transparent; color: var(--color-fg); border-color: var(--color-border-firm); }
+.btn--outline:hover { border-color: var(--color-accent); color: var(--color-accent); }
+.btn--block { inline-size: 100%; }
+
+/* ── ヘッダー ──────────────────────────────────── */
+.site-header {
+  position: sticky; inset-block-start: 0; z-index: 50;
+  background: var(--color-bg);
+  border-block-end: 1px solid transparent;
+  transition: background-color var(--dur-base), border-color var(--dur-base);
+}
+.site-header.is-scrolled {
+  border-block-end-color: var(--color-border);
+  background: color-mix(in oklab, var(--color-bg) 94%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+/* 診療時間バー: 病院サイトで最も参照される情報を最上部に固定 */
+.hours-bar { display: none; }
+@media (min-width: 1024px) {
+  .hours-bar {
+    display: block;
+    border-block-end: 1px solid var(--color-border);
+    background: var(--color-navy); color: var(--color-navy-fg);
+  }
+}
+.hours-bar__in {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1.5rem; padding-block: 0.375rem;
+}
+.hours-bar__txt { font-size: var(--text-2xs); letter-spacing: 0.06em; }
+.hours-bar__txt span { color: var(--color-navy-fg-dim); }
+.hours-bar__links { display: flex; align-items: center; gap: 1.25rem; }
+.hours-bar__links a {
+  display: inline-flex; align-items: center; min-block-size: 2rem;
+  font-size: var(--text-2xs); letter-spacing: 0.06em; text-decoration: none;
+  color: var(--color-navy-fg-dim);
+  transition: color var(--dur-fast);
+}
+.hours-bar__links a:hover { color: var(--color-navy-fg); }
+
+.header-row {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1.5rem; padding-block: 0.875rem;
+}
+@media (min-width: 768px) { .header-row { padding-block: 1rem; } }
+
+.brand { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+.brand__mark {
+  display: grid; place-items: center; flex: none;
+  inline-size: 2.75rem; block-size: 2.75rem;
+  border-radius: var(--radius-sm);
+  background: var(--color-accent); color: var(--color-accent-fg);
+  font-family: var(--font-display); font-size: 1.4rem; line-height: 1;
+}
+.brand__text { display: flex; flex-direction: column; line-height: 1; }
+.brand__name {
+  font-family: var(--font-display); font-size: var(--text-xl);
+  font-weight: 700; letter-spacing: 0.04em;
+}
+.brand__sub {
+  margin-block-start: 0.25rem; font-size: var(--text-2xs);
+  letter-spacing: 0.1em; color: var(--color-fg-subtle);
+}
+
+.nav-desktop { display: none; }
+@media (min-width: 1024px) { .nav-desktop { display: block; } }
+.nav-desktop ul { display: flex; align-items: center; gap: 0.25rem; list-style: none; padding: 0; }
+.nav-desktop a {
+  position: relative; display: block; padding: 0.5rem 0.875rem;
+  font-size: var(--text-sm); font-weight: 500; text-decoration: none;
+  transition: color var(--dur-base);
+}
+.nav-desktop a::after {
+  content: ""; position: absolute; inset-block-end: 0.25rem; inset-inline: 0.875rem;
+  block-size: 1px; background: var(--color-accent);
+  transform-origin: 0 50%; scale: 0 1;
+  transition: scale var(--dur-base) var(--ease-out);
+}
+.nav-desktop a:hover { color: var(--color-accent); }
+.nav-desktop a:hover::after { scale: 1 1; }
+
+.header-right { display: flex; align-items: center; gap: 0.75rem; }
+.header-tel { display: none; }
+@media (min-width: 768px) {
+  .header-tel {
+    display: flex; align-items: center; gap: 0.625rem;
+    min-block-size: 2.75rem;
+    padding-inline-start: 1.25rem; border-inline-start: 1px solid var(--color-border);
+    text-decoration: none;
+  }
+}
+.header-tel span { display: flex; flex-direction: column; line-height: 1; }
+.header-tel .k { font-size: var(--text-2xs); letter-spacing: 0.12em; color: var(--color-fg-subtle); }
+.header-tel .v {
+  margin-block-start: 0.25rem; font-family: var(--font-display);
+  font-size: var(--text-xl); font-weight: 700; color: var(--color-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.burger {
+  display: grid; place-items: center;
+  inline-size: 2.75rem; block-size: 2.75rem;
+  border: 1px solid var(--color-border-firm); border-radius: var(--radius-sm);
+  background: none; color: inherit; cursor: pointer;
+  transition: border-color var(--dur-base);
+}
+.burger:hover { border-color: var(--color-accent); }
+@media (min-width: 1024px) { .burger { display: none; } }
+.burger__box { position: relative; display: block; inline-size: 1.25rem; block-size: 0.875rem; }
+.burger__box i {
+  position: absolute; inset-inline-start: 0; display: block;
+  inline-size: 100%; block-size: 1px; background: var(--color-fg);
+  transition: transform var(--dur-base) var(--ease-out), opacity var(--dur-fast);
+}
+.burger__box i:nth-child(1) { inset-block-start: 0; }
+.burger__box i:nth-child(2) { inset-block-start: 50%; }
+.burger__box i:nth-child(3) { inset-block-start: 100%; }
+.burger[aria-expanded="true"] .burger__box i:nth-child(1) { inset-block-start: 50%; transform: rotate(45deg); }
+.burger[aria-expanded="true"] .burger__box i:nth-child(2) { opacity: 0; }
+.burger[aria-expanded="true"] .burger__box i:nth-child(3) { inset-block-start: 50%; transform: rotate(-45deg); }
+
+.nav-mobile {
+  display: none;
+  max-block-size: calc(100dvh - 4.5rem); overflow-y: auto;
+  border-block-start: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+.nav-mobile.is-open { display: block; }
+@media (min-width: 1024px) { .nav-mobile { display: none !important; } }
+.nav-mobile ul { list-style: none; padding: 0.5rem 0; margin: 0; }
+.nav-mobile li + li { border-block-start: 1px solid var(--color-border); }
+.nav-mobile__main {
+  display: flex; flex-direction: column; justify-content: center; gap: 0.125rem;
+  min-block-size: 3.5rem; padding-block: 0.75rem; text-decoration: none;
+}
+.nav-mobile__main b { font-size: var(--text-lg); font-weight: 500; }
+.nav-mobile__main small { font-size: var(--text-xs); color: var(--color-fg-subtle); }
+.nav-mobile__sub {
+  display: flex; align-items: center; min-block-size: 3rem;
+  padding-block: 0.5rem; font-size: var(--text-sm);
+  color: var(--color-fg-muted); text-decoration: none;
+}
+.nav-mobile__cta { padding-block: 0.5rem 1.5rem; }
+
+/* ── ヒーロー ──────────────────────────────────── */
+.hero { position: relative; overflow: hidden; border-block-end: 1px solid var(--color-border); }
+.hero__bg { position: absolute; inset: 0; pointer-events: none; opacity: 0.55; }
+.hero__fade {
+  position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to bottom,
+    transparent, color-mix(in oklab, var(--color-bg) 60%, transparent), var(--color-bg));
+}
+.hero__in { position: relative; }
+.hero__grid {
+  display: grid; grid-template-columns: 1fr; align-items: start;
+  gap: 3rem 2.5rem; padding-block: 3.5rem;
+}
+@media (min-width: 768px) { .hero__grid { padding-block: 5rem; } }
+@media (min-width: 1024px) {
+  .hero__grid { grid-template-columns: repeat(12, minmax(0, 1fr)); padding-block: 6rem; }
+  .hero__copy { grid-column: span 7; }
+  .hero__aside { grid-column: 8 / span 5; }
+}
+.hero__title { font-size: var(--text-hero); font-weight: 700; line-height: 1.18; }
+.hero__lead {
+  margin-block-start: 2rem; max-inline-size: 28em;
+  font-size: var(--text-lg); line-height: 1.9; color: var(--color-fg-muted);
+}
+.hero__acts { display: flex; flex-direction: column; gap: 0.75rem; margin-block-start: 2.5rem; }
+@media (min-width: 640px) { .hero__acts { flex-direction: row; flex-wrap: wrap; } }
+
+/* 診療時間カード */
+.hours-card { border: 1px solid var(--color-border-firm); background: var(--color-surface); box-shadow: var(--shadow-md); }
+.hours-card__h {
+  border-block-end: 1px solid var(--color-border-firm);
+  background: var(--color-navy); color: var(--color-navy-fg);
+  padding: 0.75rem 1.5rem;
+  font-size: var(--text-2xs); letter-spacing: var(--tracking-wide);
+}
+.hours-card__row {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 1rem; padding: 1rem 1.5rem;
+  border-block-end: 1px solid var(--color-border);
+}
+.hours-card__row dt { font-size: var(--text-sm); color: var(--color-fg-muted); }
+.hours-card__row dd {
+  font-family: var(--font-display); font-size: var(--text-2xl);
+  font-weight: 700; font-variant-numeric: tabular-nums;
+}
+.hours-card__row dd i { font-style: normal; margin-inline: 0.25rem; color: var(--color-fg-subtle); }
+.hours-card__note { padding: 1rem 1.5rem; border-block-end: 1px solid var(--color-border); }
+.hours-card__note p { font-size: var(--text-xs); line-height: 1.75; color: var(--color-fg-muted); }
+.hours-card__tel {
+  border-block-start: 1px solid var(--color-border-firm);
+  background: var(--color-surface-alt); padding: 1.25rem 1.5rem;
+}
+.hours-card__tel .k { font-size: var(--text-2xs); letter-spacing: 0.12em; color: var(--color-fg-subtle); }
+.hours-card__tel a {
+  display: inline-flex; align-items: center; min-block-size: 2.75rem;
+  margin-block-start: 0.375rem;
+  font-family: var(--font-display); font-size: var(--text-3xl);
+  font-weight: 700; line-height: 1; color: var(--color-accent);
+  text-decoration: none; font-variant-numeric: tabular-nums;
+  transition: color var(--dur-base);
+}
+.hours-card__tel a:hover { color: var(--color-accent-hover); }
+.hours-card__tel .addr { margin-block-start: 0.5rem; font-size: var(--text-xs); color: var(--color-fg-muted); }
+
+/* 3本柱 */
+.pillars {
+  display: grid; grid-template-columns: 1fr;
+  border-block-start: 1px solid var(--color-border-firm);
+  list-style: none; padding: 0; margin: 0;
+}
+@media (min-width: 640px) { .pillars { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.pillars li { padding-block: 1.5rem; }
+@media (min-width: 640px) {
+  .pillars li { padding-inline: 1.5rem; }
+  .pillars li:first-child { padding-inline-start: 0; }
+  .pillars li:last-child { padding-inline-end: 0; }
+}
+.pillars li + li { border-block-start: 1px solid var(--color-border); }
+@media (min-width: 640px) {
+  .pillars li + li { border-block-start: 0; border-inline-start: 1px solid var(--color-border); }
+}
+.pillars__n { font-family: var(--font-display); font-size: var(--text-sm); font-weight: 700; color: var(--color-accent); }
+.pillars__t { margin-block-start: 0.5rem; font-size: var(--text-lg); font-weight: 700; }
+.pillars__b { margin-block-start: 0.375rem; font-size: var(--text-sm); line-height: 1.75; color: var(--color-fg-muted); }
+
+/* ── セクション見出し ──────────────────────────── */
+.sec-head {
+  display: flex; flex-direction: column; gap: 1rem 2rem;
+  margin-block-end: 2.5rem; padding-block-start: 1.5rem;
+  border-block-start: 1px solid var(--color-border-firm);
+}
+@media (min-width: 768px) {
+  .sec-head { margin-block-end: 3.5rem; flex-direction: row; align-items: flex-end; }
+  .sec-head--between { justify-content: space-between; }
+}
+.sec-head h2 { font-size: var(--text-3xl); }
+.sec-head .eyebrow { margin-block-end: 0.75rem; }
+.sec-head__aside { flex: none; }
+
+/* ── お知らせ ──────────────────────────────────── */
+.news { border-block-start: 1px solid var(--color-border); list-style: none; padding: 0; margin: 0; }
+.news li { border-block-end: 1px solid var(--color-border); }
+.news a {
+  display: grid; grid-template-columns: auto 1fr;
+  align-items: baseline; gap: 0.5rem 1.25rem;
+  padding-block: 1.25rem; text-decoration: none;
+  transition: background-color var(--dur-base);
+}
+@media (min-width: 768px) {
+  .news a { grid-template-columns: 7.5rem 5.5rem 1fr; padding-inline: 0.5rem; }
+}
+.news a:hover { background: var(--color-surface); }
+.news time {
+  font-size: var(--text-sm); letter-spacing: 0.04em;
+  color: var(--color-fg-subtle); font-variant-numeric: tabular-nums;
+}
+.news__cat {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-inline-size: 4.5rem; padding: 0.25rem 0.625rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-2xs); font-weight: 700; letter-spacing: 0.08em;
+}
+.news__cat--important { background: var(--color-accent); color: var(--color-accent-fg); }
+.news__cat--outpatient { background: var(--color-navy); color: var(--color-navy-fg); }
+.news__cat--info {
+  background: var(--color-surface-alt); color: var(--color-fg-muted);
+  border: 1px solid var(--color-border-firm);
+}
+.news__title {
+  grid-column: span 2; font-size: var(--text-base);
+  line-height: var(--leading-snug);
+  transition: color var(--dur-base);
+}
+@media (min-width: 768px) { .news__title { grid-column: span 1; } }
+.news a:hover .news__title { color: var(--color-accent); }
+
+/* ── 診療科 ────────────────────────────────────── */
+.depts-wrap { border-block: 1px solid var(--color-border); background: var(--color-surface); }
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.depts {
+  inline-size: 100%; min-inline-size: 42rem;
+  border-collapse: collapse; text-align: start;
+}
+.depts thead tr { border-block: 1px solid var(--color-border-firm); background: var(--color-surface-alt); }
+.depts th, .depts td { text-align: start; }
+.depts thead th {
+  padding: 0.875rem 1rem;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.1em;
+  color: var(--color-fg-muted); white-space: nowrap;
+}
+.depts tbody tr { border-block-end: 1px solid var(--color-border); transition: background-color var(--dur-base); }
+.depts tbody tr:hover { background: var(--color-bg); }
+.depts tbody th { padding: 1rem; vertical-align: top; font-weight: 400; }
+.depts tbody td { padding: 1rem; vertical-align: top; font-size: var(--text-sm); }
+.depts__name { display: block; font-family: var(--font-display); font-size: var(--text-lg); font-weight: 700; }
+.depts__en { display: block; margin-block-start: 0.125rem; font-size: var(--text-2xs); letter-spacing: 0.08em; color: var(--color-fg-subtle); }
+.depts__note { display: block; margin-block-start: 0.375rem; font-size: var(--text-xs); color: var(--color-accent); }
+.depts__floor { color: var(--color-fg-muted); }
+.depts__am { font-variant-numeric: tabular-nums; }
+.depts__pm { color: var(--color-fg-muted); font-variant-numeric: tabular-nums; }
+
+/* 専門外来 */
+.clinics {
+  display: grid; grid-template-columns: 1fr; gap: 1px;
+  margin-block-start: 3rem;
+  border: 1px solid var(--color-border-firm); background: var(--color-border-firm);
+}
+@media (min-width: 640px) { .clinics { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.clinic {
+  display: flex; flex-direction: column; justify-content: space-between; gap: 1.5rem;
+  background: var(--color-surface); padding: 1.75rem; text-decoration: none;
+  transition: background-color var(--dur-base);
+}
+.clinic:hover { background: var(--color-accent-soft); }
+.clinic h3 { font-size: var(--text-2xl); font-weight: 700; }
+.clinic p { margin-block-start: 0.625rem; font-size: var(--text-sm); line-height: 1.75; color: var(--color-fg-muted); }
+.clinic__more {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-size: var(--text-sm); font-weight: 500; color: var(--color-accent);
+}
+.clinic__more i { font-style: normal; transition: translate var(--dur-base) var(--ease-out); }
+.clinic:hover .clinic__more i { translate: 0.25rem 0; }
+
+/* ── よく見られるご案内 ────────────────────────── */
+.quick {
+  display: grid; grid-template-columns: 1fr; gap: 1px;
+  border: 1px solid var(--color-border-firm); background: var(--color-border-firm);
+  list-style: none; padding: 0; margin: 0;
+}
+@media (min-width: 640px) { .quick { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .quick { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.quick a {
+  display: flex; flex-direction: column; justify-content: space-between; gap: 1rem;
+  min-block-size: 8.5rem; background: var(--color-bg); padding: 1.5rem;
+  text-decoration: none; transition: background-color var(--dur-base);
+}
+.quick a:hover { background: var(--color-surface); }
+.quick__n {
+  font-family: var(--font-display); font-size: var(--text-xs);
+  color: var(--color-fg-subtle); font-variant-numeric: tabular-nums;
+  transition: color var(--dur-base);
+}
+.quick a:hover .quick__n { color: var(--color-accent); }
+.quick__t { display: block; font-size: var(--text-lg); font-weight: 700; }
+.quick__c { display: block; margin-block-start: 0.25rem; font-size: var(--text-xs); line-height: 1.75; color: var(--color-fg-muted); }
+
+/* ── アクセス ──────────────────────────────────── */
+.access-wrap { border-block: 1px solid var(--color-border); background: var(--color-surface); }
+.access__grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; }
+@media (min-width: 1024px) {
+  .access__grid { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 3rem; }
+  .access__info { grid-column: span 5; }
+  .access__map { grid-column: span 7; }
+}
+.access__name { font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 700; }
+.access__addr { margin-block-start: 1rem; font-size: var(--text-base); line-height: 1.75; color: var(--color-fg-muted); }
+.access__telwrap { margin-block-start: 1.25rem; }
+.access__telk { display: block; font-size: var(--text-2xs); letter-spacing: 0.12em; color: var(--color-fg-subtle); }
+.access__tel {
+  display: inline-flex; align-items: center; min-block-size: 2.75rem;
+  margin-block-start: 0.25rem;
+  font-family: var(--font-display); font-size: var(--text-3xl);
+  font-weight: 700; line-height: 1; color: var(--color-accent);
+  text-decoration: none; font-variant-numeric: tabular-nums;
+  transition: color var(--dur-base);
+}
+.access__tel:hover { color: var(--color-accent-hover); }
+.access__telnote { margin-inline-start: 0.5rem; font-size: var(--text-sm); color: var(--color-fg-muted); }
+.routes { margin-block-start: 2.25rem; border-block-start: 1px solid var(--color-border-firm); }
+.routes__r {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+  gap: 0.25rem 1rem; padding-block: 1rem;
+  border-block-end: 1px solid var(--color-border);
+}
+.routes__r dt { font-size: var(--text-sm); color: var(--color-fg-muted); }
+.routes__r dt b { margin-inline-start: 0.25rem; color: var(--color-fg); }
+.routes__r dd { font-size: var(--text-sm); font-weight: 500; font-variant-numeric: tabular-nums; }
+
+.map-box {
+  position: relative; aspect-ratio: 4 / 3; inline-size: 100%;
+  overflow: hidden; border: 1px solid var(--color-border-firm);
+  background: var(--color-surface-alt);
+}
+.map-box iframe { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; border: 0; }
+.map-facade {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem;
+  background: none; border: 0; color: inherit; font: inherit; cursor: pointer;
+  transition: background-color var(--dur-base);
+}
+.map-facade:hover { background: var(--color-bg); }
+.map-facade b { font-family: var(--font-display); font-size: var(--text-lg); font-weight: 700; }
+.map-facade small {
+  max-inline-size: 22em; text-align: center;
+  font-size: var(--text-xs); line-height: 1.75; color: var(--color-fg-muted);
+}
+
+/* ── FAQ ───────────────────────────────────────── */
+.faq__grid { display: grid; grid-template-columns: 1fr; gap: 0 3rem; }
+@media (min-width: 1024px) {
+  .faq__grid { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+  .faq__list { grid-column: span 8; }
+  .faq__aside { grid-column: span 4; }
+}
+.faq { border-block-start: 1px solid var(--color-border-firm); list-style: none; padding: 0; margin: 0; }
+.faq li { border-block-end: 1px solid var(--color-border); }
+.faq summary {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 1.5rem;
+  padding-block: 1.25rem; cursor: pointer; list-style: none;
+  transition: color var(--dur-base);
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary:hover { color: var(--color-accent); }
+.faq summary h3 { font-size: var(--text-lg); font-weight: 700; line-height: var(--leading-snug); }
+.faq__plus {
+  display: grid; place-items: center; flex: none;
+  inline-size: 1.5rem; block-size: 1.5rem; margin-block-start: 0.25rem;
+  color: var(--color-accent);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.faq details[open] .faq__plus { transform: rotate(45deg); }
+.faq__a {
+  max-inline-size: var(--measure);
+  padding-block-end: 1.5rem; padding-inline-end: 2.5rem;
+  font-size: var(--text-base); line-height: 1.9; color: var(--color-fg-muted);
+}
+.faq__aside { margin-block-start: 2.5rem; }
+@media (min-width: 1024px) { .faq__aside { margin-block-start: 0; } }
+.faq__card { border: 1px solid var(--color-border-firm); background: var(--color-surface); padding: 1.75rem; }
+.faq__card h3 { font-size: var(--text-xl); font-weight: 700; }
+.faq__card p { margin-block-start: 0.75rem; font-size: var(--text-sm); line-height: 1.75; color: var(--color-fg-muted); }
+.faq__card .btn { margin-block-start: 1.5rem; }
+
+/* ── フッター ──────────────────────────────────── */
+.site-footer {
+  border-block-start: 1px solid var(--color-border-firm);
+  background: var(--color-navy); color: var(--color-navy-fg);
+}
+.footer__group { border-block-end: 1px solid color-mix(in oklab, var(--color-navy-fg) 12%, transparent); }
+.footer__group-in { padding-block: 2.5rem; }
+.footer__group-h { margin-block-end: 1.25rem; font-size: var(--text-2xs); letter-spacing: var(--tracking-wide); color: var(--color-navy-fg-dim); }
+.facilities {
+  display: grid; grid-template-columns: 1fr; gap: 1px;
+  background: color-mix(in oklab, var(--color-navy-fg) 12%, transparent);
+  list-style: none; padding: 0; margin: 0;
+}
+/* minmax(0,1fr) にしないと、施設名が長い列だけトラックが広がり
+   コンテナからはみ出す（1fr の最小値は auto のため）。768px で実測して発覚。 */
+@media (min-width: 640px) { .facilities { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+/* 罫線は ul の背景（半透明）で描いているため、li に地色を持たせないと
+   「文字色 vs 罫線色」で判定され、白地に白と誤読される。
+   見た目は同じだが、li にも紺を敷いて背景の連鎖を切る。 */
+.facilities li { background: var(--color-navy); }
+.facilities a {
+  display: flex; flex-direction: column; gap: 0.375rem; block-size: 100%;
+  background: var(--color-navy); padding: 1.25rem; text-decoration: none;
+  transition: background-color var(--dur-base);
+}
+.facilities a:hover { background: color-mix(in oklab, var(--color-navy) 88%, var(--color-navy-fg)); }
+.facilities__type { font-size: var(--text-2xs); letter-spacing: 0.1em; color: var(--color-navy-fg-dim2); }
+.facilities__name { font-family: var(--font-display); font-size: var(--text-lg); font-weight: 700; }
+
+.footer__grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; padding-block: 3.5rem; }
+@media (min-width: 1024px) {
+  .footer__grid { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+  .footer__nap { grid-column: span 5; }
+  .footer__menu { grid-column: span 4; }
+  .footer__info { grid-column: span 3; }
+}
+.footer__brand { display: flex; align-items: center; gap: 0.75rem; }
+.footer__name { font-family: var(--font-display); font-size: var(--text-xl); font-weight: 700; letter-spacing: 0.04em; }
+.footer__addr { margin-block-start: 1.5rem; font-style: normal; }
+.footer__addr p { font-size: var(--text-sm); line-height: 1.75; color: var(--color-navy-fg-dim); }
+.footer__tel {
+  display: inline-flex; align-items: center; min-block-size: 2.75rem;
+  font-family: var(--font-display); font-size: var(--text-2xl);
+  font-weight: 700; line-height: 1; text-decoration: none;
+  font-variant-numeric: tabular-nums;
+  transition: color var(--dur-base);
+}
+.footer__tel:hover { color: var(--color-navy-fg-dim); }
+.footer__telnote { margin-inline-start: 0.5rem; font-size: var(--text-xs); color: var(--color-navy-fg-dim2); }
+.footer__hours { margin-block-start: 1.25rem; max-inline-size: 26em; font-size: var(--text-xs); line-height: 1.75; color: var(--color-navy-fg-dim2); }
+.footer__h { margin-block-end: 1rem; font-size: var(--text-2xs); letter-spacing: var(--tracking-wide); color: var(--color-navy-fg-dim); }
+.footer__menu ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem 1.5rem; list-style: none; padding: 0; margin: 0; }
+.footer__info ul { display: flex; flex-direction: column; gap: 0.75rem; list-style: none; padding: 0; margin: 0; }
+.footer__grid a:not(.footer__tel) {
+  display: inline-flex; align-items: center; min-block-size: 2.75rem;
+  font-size: var(--text-sm); text-decoration: none; color: var(--color-navy-fg-dim);
+  transition: color var(--dur-base);
+}
+.footer__grid a:not(.footer__tel):hover { color: var(--color-navy-fg); }
+.footer__bar { border-block-start: 1px solid color-mix(in oklab, var(--color-navy-fg) 12%, transparent); }
+.footer__copy { padding-block: 1.25rem; font-size: var(--text-2xs); letter-spacing: 0.08em; color: var(--color-navy-fg-dim2); }
+
+/* ── Reduced motion ────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

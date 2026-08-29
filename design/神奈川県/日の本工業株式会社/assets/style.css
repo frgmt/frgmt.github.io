@@ -1,0 +1,218 @@
+/* =========================================================
+   日の本工業株式会社 — リニューアル提案
+   ロゴ画像（site_id.png）から画素採取した #f03048。
+   oklch(62.3% .224 20.9) → 面 oklch(50% .16 21) / 文字 oklch(44% .15 21)
+   色相差 0.1°。彩度は .224 → .16（上限まで抑制）。
+
+   注：ウチヤ(28°)・ベニー精工(29°)とは 7〜8° 離れているが、
+   赤が3社目なので分離軸を明示する。
+   ・地：やや青みの冷たいグレー（hue 240）。他2社は無彩色／黄み
+   ・署名的装置：34行の通し番号つき設備台帳（棒でも表でもない）
+   ・書体：Noto Serif JP（明朝）を見出しに。他2社はゴシック
+   ・律動：番号を大きく振った縦一列。カードを使わない
+   ========================================================= */
+
+:root{
+  --bg:        oklch(100% 0 0);
+  --plate:     oklch(96.8% .006 240);
+  --plate2:    oklch(93.6% .01 240);
+  --rule:      oklch(87.5% .008 240);
+  --rule-thin: oklch(93.4% .005 240);
+
+  --ink:       oklch(22% .012 240);
+  --ink-mid:   oklch(42% .011 240);
+  --ink-low:   oklch(50% .01 240);
+
+  --sun:       oklch(50% .16 21);
+  --sun-ink:   oklch(44% .15 21);
+  --sun-wash:  oklch(97% .015 21);
+  --sun-lift:  oklch(62% .2 21);
+
+  --ff-d: "Noto Serif JP", "Yu Mincho", "Hiragino Mincho ProN", serif;
+  --ff-t: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  --ff-n: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --fs-h1: clamp(1.82rem, 1.05rem + 3vw, 2.92rem);
+  --fs-h2: clamp(1.32rem, 1.05rem + 1.3vw, 1.8rem);
+  --fs-h3: clamp(1.02rem, .94rem + .4vw, 1.18rem);
+  --fs-b:  clamp(.95rem, .9rem + .22vw, 1.02rem);
+  --fs-s:  clamp(.82rem, .79rem + .14vw, .88rem);
+
+  --gut: clamp(1.15rem, .5rem + 2.6vw, 3.4rem);
+  --bay: clamp(3.4rem, 2rem + 5.2vw, 6.4rem);
+  --r-s: 3px;
+
+  --ez: cubic-bezier(.24,.7,.3,1);
+  --t1: 130ms; --t2: 220ms; --t3: 340ms;
+}
+
+*,*::before,*::after{ box-sizing:border-box }
+html{ -webkit-text-size-adjust:100% }
+body{ margin:0; background:var(--bg); color:var(--ink); font-family:var(--ff-t); font-size:var(--fs-b); line-height:1.85; font-feature-settings:"palt" 1; -webkit-font-smoothing:antialiased }
+img,iframe{ max-width:100%; display:block }
+h1,h2,h3{ line-height:1.34; font-weight:700; margin:0 }
+p{ margin:0 }
+:focus-visible{ outline:3px solid var(--sun); outline-offset:3px; border-radius:2px }
+
+.hold{ width:min(100% - var(--gut)*2, 1130px); margin-inline:auto }
+.leap{ position:absolute; left:-9999px; background:var(--sun-ink); color:#fff; padding:.7rem 1.1rem; z-index:99 }
+.leap:focus{ left:0; top:0 }
+
+/* ══ ヘッダー：識別＝「試作専業であることを掲げる」 ══ */
+.cap{ position:sticky; top:0; z-index:40; background:oklch(100% 0 0 / .95); backdrop-filter:blur(9px); border-bottom:1px solid var(--rule) }
+.cap__bar{ background:var(--sun-ink); color:#fff }
+.cap__bar .hold{ display:flex; flex-wrap:wrap; gap:.3rem 1.2rem; justify-content:space-between; align-items:center; padding-block:.4rem }
+.only{ margin:0; font-size:var(--fs-s); color:#fff; letter-spacing:.05em }
+.only b{ font-weight:700 }
+.bar__t{ font-size:var(--fs-s); color:#fff; text-decoration:none; font-weight:700; letter-spacing:.04em; min-height:44px; display:inline-flex; align-items:center }
+.bar__t:hover{ text-decoration:underline }
+
+.cap__in{ display:flex; align-items:center; justify-content:space-between; gap:1rem; padding-block:.8rem }
+.sign{ text-decoration:none; color:var(--ink); display:flex; flex-direction:column; justify-content:center; min-height:46px }
+.sign__j{ font-family:var(--ff-d); font-size:clamp(1.24rem, 1rem + .82vw, 1.6rem); font-weight:700; letter-spacing:.1em; line-height:1.2 }
+.sign__r{ font-size:.69rem; color:var(--ink-mid); letter-spacing:.11em; margin-top:.2rem }
+
+.helm{ display:flex; align-items:center; gap:clamp(.85rem, 2vw, 1.5rem) }
+.helm a{ color:var(--ink); text-decoration:none; font-size:var(--fs-s); font-weight:500; letter-spacing:.03em; min-height:44px; display:inline-flex; align-items:center; position:relative }
+.helm a::after{ content:""; position:absolute; left:0; right:100%; bottom:.5rem; height:2px; background:var(--sun); transition:right var(--t2) var(--ez) }
+.helm a:hover::after{ right:0 }
+.helm__go{ background:var(--sun-ink); color:#fff!important; padding:0 1.1rem!important; border-radius:var(--r-s); font-weight:700; transition:background var(--t2) var(--ez) }
+.helm__go::after{ display:none }
+.helm__go:hover{ background:color-mix(in oklab, var(--sun-ink) 80%, #000) }
+
+.tog{ display:none; width:46px; height:46px; border:1px solid var(--rule); background:var(--bg); border-radius:var(--r-s); cursor:pointer; align-items:center; justify-content:center; flex-direction:column; gap:5px }
+.tog span{ display:block; width:19px; height:2px; background:var(--ink) }
+
+/* ══ 幕開け ══ */
+.gate{ padding-block:clamp(2.7rem, 1.8rem + 4.2vw, 5rem) clamp(2.2rem, 1.5rem + 2.6vw, 3.6rem); position:relative; overflow:hidden }
+.gate::before{ content:""; position:absolute; inset:0; background:linear-gradient(177deg, var(--sun-wash), transparent 52%); pointer-events:none }
+.gate .hold{ position:relative }
+.gate__k{ display:inline-block; font-family:var(--ff-n); font-size:.74rem; font-weight:700; letter-spacing:.15em; color:var(--sun-ink); border-left:3px solid var(--sun); padding-left:.7rem; margin-bottom:1.25rem }
+.gate__h{ font-family:var(--ff-d); font-size:var(--fs-h1); letter-spacing:.02em; max-width:19em }
+.gate__h em{ font-style:normal; color:var(--sun-ink) }
+.gate__p{ margin-top:1.35rem; max-width:43em; color:var(--ink-mid); font-size:clamp(1rem, .94rem + .3vw, 1.08rem) }
+.gate__acts{ display:flex; flex-wrap:wrap; gap:.75rem; margin-top:1.9rem }
+.go{ display:inline-flex; align-items:center; gap:.5rem; min-height:48px; padding:.72rem 1.5rem; border-radius:var(--r-s); text-decoration:none; font-weight:700; font-size:var(--fs-s); letter-spacing:.04em; transition:background var(--t2) var(--ez), color var(--t2) var(--ez), border-color var(--t2) var(--ez) }
+.go--on{ background:var(--sun-ink); color:#fff; border:2px solid var(--sun-ink) }
+.go--on:hover{ background:color-mix(in oklab, var(--sun-ink) 80%, #000); border-color:color-mix(in oklab, var(--sun-ink) 80%, #000) }
+.go--edge{ background:var(--bg); color:var(--sun-ink); border:2px solid var(--sun) }
+.go--edge:hover{ background:var(--sun-ink); color:#fff; border-color:var(--sun-ink) }
+
+/* ══ できること：番号を大きく振った縦一列 ══ */
+.able{ list-style:none; margin:2.5rem 0 0; padding:0; counter-reset:a; border-top:1px solid var(--rule) }
+.able li{ counter-increment:a; display:grid; grid-template-columns:2.6rem 1fr; gap:.3rem 1.2rem; padding:1.2rem 0; border-bottom:1px solid var(--rule) }
+.able li::before{ content:counter(a,decimal-leading-zero); font-family:var(--ff-n); font-weight:700; font-size:1.15rem; color:var(--sun); line-height:1.2; grid-row:1 / span 2 }
+.able__t{ font-size:var(--fs-h3); font-weight:700 }
+.able__d{ color:var(--ink-mid); font-size:var(--fs-s) }
+
+/* ══ 署名的装置 ── 34行の通し番号つき設備台帳 ══
+   試作板金は「その加工ができる機械があるか」で選ばれる。
+   現行サイトの通し番号をそのまま活かした縦一列の台帳にする。 */
+.reg{ padding-block:clamp(2.4rem, 1.8rem + 3vw, 4.2rem); background:var(--plate) }
+.reg__h{ font-family:var(--ff-d); font-size:var(--fs-h2); letter-spacing:.05em }
+.reg__n{ margin-top:.55rem; font-size:var(--fs-s); color:var(--ink-mid); max-width:46em }
+.ledger{ margin-top:1.9rem; border-top:2px solid var(--ink); background:var(--bg) }
+.row{ display:grid; grid-template-columns:2.4rem 1fr; gap:.25rem .9rem; padding:.85rem .9rem; border-bottom:1px solid var(--rule-thin) }
+.row__no{ font-family:var(--ff-n); font-size:.82rem; font-weight:700; color:var(--sun); text-align:right; padding-top:.15rem }
+.row__n{ font-weight:700; font-size:var(--fs-s) }
+.row__c{ font-family:var(--ff-n); font-size:.8rem; color:var(--sun-ink); font-weight:700 }
+.row__m{ font-size:.76rem; color:var(--ink-low) }
+.row__q{ font-family:var(--ff-n); font-size:.8rem; color:var(--ink-mid); white-space:nowrap }
+.row:hover{ background:var(--sun-wash) }
+.reg__f{ margin-top:1.2rem; font-size:var(--fs-s); color:var(--ink-mid) }
+
+/* ══ 会社概要 ══ */
+.bay{ padding-block:var(--bay) }
+.bay--tint{ background:var(--plate) }
+.hd{ font-family:var(--ff-d); font-size:var(--fs-h2); letter-spacing:.05em }
+.hd__n{ display:block; font-family:var(--ff-n); font-size:.74rem; font-weight:700; letter-spacing:.15em; color:var(--sun-ink); margin-bottom:.5rem }
+.hd__p{ margin-top:.9rem; color:var(--ink-mid); max-width:45em }
+
+.book{ margin:2.3rem 0 0; border-top:2px solid var(--ink) }
+.book__r{ display:grid; grid-template-columns:minmax(7rem,13rem) 1fr; gap:0 clamp(1rem,3vw,2.2rem); border-bottom:1px solid var(--rule-thin); padding:1.05rem 0 }
+.book dt{ font-size:var(--fs-s); font-weight:700; letter-spacing:.06em; color:var(--sun-ink) }
+.book dd{ margin:0 }
+.book dd small{ display:block; color:var(--ink-mid); font-size:var(--fs-s); margin-top:.2rem }
+.book dd a{ min-height:44px; display:inline-flex; align-items:center; font-weight:700; color:var(--sun-ink); text-decoration:none }
+.book dd a:hover{ text-decoration:underline }
+
+/* ══ 理念 ══ */
+.creed{ margin-top:2.2rem; border-left:5px solid var(--sun); padding:1.1rem 0 1.1rem 1.4rem }
+.creed__h{ font-size:var(--fs-h3); font-weight:700 }
+.creed__l{ list-style:none; margin:.8rem 0 0; padding:0; display:grid; gap:.4rem }
+.creed__l li{ font-family:var(--ff-d); color:var(--ink-mid); font-size:1.02rem }
+
+/* ══ 拠点 ══ */
+.sites{ margin-top:2.3rem; display:grid; grid-template-columns:1fr; gap:1.4rem }
+.st{ border:1px solid var(--rule); border-top:3px solid var(--sun); border-radius:var(--r-s); padding:1.4rem 1.35rem; background:var(--bg) }
+.st__n{ font-size:var(--fs-h3); font-weight:700 }
+.st__a{ margin-top:.6rem; font-size:var(--fs-s); color:var(--ink-mid); font-style:normal; line-height:1.95 }
+.st__a a{ color:var(--sun-ink); font-weight:700; text-decoration:none; min-height:44px; display:inline-flex; align-items:center }
+.st__a a:hover{ text-decoration:underline }
+.map{ display:block; width:100%; grid-column:1 / -1; margin-top:1.1rem }
+.map iframe{ display:block; width:100%; height:clamp(15rem, 26vw, 20rem); border:0; border-radius:var(--r-s) }
+
+/* ══ 問い ══ */
+.ask{ margin-top:2.3rem; border-top:1px solid var(--rule) }
+.ask details{ border-bottom:1px solid var(--rule-thin) }
+.ask summary{ cursor:pointer; list-style:none; padding:1.1rem 2.6rem 1.1rem 0; position:relative; font-weight:700; font-size:var(--fs-h3); min-height:44px; display:flex; align-items:center }
+.ask summary::-webkit-details-marker{ display:none }
+.ask summary::after{ content:""; position:absolute; right:.5rem; top:50%; width:11px; height:11px; border-right:2px solid var(--sun); border-bottom:2px solid var(--sun); translate:0 -60%; rotate:45deg; transition:rotate var(--t2) var(--ez) }
+.ask details[open] summary::after{ rotate:225deg; translate:0 -25% }
+.ask summary:hover{ color:var(--sun-ink) }
+.ask__a{ padding:0 0 1.25rem; color:var(--ink-mid); max-width:52em }
+
+.foot{ background:var(--ink); color:oklch(92% .01 240); padding-block:clamp(2.3rem, 1.6rem + 3vw, 3.5rem) }
+.foot__in{ display:grid; grid-template-columns:1fr; gap:1.7rem }
+.foot__n{ font-family:var(--ff-d); font-size:1.24rem; letter-spacing:.1em; color:#fff }
+.foot__a{ margin-top:.7rem; font-style:normal; font-size:var(--fs-s); line-height:2.05; color:oklch(92% .01 240) }
+.foot__a a{ color:#fff; font-weight:700; text-decoration:none; min-height:44px; display:inline-flex; align-items:center }
+.foot__a a:hover{ text-decoration:underline }
+.foot__l{ list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:.5rem 1.4rem }
+.foot__l a{ color:oklch(92% .01 240); text-decoration:none; font-size:var(--fs-s); min-height:44px; display:inline-flex; align-items:center }
+.foot__l a:hover{ color:#fff; text-decoration:underline }
+.foot__c{ margin-top:1.9rem; padding-top:1.1rem; border-top:1px solid oklch(100% 0 0 / .18); font-size:.78rem; color:oklch(87% .01 240) }
+
+@media (min-width:768px){
+  .able li{ grid-template-columns:2.8rem minmax(10rem,15rem) 1fr; gap:.3rem 1.5rem }
+  .able li::before{ grid-row:auto }
+  .row{ grid-template-columns:2.4rem minmax(9rem,14rem) 1fr auto; align-items:baseline }
+  .row__m{ text-align:left }
+  .sites{ grid-template-columns:1fr 1fr }
+  .foot__in{ grid-template-columns:1.35fr 1fr }
+}
+@media (max-width:860px){
+  .tog{ display:flex }
+  .helm{ position:absolute; inset:100% 0 auto; background:var(--bg); border-bottom:1px solid var(--rule); flex-direction:column; align-items:stretch; gap:0; padding:.5rem var(--gut) 1.15rem; box-shadow:0 8px 26px oklch(22% .012 240 / .1) }
+  .helm[hidden]{ display:none }
+  .helm a{ border-bottom:1px solid var(--rule-thin) }
+  .helm a::after{ display:none }
+  .helm__go{ justify-content:center; margin-top:.8rem; border-bottom:0; padding-block:.7rem!important }
+}
+@media (min-width:861px){ .helm{ display:flex!important } }
+@media (max-width:600px){ .book__r{ grid-template-columns:1fr; gap:.3rem } }
+
+/* ══ 動き ══ */
+.js [data-up]{ opacity:0; translate:0 1.1rem }
+.js [data-up].is-in{ opacity:1; translate:0 0; transition:opacity var(--t3) var(--ez), translate var(--t3) var(--ez) }
+.js [data-up].is-in[style*="--d"]{ transition-delay:var(--d) }
+.cap{ transition:box-shadow var(--t2) var(--ez) }
+.cap.is-lift{ box-shadow:0 2px 18px oklch(22% .012 240 / .1) }
+
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion: no-preference){
+    .able__t{ background-image:linear-gradient(var(--sun-lift),var(--sun-lift)); background-repeat:no-repeat; background-position:0 100%; background-size:0% 2px; animation:ul linear both; animation-timeline:view(); animation-range:entry 20% cover 44% }
+  }
+}
+@keyframes ul{ to{ background-size:100% 2px } }
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{ animation-duration:.001ms!important; animation-iteration-count:1!important; transition-duration:.001ms!important }
+  .js [data-up]{ opacity:1!important; translate:none!important }
+}
+@media print{
+  .cap,.leap,.map,.gate__acts{ display:none }
+  body{ color:#000 }
+  .foot{ background:#fff!important; color:#000!important }
+  .foot *{ color:#000!important }
+}

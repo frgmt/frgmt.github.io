@@ -1,0 +1,475 @@
+@charset "utf-8";
+/* ==========================================================================
+   細内金型株式会社
+   Art direction: a mold shop is judged on what it can accept. The page opens
+   with the two numbers that decide that, set as a gate you pass through,
+   then backs them with the full machine list.
+   Signature device: the tonnage gate (two posts and a span, 7t / 1300t).
+   ========================================================================== */
+
+:root {
+  /* periwinkle — sampled from the existing site's bgcolor #ada3fa, used 34×
+     as the structural colour (OKLCH H 288°). Its darker UI blue #4b50e2 is
+     H 274°, so the family is held around 285°. */
+  --night:   oklch(96.5% 0.012 288);
+  --night-2: oklch(95.0% 0.012 288);
+  --page:    oklch(100% 0 285);
+  --page-2:  oklch(94.8% 0.011 285);
+  --tx:      oklch(22% 0.022 288);
+  --tx-2:    oklch(35% 0.020 288);
+  --tx-3:    oklch(47% 0.018 288);      /* 4.5:1 on --page */
+  --on-nt:   oklch(24% 0.006 285);
+  --on-nt-2: oklch(45% 0.012 285);      /* 4.5:1+ on --night */
+
+  --peri:      oklch(50% 0.16 288);
+  --peri-lo:   oklch(50% 0.120 288);
+  --peri-tint: oklch(95% 0.030 288);
+
+  --ln:   oklch(89% 0.008 285);
+  --ln-2: oklch(80% 0.011 285);
+  --ln-d: oklch(37% 0.028 288);
+
+  --dg: oklch(52% 0.020 288);
+
+  --gj: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  --mn: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --x1: clamp(.6875rem, .66rem + .12vw, .75rem);
+  --x2: clamp(.8125rem, .79rem + .12vw, .875rem);
+  --x3: clamp(.9375rem, .9rem + .2vw, 1.0625rem);
+  --x4: clamp(1.0625rem, 1rem + .3vw, 1.25rem);
+  --x5: clamp(1.375rem, 1.15rem + 1vw, 1.875rem);
+  --x6: clamp(1.75rem, 1.3rem + 2vw, 2.625rem);
+  --x7: clamp(2rem, 1.35rem + 3vw, 3.75rem);
+  --x8: clamp(2.75rem, 1.6rem + 5.2vw, 5.5rem);
+
+  --w1:.25rem; --w2:.5rem; --w3:.75rem; --w4:1rem;
+  --w5:1.5rem; --w6:2rem;  --w7:3rem;   --w8:4rem;
+  --w9: clamp(3.25rem, 2rem + 5.5vw, 6rem);
+
+  --gu: clamp(1.25rem, 1rem + 2vw, 1.75rem);
+  --lim: 74rem;
+
+  --q1:3px; --q2:6px; --q3:14px;
+  --shd: 0 2px 12px oklch(23% .03 288 / .10);
+
+  --v1:130ms; --v2:210ms; --v3:330ms; --v4:470ms;
+  --ev:  cubic-bezier(.25,.8,.35,1);
+  --ev2: cubic-bezier(.16,1,.3,1);
+}
+
+*, *::before, *::after { box-sizing:border-box }
+html { -webkit-text-size-adjust:100%; scroll-behavior:smooth; scroll-padding-top:5.5rem }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto } }
+body {
+  margin:0; font-family:var(--gj); font-size:var(--x3); line-height:1.95;
+  color:var(--tx); background:var(--page);
+  -webkit-font-smoothing:antialiased; font-feature-settings:"palt" 1;
+  overflow-wrap:anywhere;
+}
+h1,h2,h3,p,dl,dd,ul,ol,figure { margin:0 }
+ul,ol { padding:0; list-style:none }
+img { max-width:100%; height:auto; display:block }
+a { color:inherit }
+button { font:inherit; color:inherit; background:none; border:0; cursor:pointer }
+table { border-collapse:collapse; width:100% }
+
+:focus-visible { outline:2px solid var(--peri); outline-offset:3px; border-radius:var(--q1) }
+.vis-hidden {
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip-path:inset(50%); white-space:nowrap; border:0;
+}
+.jumpto {
+  position:absolute; left:var(--w4); top:-4rem; z-index:200;
+  padding:var(--w3) var(--w5); background:var(--night); color:var(--tx);
+  font-size:var(--x2); text-decoration:none; border-radius:var(--q2);
+  transition:top var(--v2) var(--ev);
+}
+.jumpto:focus { top:var(--w4) }
+
+.box { width:100%; max-width:var(--lim); margin-inline:auto; padding-inline:var(--gu) }
+
+/* ==========================================================================
+   HEADER — brand + the single capability sentence
+   ========================================================================== */
+.hd {
+  position:sticky; top:0; z-index:100;
+  background:oklch(97.8% .006 285 / .95);
+  backdrop-filter:saturate(1.4) blur(10px);
+  border-block-end:1px solid var(--ln);
+  transition:box-shadow var(--v3) var(--ev);
+}
+.slipped .hd { box-shadow:var(--shd) }
+.hd__row {
+  display:flex; align-items:center; gap:var(--w4);
+  min-height:4.5rem; transition:min-height var(--v3) var(--ev);
+}
+.slipped .hd__row { min-height:3.75rem }
+
+.sig { text-decoration:none; display:inline-flex; align-items:center; min-height:44px }
+.sig__n {
+  font-size:clamp(1.1875rem,1rem + .9vw,1.5rem); font-weight:700;
+  letter-spacing:.12em; color:var(--tx); line-height:1;
+}
+.hd__line {
+  display:none; font-size:var(--x1); letter-spacing:.1em; color:var(--tx-3);
+  padding-inline-start:var(--w4); border-inline-start:1px solid var(--ln-2);
+}
+
+.bg { display:none; margin-inline-start:auto }
+.bg__i, .bg__i::before, .bg__i::after {
+  display:block; width:20px; height:1.5px; background:var(--tx); border-radius:2px;
+  transition:transform var(--v2) var(--ev), opacity var(--v1) var(--ev);
+}
+.bg__i { position:relative }
+.bg__i::before, .bg__i::after { content:""; position:absolute; left:0 }
+.bg__i::before { top:-6px } .bg__i::after { top:6px }
+.bg[aria-expanded="true"] .bg__i { background:transparent }
+.bg[aria-expanded="true"] .bg__i::before { transform:translateY(6px) rotate(45deg) }
+.bg[aria-expanded="true"] .bg__i::after  { transform:translateY(-6px) rotate(-45deg) }
+
+.nv { margin-inline-start:auto }
+.nv ul { display:flex; align-items:center; column-gap:1.15rem; row-gap:0 }
+.nv li { flex:0 0 auto }
+.nv a {
+  white-space:nowrap; text-decoration:none; font-size:var(--x2); font-weight:500;
+  color:var(--tx-2); display:inline-flex; align-items:center; min-height:44px;
+  position:relative; transition:color var(--v1) var(--ev);
+}
+.nv a:not(.nv__go)::after {
+  content:""; position:absolute; inset-inline:0; bottom:.65rem; height:2px;
+  background:var(--peri); transform:scaleX(0); transform-origin:left;
+  transition:transform var(--v2) var(--ev);
+}
+.nv a:not(.nv__go):hover { color:var(--tx) }
+.nv a:not(.nv__go):hover::after { transform:scaleX(1) }
+.nv__go {
+  background:var(--peri); color:#fff !important; padding-inline:1.05rem;
+  border-radius:var(--q2); transition:background var(--v2) var(--ev);
+}
+.nv__go:hover { background: color-mix(in oklab, var(--peri) 82%, #000) }
+
+/* ==========================================================================
+   HERO
+   ========================================================================== */
+.top { padding-block: clamp(2.25rem,1.5rem + 3.5vw,4rem) var(--w9) }
+.top__grid { display:grid; gap:var(--w6) var(--w7); grid-template-columns:1fr; align-items:center }
+.top__tag { font-family:var(--mn); font-size:var(--x2); color:var(--tx-3); letter-spacing:.08em; margin-block-end:var(--w4) }
+.top__h {
+  font-size:var(--x7); font-weight:700; line-height:1.24; letter-spacing:.02em;
+  margin-block-end:var(--w5); text-wrap:balance;
+}
+.top__p { font-size:var(--x4); color:var(--tx-2); line-height:2.05; max-width:34rem; margin-block-end:var(--w6) }
+.top__b { display:flex; flex-wrap:wrap; gap:var(--w3) }
+.go {
+  display:inline-flex; align-items:center; justify-content:center;
+  min-height:3rem; padding:.8rem 1.8rem; background:var(--peri); color:#fff;
+  text-decoration:none; font-size:var(--x2); font-weight:700; letter-spacing:.05em;
+  border-radius:var(--q2); transition:background var(--v2) var(--ev);
+}
+.go:hover { background: color-mix(in oklab, var(--peri) 82%, #000); color: #fff }
+.go--o { background:transparent; color:var(--tx); box-shadow:inset 0 0 0 1.5px var(--ln-2) }
+.go--o:hover { background:var(--peri-tint); color:var(--tx); box-shadow:inset 0 0 0 1.5px var(--peri) }
+
+.top__f { margin:0 }
+.top__f img { width:100%; max-width:28rem; border-radius:var(--q2); background:var(--page-2) }
+.top__f figcaption {
+  margin-block-start:var(--w2); font-family:var(--mn);
+  font-size:var(--x1); color:var(--tx-3); letter-spacing:.04em;
+}
+
+/* ==========================================================================
+   shared caption
+   ========================================================================== */
+.cap {
+  font-size:var(--x6); font-weight:700; letter-spacing:.05em; line-height:1.3;
+  margin-block-end:var(--w3);
+  padding-block-end:var(--w3); border-block-end:3px solid var(--peri);
+  display:inline-block;
+}
+.cap__p { color:var(--tx-2); max-width:44rem; margin-block:var(--w4) var(--w7) }
+.cap--rv { color:var(--on-nt); border-block-end-color:var(--peri-lo) }
+.cap__p--rv { color:var(--on-nt-2) }
+
+/* ==========================================================================
+   SCOPE — the tonnage gate
+   ========================================================================== */
+.scope { background:var(--night); color:var(--on-nt); padding-block:var(--w9) }
+.gate {
+  display:grid; grid-template-columns:1fr; gap:var(--w4);
+  align-items:center; margin-block-end:var(--w7);
+}
+.gpost {
+  border:1px solid var(--ln-d); border-radius:var(--q3);
+  padding:var(--w5); background:var(--night-2); display:grid; gap:var(--w1);
+}
+.gpost__k { font-size:var(--x1); letter-spacing:.14em; color:var(--on-nt-2) }
+.gpost__v {
+  font-family:var(--mn); font-size:var(--x8); font-weight:500;
+  line-height:1; letter-spacing:-.02em; color:var(--on-nt);
+}
+.gpost__v span { font-family:var(--gj); font-size:.3em; font-weight:500; margin-inline-start:.15em; color:var(--peri-lo) }
+.gpost__s { font-size:var(--x2); color:var(--on-nt-2) }
+.gspan {
+  height:2px; background:linear-gradient(to right, var(--ln-d), var(--peri-lo), var(--ln-d));
+  transform-origin:left; border-radius:2px;
+}
+
+.fields { display:flex; flex-wrap:wrap; gap:var(--w3) }
+.fields li {
+  font-size:var(--x2); color:var(--on-nt); letter-spacing:.04em;
+  border:1px solid var(--peri-lo); border-radius:999px; padding:.3em 1em;
+}
+.scope__n { margin-block-start:var(--w4); font-size:var(--x2); color:var(--on-nt-2) }
+
+/* ==========================================================================
+   TRY — molding machines
+   ========================================================================== */
+.try { padding-block:var(--w9) }
+.tryrow { display:grid; gap:var(--w6); grid-template-columns:1fr }
+.mt { font-size:var(--x2); border:1px solid var(--ln); border-radius:var(--q2); overflow:hidden; background:#fff }
+.mt thead th {
+  text-align:left; font-size:var(--x1); font-weight:700; letter-spacing:.11em;
+  color:var(--tx-3); padding:var(--w3) var(--w4);
+  background:var(--page-2); border-block-end:2px solid var(--ln-2);
+}
+.mt tbody th, .mt tbody td {
+  padding:var(--w3) var(--w4); border-block-start:1px solid var(--ln); vertical-align:top; text-align:left;
+}
+.mt tbody th { font-weight:700; background:var(--page-2); border-inline-end:1px solid var(--ln); white-space:nowrap }
+.mt .mono { font-family:var(--mn); color:var(--tx) }
+.mt .mono i { font-style:normal; font-size:.82em; color:var(--tx-3); margin-inline-start:.1em }
+
+.trypix { display:grid; gap:var(--w4); align-content:start }
+.trypix img { width:100%; max-width:20rem; border-radius:var(--q2); background:var(--page-2) }
+.trypix figcaption {
+  margin-block-start:var(--w2); font-family:var(--mn);
+  font-size:var(--x1); color:var(--tx-3); letter-spacing:.04em;
+}
+
+/* ==========================================================================
+   KIT — the machine table
+   ========================================================================== */
+.kit { padding-block:var(--w9); background:var(--page-2); border-block:1px solid var(--ln) }
+.scrollx { overflow-x:auto; border:1px solid var(--ln); border-radius:var(--q2); background:#fff }
+.kt { font-size:var(--x2); min-width:46rem }
+.kt thead th {
+  text-align:left; font-size:var(--x1); font-weight:700; letter-spacing:.11em;
+  color:var(--tx-3); padding:var(--w3) var(--w4);
+  background:var(--page-2); border-block-end:2px solid var(--ln-2);
+  position:sticky; top:0;
+}
+.kt tbody th, .kt tbody td {
+  padding:var(--w3) var(--w4); border-block-start:1px solid var(--ln); vertical-align:top;
+}
+.kt tbody th {
+  text-align:left; font-weight:700; background:var(--page-2);
+  border-inline-end:1px solid var(--ln); white-space:nowrap; line-height:1.5;
+}
+.kt tbody th span { font-weight:400; font-size:.88em; color:var(--tx-3) }
+.kt .mono { font-family:var(--mn); color:var(--tx) }
+.kt__q { width:1%; text-align:right; font-family:var(--mn); white-space:nowrap }
+.kt__hi td, .kt__hi th { background:var(--peri-tint) }
+.kt tbody tr:hover td { background:var(--page-2) }
+.kt__hi:hover td { background:var(--peri-tint) }
+
+/* ==========================================================================
+   CAD
+   ========================================================================== */
+.cad { padding-block:var(--w9) }
+.soft { display:grid; gap:var(--w5); grid-template-columns:1fr }
+.sgrp { background:#fff; border:1px solid var(--ln); border-radius:var(--q2); padding:var(--w5) }
+.sgrp__h {
+  font-size:var(--x2); font-weight:700; letter-spacing:.12em; color:var(--peri);
+  padding-block-end:var(--w2); border-block-end:1px solid var(--ln); margin-block-end:var(--w3);
+}
+.slist { display:grid; gap:0 }
+.slist > div {
+  display:grid; grid-template-columns:1fr auto; gap:var(--w3);
+  padding-block:var(--w2); border-block-end:1px solid var(--ln); align-items:baseline;
+}
+.slist > div:last-child { border-block-end:0 }
+.slist dt { font-family:var(--mn); font-size:var(--x2); color:var(--tx) }
+.slist dd { margin:0; font-size:var(--x1); color:var(--tx-3); text-align:right }
+.slist dd span { display:inline-block; min-width:2.5rem; font-family:var(--mn); color:var(--tx-2); margin-inline-start:var(--w3) }
+
+/* ==========================================================================
+   FIRM
+   ========================================================================== */
+.firm { padding-block:var(--w9); background:var(--page-2); border-block:1px solid var(--ln) }
+.sheet { border-block-start:2px solid var(--tx); max-width:52rem }
+.rw {
+  display:grid; grid-template-columns:1fr; gap:var(--w1) var(--w5);
+  padding-block:var(--w4); border-block-end:1px solid var(--ln);
+}
+.rw dt { font-size:var(--x2); font-weight:700; color:var(--tx-3); letter-spacing:.08em }
+.rw dd { margin:0 }
+.rw__s { font-size:var(--x2); color:var(--tx-3) }
+.rw a { color:var(--peri); text-decoration:none; display:inline-flex; align-items:center; min-height:44px }
+.rw a:hover { text-decoration:underline }
+
+/* ==========================================================================
+   FAQ
+   ========================================================================== */
+.faq { padding-block:var(--w9) }
+.qwrap { max-width:52rem; margin-block-start:var(--w5) }
+.qb { border-block-start:1px solid var(--ln-2) }
+.qb:last-child { border-block-end:1px solid var(--ln-2) }
+.qb summary {
+  display:flex; align-items:flex-start; gap:var(--w4);
+  padding-block:var(--w4); cursor:pointer; list-style:none;
+  transition:color var(--v1) var(--ev);
+}
+.qb summary::-webkit-details-marker { display:none }
+.qb summary h3 { font-size:var(--x3); font-weight:700; line-height:1.6; flex:1; margin:0 }
+.qb summary::after {
+  content:""; flex:0 0 auto; width:12px; height:12px; margin-block-start:.6em;
+  background:
+    linear-gradient(var(--tx-3),var(--tx-3)) center/100% 1.5px no-repeat,
+    linear-gradient(var(--tx-3),var(--tx-3)) center/1.5px 100% no-repeat;
+  transition:transform var(--v3) var(--ev);
+}
+.qb[open] summary::after { transform:rotate(135deg) }
+.qb summary:hover { color:var(--peri) }
+.qb__a { padding-block-end:var(--w5); padding-inline-end:var(--w6) }
+.qb__a p { color:var(--tx-2); font-size:var(--x2); line-height:2 }
+
+/* ==========================================================================
+   CONTACT
+   ========================================================================== */
+.ask { background:var(--night); color:var(--on-nt); padding-block:var(--w9) }
+.ask__grid { display:grid; gap:var(--w7); grid-template-columns:1fr }
+.ask__h { font-size:var(--x6); font-weight:700; letter-spacing:.05em; color:var(--on-nt); margin-block-end:var(--w4) }
+.ask__p { color:var(--on-nt-2); max-width:32rem }
+.ask__b { display:grid; gap:var(--w4); align-content:start }
+.call {
+  display:block; text-decoration:none; padding:var(--w4) var(--w5);
+  background:var(--night-2); border:1px solid var(--ln-d); border-radius:var(--q3);
+  transition:border-color var(--v2) var(--ev), background var(--v2) var(--ev);
+}
+.call:hover { border-color:var(--peri-lo); background:var(--peri-tint) }
+.call__l { display:block; font-size:var(--x1); letter-spacing:.14em; color:var(--on-nt-2); margin-block-end:var(--w2) }
+.call__v {
+  display:block; font-family:var(--mn); font-size:clamp(1.5rem,1.15rem + 1.8vw,2.25rem);
+  font-weight:500; line-height:1.2; color:var(--on-nt);
+}
+.call__v--s { font-size:clamp(.9375rem,.8rem + .7vw,1.25rem) }
+.datanote {
+  padding:var(--w4) var(--w5); border:1px dashed var(--ln-d); border-radius:var(--q3);
+}
+.datanote__h { font-size:var(--x1); letter-spacing:.12em; color:var(--peri-lo); margin-block-end:var(--w2) }
+.datanote__p { font-size:var(--x2); color:var(--on-nt-2); line-height:1.9 }
+.datanote__p b { font-family:var(--mn); color:var(--on-nt); font-weight:500 }
+.ask__f { font-size:var(--x2); color:var(--on-nt-2) }
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.ft { background:var(--page-2); border-block-start:1px solid var(--ln); padding-block-start:var(--w8) }
+.ft__grid { display:grid; gap:var(--w6); grid-template-columns:1fr; padding-block-end:var(--w7) }
+.ft__n { font-size:var(--x4); font-weight:700; letter-spacing:.1em; margin-block-end:var(--w3) }
+.ft__a { font-size:var(--x2); color:var(--tx-2); line-height:1.9 }
+.ft__a a { color:var(--peri); text-decoration:none; display:inline-flex; align-items:center; min-height:44px }
+.ft__a a:hover { text-decoration:underline }
+.ft__nav ul { display:grid; gap:0 }
+.ft__nav li + li { border-block-start:1px solid var(--ln) }
+.ft__nav a {
+  font-size:var(--x2); color:var(--tx-2); text-decoration:none;
+  display:flex; align-items:center; min-height:44px; width:100%;
+  transition:color var(--v1) var(--ev);
+}
+.ft__nav a:hover { color:var(--peri) }
+.ft__x { font-family:var(--mn); font-size:var(--x1); color:var(--tx-3); line-height:1.9 }
+.ft__y { color:var(--tx-2) }
+.ft__e { border-block-start:1px solid var(--ln); padding-block:var(--w4) }
+.ft__e p { font-size:var(--x1); color:var(--tx-3) }
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (min-width:34rem) {
+  .hd__line { display:block }
+}
+@media (min-width:40rem) {
+  .gate { grid-template-columns:1fr auto 1fr; gap:var(--w5) }
+  .gspan { width:clamp(2rem,8vw,7rem) }
+  .soft { grid-template-columns:repeat(2,1fr) }
+  .rw { grid-template-columns:8.5rem 1fr }
+  .trypix { grid-template-columns:repeat(2,1fr) }
+}
+@media (min-width:62rem) {
+  .top__grid { grid-template-columns:minmax(0,1.25fr) minmax(0,1fr) }
+  .soft { grid-template-columns:repeat(3,1fr) }
+  .tryrow { grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) }
+  .trypix { grid-template-columns:1fr }
+  .ask__grid { grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:start }
+  .ft__grid { grid-template-columns:1.6fr 1fr 1fr }
+}
+
+@media (max-width:61.999rem) {
+  .bg { display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px }
+  .hd__line { display:none }
+  .nv {
+    position:absolute; inset-inline:0; top:100%; margin:0;
+    background:var(--page); border-block-end:1px solid var(--ln); box-shadow:var(--shd);
+    display:grid; grid-template-rows:0fr; transition:grid-template-rows var(--v3) var(--ev);
+  }
+  .nv--z { grid-template-rows:1fr }
+  .nv ul { overflow:hidden; flex-direction:column; align-items:stretch; column-gap:0; padding-inline:var(--gu) }
+  .nv--z ul { padding-block:var(--w2) var(--w4) }
+  .nv li { border-block-start:1px solid var(--ln) }
+  .nv li:first-child { border-block-start:0 }
+  .nv a { font-size:var(--x3); min-height:3rem }
+  .nv a:not(.nv__go)::after { display:none }
+  .nv__go { justify-content:center; margin-block-start:var(--w3) }
+  html:not(.js) .nv { grid-template-rows:1fr; position:static; box-shadow:none }
+  html:not(.js) .bg { display:none }
+}
+
+/* ==========================================================================
+   MOTION — the gate span draws itself. Transform-only; opacity is never
+   animated on content.
+   ========================================================================== */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .js .gspan {
+      animation:span linear both; animation-timeline:view(); animation-range:entry 5% cover 28%;
+    }
+  }
+}
+@keyframes span { from { transform:scaleX(.05) } to { transform:scaleX(1) } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration:.001ms !important; animation-iteration-count:1 !important;
+    transition-duration:.001ms !important; scroll-behavior:auto !important;
+  }
+  .js .gspan { transform:scaleX(1) !important }
+}
+
+@media print {
+  .map iframe { display:none }
+  .hd, .bg, .nv, .top__b { display:none }
+  body, .scope, .ask { background:#fff; color:#000 }
+  .cap--rv, .cap__p--rv, .gpost__k, .gpost__v, .gpost__s, .fields li,
+  .scope__n, .ask__h, .ask__p, .call__v, .datanote__p { color:#000 }
+  .qb__a { display:block !important }
+}
+
+/* ==========================================================================
+   MAP (MEO) — a direct lazy iframe per address.
+   `?output=embed` needs no API key; the Static Maps API returns 403 without one.
+
+   These sit inside grid rows (a <dl> row, a card), so without an explicit
+   span they land in the narrow label column — measured at 96x60, unreadable.
+   `grid-column: 1 / -1` makes the map take the whole row wherever it lands.
+   ========================================================================== */
+.map {
+  display:block; width:100%; padding-block-start:.75rem;
+  grid-column: 1 / -1;      /* full width of any grid parent */
+}
+.map iframe {
+  display:block; width:100%;
+  height:clamp(15rem, 26vw, 20rem);
+  border:0; border-radius:8px; background:rgba(128,128,128,.15);
+}

@@ -1,0 +1,453 @@
+/* transform only — an `opacity: 0` start keyframe under
+   `animation-timeline: view()` + `fill: both` pins every below-fold element
+   at opacity 0 for anyone who does not scroll. Measured on this page. */
+@charset "UTF-8";
+
+/* ============================================================
+   大古精機株式会社 — ゲージ・治具・精密測定具（1935年創業）
+   ------------------------------------------------------------
+   Art direction:
+     「ミクロの目を通してオリジン（源）から」（社長の言葉）。
+     数字そのものを図版として組む。1μm / 51機種 / 72台 / 1935年。
+
+   調査で分かったこと（同業3社を実測）:
+     Mahr・Starrett・Vermont Gage のトップページには
+     仕様表が1つも無く、大きな精度の数字も1つも無い。
+     → 1ミクロンを「文字として大きく組む」だけで、この業種では際立つ。
+
+   画像方針（実測に基づく）:
+     素材は 700×300（2.33:1）。全幅1680pxに伸ばすと2.4倍で甘くなる。
+     → 帯幅を約1000pxに抑える（1.4倍まで）。MoMA/Starrett の
+       「高さを固定し比率は自由」に倣い、切らずに収める。
+     → 画像に文字が焼き込まれているため、文字は必ず画像の「下」。
+       Vitsœ・MoMA の実測では 23/23 の figure が BELOW だった。
+
+   構造装置（前4社と重複させない）:
+     1. 巨大な数字（1μm）を図版として扱う
+     2. 画像帯とデータ塊を交互に置くリズム
+     3. 設備を「能力の幅」として横軸に描く
+   ============================================================ */
+
+:root {
+  --face-num: "Archivo", "Noto Sans JP", system-ui, sans-serif;
+  --face-body: "Noto Sans JP", system-ui, sans-serif;
+  --face-mark: "IBM Plex Mono", ui-monospace, monospace;
+
+  --sz-3xs: clamp(0.625rem, 0.61rem + 0.07vw, 0.6875rem);
+  --sz-2xs: clamp(0.6875rem, 0.665rem + 0.1vw, 0.75rem);
+  --sz-xs: clamp(0.75rem, 0.73rem + 0.1vw, 0.8125rem);
+  --sz-s: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --sz-m: clamp(0.9375rem, 0.91rem + 0.12vw, 1rem);
+  --sz-l: clamp(1.0625rem, 1rem + 0.26vw, 1.1875rem);
+  --sz-xl: clamp(1.1875rem, 1.07rem + 0.5vw, 1.5rem);
+  --sz-2xl: clamp(1.5rem, 1.24rem + 1.1vw, 2.25rem);
+  /* 数字を図版として組むための特大サイズ */
+  --sz-huge: clamp(4rem, 2rem + 9vw, 11rem);
+
+  --lead-tight: 1.02;
+  --lead-read: 1.9;
+  --col-w: 38em;
+
+  /* 鋼と、恒温室の白。彩度をほぼ捨てる。 */
+  --ink: #14161a;
+  --ink-2: #464b52;
+  --ink-3: #61666d;
+  --paper: #ffffff;
+  --paper-2: #ffffff;
+  --paper-3: #f3f4f6;
+  --rule: #dbd9d4;
+  --rule-2: #b6b3ad;
+
+  /* アクセント1色 = 熱処理炉の赤。写真の中の色から採る。 */
+  --heat: #a33417;
+  --heat-soft: #f3e7e3;
+
+  --deep: #14161a;
+  --deep-fg: #eeeeec;
+  --deep-2: #969ba1;
+  --deep-rule: #2b2f35;
+
+  --edge: clamp(1.25rem, 4vw, 3rem);
+  --stack: clamp(3.25rem, 6.5vw, 6.5rem);
+  --span: 1240px;
+  /* 画像帯の最大幅。700pxの素材を1.4倍までに抑える。 */
+  --band: 1000px;
+
+  --curve: cubic-bezier(0.33, 1, 0.68, 1);
+  --sp1: 160ms;
+  --sp2: 320ms;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-block-start: 4.25rem;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--face-body);
+  font-size: var(--sz-m);
+  line-height: var(--lead-read);
+  font-feature-settings: "palt" 1;
+  letter-spacing: 0.02em;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 {
+  font-family: var(--face-num);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+p, li, dd, dt, td, th, figcaption, summary {
+  text-wrap: pretty;
+  line-break: strict;
+  word-break: auto-phrase;
+}
+
+a { color: inherit; }
+img { max-width: 100%; height: auto; display: block; }
+
+:focus-visible { outline: 2px solid var(--heat); outline-offset: 3px; }
+
+.hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* 数字はすべて等幅・タブラー。この会社の言語。 */
+.tab {
+  font-variant-numeric: tabular-nums;
+  font-family: var(--face-mark);
+  letter-spacing: 0;
+}
+
+.inner { max-inline-size: var(--span); margin-inline: auto; padding-inline: var(--edge); }
+.slab { padding-block: var(--stack); }
+.slab--paper { background: var(--paper-2); }
+.slab--tone { background: var(--paper-3); }
+
+.kicker {
+  font-family: var(--face-mark);
+  font-size: var(--sz-2xs);
+  letter-spacing: 0.2em;
+  color: var(--heat);
+  text-transform: uppercase;
+}
+.head { margin-block-start: 0.625rem; font-size: var(--sz-2xl); }
+.lede {
+  margin-block-start: 0.875rem;
+  color: var(--ink-2);
+  font-size: var(--sz-s);
+  max-inline-size: 34em;
+}
+
+/* ── ヘッダー ───────────────────────────────────────────── */
+.mast {
+  position: sticky; inset-block-start: 0; z-index: 60;
+  background: rgb(244 244 242 / 0.95);
+  backdrop-filter: blur(10px);
+  border-block-end: 1px solid var(--rule);
+}
+.mast__in {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; min-block-size: 3.5rem;
+}
+.wordmark { display: flex; align-items: baseline; gap: 0.5rem; text-decoration: none;
+  min-block-size: 44px; align-content: center; flex-wrap: wrap; }
+.wordmark__a { font-family: var(--face-num); font-weight: 600; font-size: var(--sz-l); letter-spacing: -0.01em }
+.wordmark__b { font-family: var(--face-mark); font-size: var(--sz-3xs); color: var(--ink-3) }
+
+.toggle {
+  inline-size: 44px; block-size: 44px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: none; border: 1px solid var(--rule-2); cursor: pointer; color: var(--ink);
+}
+@media (min-width: 900px) { .toggle { display: none } }
+
+.links { list-style: none; margin: 0; padding: 0 }
+@media (max-width: 899px) {
+  .links {
+    position: absolute; inset-inline: 0; inset-block-start: 100%;
+    display: none; flex-direction: column; background: var(--paper-2);
+    border-block-end: 1px solid var(--rule); padding: 0 var(--edge) 1rem;
+  }
+  .links.open { display: flex }
+  .links li { border-block-start: 1px solid var(--rule) }
+  .links a { display: block; padding-block: 0.875rem; min-block-size: 44px }
+}
+@media (min-width: 900px) { .links { display: flex; align-items: center; gap: clamp(0.875rem, 2vw, 1.75rem) } }
+.links a { font-size: var(--sz-s); text-decoration: none; color: var(--ink-2); transition: color var(--sp1) var(--curve) }
+.links a:hover { color: var(--ink) }
+.links .hot { font-family: var(--face-mark); color: var(--heat) !important }
+
+/* ── 開幕: 数字を図版として組む ─────────────────────────
+   同業3社のトップに大きな精度の数字は1つも無かった。
+   ここが最大の差別化点なので、1μm を紙面の主役にする。 */
+.origin { padding-block: clamp(2.5rem, 5.5vw, 4.5rem) clamp(2rem, 4vw, 3.5rem) }
+
+.origin__note {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem;
+  font-family: var(--face-mark); font-size: var(--sz-2xs);
+  letter-spacing: 0.14em; color: var(--ink-3);
+  margin-block-end: clamp(1.25rem, 2.5vw, 2rem);
+}
+.origin__note i { font-style: normal; block-size: 1px; inline-size: clamp(1.5rem, 5vw, 3.5rem); background: var(--rule-2) }
+
+/* 1μm を巨大に組む。単位は小さく添える。 */
+.micron {
+  display: flex; align-items: baseline; gap: clamp(0.5rem, 1.5vw, 1.25rem);
+  flex-wrap: wrap;
+}
+.micron__n {
+  font-family: var(--face-num);
+  font-size: var(--sz-huge);
+  font-weight: 600;
+  line-height: var(--lead-tight);
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+.micron__u {
+  font-family: var(--face-mark);
+  font-size: clamp(1rem, 0.6rem + 1.6vw, 2rem);
+  color: var(--heat);
+}
+.micron__say {
+  margin-block-start: 0.5rem;
+  font-family: var(--face-num);
+  font-size: var(--sz-xl);
+  font-weight: 600;
+}
+
+.origin__p {
+  margin-block-start: clamp(1.25rem, 2.5vw, 1.75rem);
+  font-size: var(--sz-l); color: var(--ink-2); max-inline-size: 50em;
+}
+.origin__do { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-block-start: clamp(1.5rem, 3vw, 2.25rem) }
+
+.push {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  min-block-size: 48px; padding-inline: 1.5rem;
+  font-family: var(--face-mark); font-size: var(--sz-s);
+  text-decoration: none; border: 1px solid transparent; cursor: pointer;
+  transition: background var(--sp1) var(--curve), border-color var(--sp1) var(--curve);
+}
+.push--hot { background: var(--heat); color: #fff }
+.push--hot:hover { background: #8a2b13 }
+.push--wire { border-color: var(--rule-2); color: var(--ink) }
+.push--wire:hover { border-color: var(--ink-2); background: var(--paper-3) }
+
+/* ── 画像帯 ─────────────────────────────────────────────
+   高さは固定せず、幅を --band に抑えて自然比で置く（切らない）。
+   文字は必ず画像の「下」。画像に文字が焼き込まれているため。 */
+.band { margin-block: clamp(2rem, 4vw, 3.5rem) }
+.band__fig { max-inline-size: var(--band); margin-inline: auto }
+.band__fig img {
+  inline-size: 100%;
+  aspect-ratio: 700 / 300;   /* 素材の比率そのまま。cover で切らない。 */
+  object-fit: cover;
+  background: var(--paper-3);
+}
+/* Vitsœ に倣い、キャプションは本文と同じインクで下に置く */
+.band__cap {
+  margin-block-start: 0.625rem;
+  display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: baseline;
+  font-size: var(--sz-xs); color: var(--ink-2);
+}
+.band__cap b { font-family: var(--face-mark); font-weight: 400; color: var(--ink-3); font-size: var(--sz-2xs) }
+
+/* ── 能力の幅を横軸に描く ───────────────────────────────
+   「φ0.8〜φ300」は範囲。表ではなく軸として見せる。 */
+.range { margin-block-start: clamp(1.5rem, 3vw, 2.25rem); display: grid; gap: 1.25rem }
+.range__row { display: grid; gap: 0.375rem }
+.range__lab {
+  display: flex; justify-content: space-between; gap: 1rem;
+  font-family: var(--face-mark); font-size: var(--sz-2xs); color: var(--ink-3);
+}
+.range__lab strong { color: var(--ink); font-weight: 400 }
+.range__bar {
+  block-size: 6px; background: var(--paper-3);
+  border: 1px solid var(--rule); position: relative; overflow: hidden;
+}
+.range__bar span {
+  position: absolute; inset-block: 0;
+  background: var(--heat); display: block;
+}
+.range__note { font-size: var(--sz-xs); color: var(--ink-2) }
+
+/* ── 数値の一覧 ─────────────────────────────────────────── */
+.counts {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  padding-block-start: clamp(1.25rem, 2.5vw, 1.75rem);
+  border-block-start: 1px solid var(--rule);
+}
+.count__v {
+  font-family: var(--face-num); font-weight: 600;
+  font-size: clamp(1.75rem, 1.2rem + 2.2vw, 3rem);
+  line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: -0.03em;
+}
+.count__v small { font-size: 0.36em; color: var(--ink-3); margin-inline-start: 0.3em; font-family: var(--face-mark); letter-spacing: 0 }
+.count__k { margin-block-start: 0.5rem; font-size: var(--sz-xs); color: var(--ink-2) }
+
+/* ── 設備の一覧（Mahr のタイル正規化に倣う） ──────────────── */
+.kit { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule) }
+@media (min-width: 620px) { .kit { grid-template-columns: repeat(2, 1fr) } }
+@media (min-width: 1000px) { .kit { grid-template-columns: repeat(3, 1fr) } }
+.tool { background: var(--paper-2); padding: 1.125rem 1.25rem }
+.tool__c { font-family: var(--face-mark); font-size: var(--sz-3xs); color: var(--heat); letter-spacing: 0.1em }
+.tool__n { margin-block-start: 0.3rem; font-size: var(--sz-m); font-weight: 500; font-family: var(--face-body) }
+.tool__s { margin-block-start: 0.25rem; font-family: var(--face-mark); font-size: var(--sz-2xs); color: var(--ink-2) }
+.tool__m {
+  margin-block-start: 0.5rem; display: flex; justify-content: space-between;
+  gap: 0.75rem; font-size: var(--sz-2xs); color: var(--ink-3);
+}
+.tool__m b { font-family: var(--face-mark); font-weight: 400 }
+
+/* ── 測定の条件（恒温室） ───────────────────────────────── */
+.cond { display: grid; gap: 0 }
+.cond__r {
+  display: grid; gap: 0.25rem 1.5rem; padding-block: 0.875rem;
+  border-block-end: 1px solid var(--rule);
+}
+@media (min-width: 700px) { .cond__r { grid-template-columns: 12rem 1fr } }
+.cond__r:first-child { border-block-start: 1px solid var(--rule) }
+.cond__k { font-family: var(--face-mark); font-size: var(--sz-2xs); color: var(--ink-3) }
+.cond__v { font-size: var(--sz-s) }
+
+/* ── 沿革 ───────────────────────────────────────────────── */
+.years { list-style: none; padding: 0; margin: 0; border-block-start: 1px solid var(--rule) }
+.years li {
+  display: grid; gap: 0.125rem 1.5rem; padding-block: 0.75rem;
+  border-block-end: 1px solid var(--rule);
+}
+@media (min-width: 640px) { .years li { grid-template-columns: 4.5rem 1fr } }
+.years__y { font-family: var(--face-mark); font-size: var(--sz-s); color: var(--heat) }
+.years__t { font-size: var(--sz-s) }
+
+/* ── 取引先 ─────────────────────────────────────────────── */
+.names {
+  list-style: none; padding: 0; margin-block-start: 1rem;
+  display: flex; flex-wrap: wrap; gap: 0.375rem 0.5rem;
+}
+.names li {
+  font-family: var(--face-mark); font-size: var(--sz-xs); color: var(--ink-2);
+  border: 1px solid var(--rule); background: var(--paper-2); padding: 0.3em 0.7em;
+}
+
+/* ── 締め ───────────────────────────────────────────────── */
+.close-out {
+  /* was a full-bleed near-black slab; a pale panel reads cleaner on a
+     corporate page. Every scoped token flips with the ground. */
+  background: #f2f3f5; color: #14161a;
+  --ink: #14161a; --ink-2: #464b52; --ink-3: #61666d;
+  --rule: #dfe1e4; --rule-2: #c8ccd0;
+  --paper-2: #ffffff; --paper-3: #e9eaec;
+  --heat: #b8442a;
+}
+.close-out__g { display: grid; gap: clamp(1.75rem, 4vw, 3rem) }
+@media (min-width: 860px) { .close-out__g { grid-template-columns: 1fr 1fr } }
+.close-out__tel {
+  display: inline-block; font-family: var(--face-mark);
+  font-size: var(--sz-2xl); font-variant-numeric: tabular-nums;
+  text-decoration: none; margin-block: 0.5rem 0.25rem;
+}
+.close-out__tel:hover { color: var(--heat) }
+
+.card-info { border-block-start: 1px solid var(--rule) }
+.card-info__r { display: grid; gap: 0.125rem 1.25rem; padding-block: 0.75rem; border-block-end: 1px solid var(--rule) }
+@media (min-width: 460px) { .card-info__r { grid-template-columns: 6rem 1fr } }
+.card-info__k { font-family: var(--face-mark); font-size: var(--sz-2xs); color: var(--ink-3); padding-block-start: 0.2em }
+.card-info__v { font-size: var(--sz-s) }
+
+.ledge { border-block-start: 1px solid var(--rule); padding-block: clamp(2rem, 4vw, 3rem) }
+.ledge__r { display: grid; gap: 1.25rem }
+@media (min-width: 768px) { .ledge__r { grid-template-columns: 1fr auto; align-items: end } }
+.ledge__a { font-size: var(--sz-s); color: var(--ink-2); font-style: normal }
+.ledge__a a { display: inline-flex; align-items: center; min-block-size: 44px }
+.ledge__c { font-family: var(--face-mark); font-size: var(--sz-2xs); color: var(--ink-3) }
+
+/* ============================================================
+   MOTION — 3カテゴリ
+   調査で分かったこと: 候補6件を実測してスクロール連動の
+   パララックス／ズームは1件も見つからなかった（Apple も Klim も
+   transform は固定のまま）。業界は state-based の reveal に移行済み。
+   → ここでも scroll-linked は控えめにし、状態変化を主にする。
+   ============================================================ */
+
+/* 1) 出現。隠す指定は .js が付いたときだけ。 */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .js [data-show] {
+      animation: show both; animation-timeline: view();
+      animation-range: entry 6% cover 22%;
+    }
+    @keyframes show { from { translate: 0 0.75rem } to { translate: 0 0 } }
+  }
+}
+
+/* 2) 状態: 画像がゆっくり寄る（Patagonia の card__inner に倣う） */
+.band__fig { overflow: hidden }
+.band__fig img { transition: scale var(--sp2) var(--curve) }
+@media (hover: hover) {
+  .band__fig:hover img { scale: 1.02 }
+}
+
+/* 3) 状態: 罫が引かれる／タイルが白く起きる */
+.wipe-line {
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px; background-position: 0 100%; background-repeat: no-repeat;
+  transition: background-size var(--sp2) var(--curve);
+}
+.wipe-line:hover, .wipe-line:focus-visible { background-size: 100% 1px }
+
+.tool { transition: background var(--sp1) var(--curve) }
+.tool:hover { background: var(--paper-3) }
+
+/* 4) 能力の軸だけ、スクロールで伸びる（1箇所だけの見せ場） */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .js .range__bar span {
+      animation: grow both; animation-timeline: view();
+      animation-range: entry 20% cover 40%;
+      transform-origin: 0 50%;
+    }
+    @keyframes grow { from { scale: 0 1 } to { scale: 1 1 } }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================================
+   MAP (MEO) — a direct lazy iframe per address.
+   `?output=embed` needs no API key; the Static Maps API returns 403 without one.
+
+   These sit inside grid rows (a <dl> row, a card), so without an explicit
+   span they land in the narrow label column — measured at 96x60, unreadable.
+   `grid-column: 1 / -1` makes the map take the whole row wherever it lands.
+   ========================================================================== */
+.map {
+  display:block; width:100%; padding-block-start:.75rem;
+  grid-column: 1 / -1;      /* full width of any grid parent */
+}
+.map iframe {
+  display:block; width:100%;
+  height:clamp(15rem, 26vw, 20rem);
+  border:0; border-radius:8px; background:rgba(128,128,128,.15);
+}

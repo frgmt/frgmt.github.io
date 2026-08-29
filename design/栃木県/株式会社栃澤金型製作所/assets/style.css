@@ -1,0 +1,563 @@
+@charset "utf-8";
+/* ==========================================================================
+   株式会社栃澤金型製作所
+   Art direction: a shop that measures itself by what it can take on —
+   the page is organised around RANGE (material hardness, part size, lot of 1).
+   Signature device: the scale span — the company's own "matchstick → 5m"
+   line drawn as a measured bar.
+   ========================================================================== */
+
+:root {
+  /* warm titanium / graphite ground, carrying the navy the company already uses */
+  --ink:     oklch(20% 0.012 60);
+  --ink-2:   oklch(33% 0.011 60);
+  --ink-3:   oklch(45% 0.010 60);       /* 4.5:1 on --page */
+  --page:    oklch(100% 0 80);
+  --page-2:  oklch(94.8% 0.008 80);
+  --dark:    oklch(96.5% 0.01 60);
+  --dark-2:  oklch(95.0% 0.012 60);
+  --on-dark:   oklch(24% 0.004 80);
+  --on-dark-2: oklch(45% 0.01 75);     /* 4.5:1+ on --dark */
+
+  /* one accent: the navy the company already uses.
+     Sampled from the existing site's css/contents.css → #042059 (OKLCH H 262°).
+     Hue held at 258° (Δ4°); lightness raised so link text clears 4.5:1. */
+  --navy:      oklch(45% 0.115 258);
+  --navy-lo:   oklch(50% 0.105 258);
+  --navy-tint: oklch(95% 0.028 258);
+
+  --line:    oklch(89% 0.006 75);
+  --line-2:  oklch(81% 0.008 75);
+  --line-d:  oklch(33% 0.012 60);
+
+  /* numerals are text — text contrast, not border values */
+  --yr:      oklch(52% 0.012 70);       /* 14px text on --page → 4.5:1 */
+  --yr-d:    oklch(52% 0.014 70);       /* 14px on --dark needs 4.5:1 */
+
+  --mincho: "Zen Old Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --gothic: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  --mono:   "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --t-xs: clamp(.6875rem, .66rem + .12vw, .75rem);
+  --t-sm: clamp(.8125rem, .79rem + .12vw, .875rem);
+  --t-b:  clamp(.9375rem, .9rem + .2vw, 1.0625rem);
+  --t-m:  clamp(1.0625rem, 1rem + .3vw, 1.25rem);
+  --t-l:  clamp(1.3125rem, 1.15rem + .75vw, 1.75rem);
+  --t-xl: clamp(1.625rem, 1.3rem + 1.6vw, 2.5rem);
+  --t-2xl:clamp(2rem, 1.35rem + 3vw, 3.875rem);
+
+  --s1:.25rem; --s2:.5rem; --s3:.75rem; --s4:1rem;
+  --s5:1.5rem; --s6:2rem;  --s7:3rem;   --s8:4rem;
+  --s9: clamp(3.25rem, 2rem + 5.5vw, 6rem);
+
+  --gut: clamp(1.25rem, 1rem + 2vw, 1.75rem);
+  --wide: 74rem;
+
+  --r1:2px; --r2:4px; --r3:10px;
+  --sh: 0 2px 12px oklch(20% .012 60 / .09);
+
+  --q1:130ms; --q2:210ms; --q3:330ms; --q4:470ms;
+  --e:  cubic-bezier(.25, .8, .35, 1);
+  --e2: cubic-bezier(.16, 1, .3, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box }
+html { -webkit-text-size-adjust:100%; scroll-behavior:smooth; scroll-padding-top:5.5rem }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto } }
+body {
+  margin:0; font-family:var(--gothic); font-size:var(--t-b); line-height:1.9;
+  color:var(--ink); background:var(--page);
+  -webkit-font-smoothing:antialiased; font-feature-settings:"palt" 1;
+  overflow-wrap:anywhere;
+}
+h1,h2,h3,p,dl,dd,ul,ol,figure { margin:0 }
+ul,ol { padding:0; list-style:none }
+img { max-width:100%; height:auto; display:block }
+a { color:inherit }
+button { font:inherit; color:inherit; background:none; border:0; cursor:pointer }
+table { border-collapse:collapse; width:100% }
+
+:focus-visible { outline:2px solid var(--navy); outline-offset:3px; border-radius:var(--r1) }
+.vis-hidden {
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip-path:inset(50%); white-space:nowrap; border:0;
+}
+.skip {
+  position:absolute; left:var(--s4); top:-4rem; z-index:200;
+  padding:var(--s3) var(--s5); background:var(--ink); color:#fff;
+  border-radius:var(--r2); font-size:var(--t-sm); text-decoration:none;
+  transition:top var(--q2) var(--e);
+}
+.skip:focus { top:var(--s4) }
+
+.wrapper { width:100%; max-width:var(--wide); margin-inline:auto; padding-inline:var(--gut) }
+
+/* ==========================================================================
+   HEADER — brand + persistent capability strip
+   ========================================================================== */
+.mast {
+  position:sticky; top:0; z-index:100;
+  background:oklch(97.8% .005 80 / .94);
+  backdrop-filter:saturate(1.4) blur(10px);
+  border-block-end:1px solid var(--line);
+  transition:box-shadow var(--q3) var(--e);
+}
+.scrolled .mast { box-shadow:var(--sh) }
+.mast__row {
+  display:flex; align-items:center; gap:var(--s4);
+  min-height:4.5rem;
+  transition:min-height var(--q3) var(--e);
+}
+.scrolled .mast__row { min-height:3.75rem }
+
+.brand { text-decoration:none; display:inline-flex; align-items:center; min-height:44px }
+.brand__t {
+  font-family:var(--mincho);
+  font-size:clamp(1.1875rem, 1rem + .9vw, 1.625rem);
+  font-weight:700; letter-spacing:.1em; color:var(--ink); line-height:1;
+}
+
+/* the capability strip — the differentiator, per the header research */
+.mast__cap {
+  display:none;
+  font-family:var(--mono); font-size:var(--t-xs); color:var(--ink-3);
+  letter-spacing:.05em; align-items:center; gap:var(--s3);
+  margin-inline-start:var(--s5);
+}
+.mast__cap i { width:3px; height:3px; border-radius:50%; background:var(--navy); display:block }
+
+.burger { display:none; margin-inline-start:auto }
+.burger__b, .burger__b::before, .burger__b::after {
+  display:block; width:20px; height:1.5px; background:var(--ink); border-radius:2px;
+  transition:transform var(--q2) var(--e), opacity var(--q1) var(--e);
+}
+.burger__b { position:relative }
+.burger__b::before, .burger__b::after { content:""; position:absolute; left:0 }
+.burger__b::before { top:-6px } .burger__b::after { top:6px }
+.burger[aria-expanded="true"] .burger__b { background:transparent }
+.burger[aria-expanded="true"] .burger__b::before { transform:translateY(6px) rotate(45deg) }
+.burger[aria-expanded="true"] .burger__b::after  { transform:translateY(-6px) rotate(-45deg) }
+
+.nav { margin-inline-start:auto }
+.nav ul { display:flex; align-items:center; column-gap:1.25rem; row-gap:0 }
+.nav li { flex:0 0 auto }
+.nav a { white-space:nowrap }
+.nav a {
+  text-decoration:none; font-size:var(--t-sm); font-weight:500; color:var(--ink-2);
+  letter-spacing:.02em; display:inline-flex; align-items:center; min-height:44px;
+  position:relative; transition:color var(--q1) var(--e);
+}
+.nav a:not(.nav__go)::after {
+  content:""; position:absolute; inset-inline:0; bottom:.65rem; height:1.5px;
+  background:var(--navy); transform:scaleX(0); transform-origin:left;
+  transition:transform var(--q2) var(--e);
+}
+.nav a:not(.nav__go):hover { color:var(--ink) }
+.nav a:not(.nav__go):hover::after { transform:scaleX(1) }
+.nav__go {
+  background:var(--ink); color:#fff !important; padding-inline:1.1rem;
+  border-radius:var(--r2); transition:background var(--q2) var(--e);
+}
+.nav__go:hover { background:var(--navy) }
+
+/* ==========================================================================
+   HERO
+   ========================================================================== */
+.lead { padding-block: clamp(2.5rem,1.5rem + 4vw,4.5rem) var(--s9) }
+.lead__over {
+  font-family:var(--mono); font-size:var(--t-sm); color:var(--ink-3);
+  letter-spacing:.1em; margin-block-end:var(--s4);
+}
+.lead__h {
+  font-family:var(--mincho);
+  font-size:var(--t-2xl); font-weight:700; line-height:1.28; letter-spacing:.02em;
+  margin-block-end:var(--s5); text-wrap:balance;
+}
+.lead__p {
+  font-size:var(--t-m); color:var(--ink-2); line-height:2;
+  max-width:44rem; margin-block-end:var(--s6);
+}
+.lead__act { display:flex; flex-wrap:wrap; gap:var(--s3) }
+.btn {
+  display:inline-flex; align-items:center; justify-content:center;
+  min-height:3rem; padding:.8rem 1.75rem; background:var(--ink); color:#fff;
+  text-decoration:none; font-size:var(--t-sm); font-weight:700; letter-spacing:.05em;
+  border-radius:var(--r2); transition:background var(--q2) var(--e);
+}
+.btn:hover { background:var(--navy) }
+.btn--o { background:transparent; color:var(--ink); box-shadow:inset 0 0 0 1.5px var(--line-2) }
+.btn--o:hover { background:var(--navy-tint); color:var(--ink); box-shadow:inset 0 0 0 1.5px var(--navy) }
+
+/* ==========================================================================
+   shared headings
+   ========================================================================== */
+.sec__h {
+  font-family:var(--mincho);
+  font-size:var(--t-xl); font-weight:700; letter-spacing:.06em; line-height:1.35;
+  margin-block-end:var(--s4);
+  padding-inline-start:var(--s4);
+  border-inline-start:4px solid var(--navy);
+}
+.sec__p { color:var(--ink-2); max-width:42rem; margin-block-end:var(--s6) }
+.sec__h--pale { color:var(--on-dark); border-inline-start-color:var(--navy-lo) }
+.sec__p--pale { color:var(--on-dark-2) }
+
+/* ==========================================================================
+   RANGE — the signature scale span
+   ========================================================================== */
+.range { padding-block:var(--s9); background:var(--page-2); border-block:1px solid var(--line) }
+.span { margin-block:var(--s7) var(--s6) }
+.span__bar { display:flex; align-items:center; gap:var(--s3) }
+.span__tick { background:var(--ink); flex:0 0 auto; border-radius:1px }
+.span__tick--s { width:3px; height:14px }
+.span__tick--l { width:3px; height:46px }
+.span__line {
+  flex:1 1 auto; height:2px;
+  background:linear-gradient(to right, var(--line-2), var(--navy));
+  transform-origin:left;
+}
+.span__ends { display:flex; justify-content:space-between; gap:var(--s4); margin-block-start:var(--s3) }
+.span__e { display:flex; flex-direction:column }
+.span__e--r { text-align:right }
+.span__e b {
+  font-family:var(--mono); font-size:clamp(1rem,.85rem + .8vw,1.5rem);
+  font-weight:500; color:var(--ink); letter-spacing:-.01em; line-height:1.25;
+}
+.span__e span { font-size:var(--t-sm); color:var(--ink-3) }
+
+.range__d {
+  display:grid; gap:1px; grid-template-columns:1fr;
+  background:var(--line); border:1px solid var(--line); margin-block-end:var(--s5);
+}
+.range__d > div { background:var(--page-2); padding:var(--s4) var(--s5) }
+.range__d dt { font-size:var(--t-xs); color:var(--ink-3); letter-spacing:.09em; margin-block-end:var(--s1) }
+.range__d dd { margin:0; font-family:var(--mono); font-size:var(--t-m); color:var(--ink) }
+.range__note {
+  font-size:var(--t-sm); color:var(--ink-3);
+  padding-inline-start:var(--s4); border-inline-start:2px solid var(--line-2);
+  max-width:42rem;
+}
+
+/* ==========================================================================
+   MATERIALS — an index on dark
+   ========================================================================== */
+.material { background:var(--dark); color:var(--on-dark); padding-block:var(--s9) }
+.mats { display:grid; gap:0; margin-block-start:var(--s6) }
+.mat {
+  display:grid; grid-template-columns:1fr; gap:var(--s1) var(--s5);
+  padding-block:var(--s4);
+  border-block-start:1px solid var(--line-d);
+}
+.mat:last-child { border-block-end:1px solid var(--line-d) }
+.mat__n { font-size:var(--t-m); font-weight:700; color:var(--on-dark); letter-spacing:.04em }
+.mat__d { font-size:var(--t-sm); color:var(--on-dark-2); line-height:1.8 }
+/* the four the company calls out as its specialism */
+.mat--star .mat__n { color:var(--navy-lo) }
+.mat--star .mat__n::after {
+  content:"得意"; font-family:var(--gothic); font-size:.6em; font-weight:500;
+  letter-spacing:.1em; color:var(--dark); background:var(--navy-lo);
+  padding:.15em .5em; border-radius:2px; margin-inline-start:.7em;
+  vertical-align:.15em;
+}
+
+/* ==========================================================================
+   MAKES
+   ========================================================================== */
+.makes { padding-block:var(--s9) }
+.makes__l { display:grid; gap:0; margin-block-start:var(--s5) }
+.makes__l li {
+  display:grid; grid-template-columns:1fr; gap:var(--s1) var(--s5);
+  padding-block:var(--s4); border-block-start:1px solid var(--line);
+}
+.makes__l li:last-child { border-block-end:1px solid var(--line) }
+.makes__l b { font-size:var(--t-b); font-weight:700; letter-spacing:.03em }
+.makes__l span { font-size:var(--t-sm); color:var(--ink-3) }
+.makes__n {
+  margin-block-start:var(--s5); font-size:var(--t-sm); color:var(--ink-3);
+  padding-inline-start:var(--s4); border-inline-start:2px solid var(--line-2);
+  max-width:44rem;
+}
+
+/* ==========================================================================
+   TRUST
+   ========================================================================== */
+.trust { background:var(--dark); color:var(--on-dark); padding-block:var(--s9) }
+.creds { display:grid; gap:1px; background:var(--line-d); border:1px solid var(--line-d); margin-block:var(--s6) }
+.cred { background:var(--dark); padding:var(--s5) }
+.cred__t {
+  display:block; font-family:var(--mincho); font-size:var(--t-m); font-weight:700;
+  color:var(--on-dark); letter-spacing:.05em; margin-block-end:var(--s2);
+}
+.cred__d { font-size:var(--t-sm); color:var(--on-dark-2); line-height:1.8 }
+
+.party { display:grid; gap:var(--s6); grid-template-columns:1fr; margin-block-start:var(--s7) }
+.party__h {
+  font-size:var(--t-sm); font-weight:700; letter-spacing:.12em; color:var(--navy-lo);
+  padding-block-end:var(--s2); border-block-end:1px solid var(--line-d);
+  margin-block-end:var(--s3);
+}
+.party__h--2 { margin-block-start:var(--s5) }
+.party__l li {
+  font-size:var(--t-sm); color:var(--on-dark-2); line-height:1.8;
+  padding-block:var(--s1); position:relative; padding-inline-start:1em;
+}
+.party__l li::before {
+  content:""; position:absolute; left:0; top:1.15em; width:5px; height:1.5px; background:var(--navy-lo);
+}
+
+/* ==========================================================================
+   MACHINES
+   ========================================================================== */
+.machines { padding-block:var(--s9); background:var(--page-2); border-block:1px solid var(--line) }
+.tblwrap { overflow-x:auto; border:1px solid var(--line); border-radius:var(--r2); background:#fff }
+.mtbl { font-size:var(--t-sm); min-width:52rem }
+.mtbl thead th {
+  text-align:left; font-size:var(--t-xs); font-weight:700; letter-spacing:.11em;
+  color:var(--ink-3); padding:var(--s3) var(--s4);
+  background:var(--page-2); border-block-end:1.5px solid var(--line-2);
+  position:sticky; top:0;
+}
+.mtbl tbody th, .mtbl tbody td {
+  padding:var(--s3) var(--s4); border-block-start:1px solid var(--line); vertical-align:top;
+}
+.mtbl tbody th {
+  text-align:left; font-weight:700; letter-spacing:.02em; background:var(--page-2);
+  border-inline-end:1px solid var(--line);
+}
+.mtbl .mono { font-family:var(--mono); color:var(--ink) }
+.mtbl__big td, .mtbl__big th { background:var(--navy-tint) }
+.mtbl__m td, .mtbl__m th { background:var(--page-2) }
+.mtbl tbody tr:hover td { background:var(--page-2) }
+.mtbl__big:hover td { background:var(--navy-tint) }
+
+.soft {
+  display:grid; gap:1px; grid-template-columns:1fr;
+  background:var(--line); border:1px solid var(--line); border-block-start:0;
+  margin-block-start:var(--s5);
+}
+.soft > div { background:var(--page-2); padding:var(--s4) var(--s5); display:grid; gap:var(--s1) }
+.soft dt { font-size:var(--t-xs); color:var(--ink-3); letter-spacing:.09em }
+.soft dd { margin:0; font-family:var(--mono); font-size:var(--t-sm); color:var(--ink) }
+
+.mshots { display:grid; gap:var(--s4); grid-template-columns:repeat(2,minmax(0,1fr)); margin-block-start:var(--s6) }
+.mshots img {
+  width:100%; max-width:13rem; border-radius:var(--r2); background:var(--line);
+  filter:saturate(.9);
+}
+
+/* ==========================================================================
+   STORY — chronology
+   ========================================================================== */
+.story { padding-block:var(--s9) }
+.chron { margin-block-start:var(--s5) }
+.cr {
+  display:grid; grid-template-columns:4rem 1fr; gap:var(--s4);
+  padding-block:var(--s4); border-block-start:1px solid var(--line);
+  position:relative;
+}
+.cr:last-child { border-block-end:1px solid var(--line) }
+.cr__y { font-family:var(--mono); font-size:var(--t-sm); color:var(--yr); letter-spacing:.04em; padding-block-start:.15em }
+.cr__t { font-size:var(--t-sm); color:var(--ink-2); line-height:1.85 }
+.cr--key .cr__y { color:var(--navy) }
+.cr--key .cr__t { color:var(--ink); font-weight:500 }
+.cr--key::before {
+  content:""; position:absolute; inset-block-start:-1px; inset-inline-start:0;
+  width:4rem; height:2px; background:var(--navy);
+  transform:scaleX(0); transform-origin:left;
+}
+
+/* ==========================================================================
+   PROFILE
+   ========================================================================== */
+.prof { padding-block:var(--s9); background:var(--page-2); border-block:1px solid var(--line) }
+.ptable { border-block-start:2px solid var(--ink); margin-block-start:var(--s5) }
+.pr {
+  display:grid; grid-template-columns:1fr; gap:var(--s1) var(--s5);
+  padding-block:var(--s4); border-block-end:1px solid var(--line);
+}
+.pr dt { font-size:var(--t-sm); font-weight:700; color:var(--ink-3); letter-spacing:.08em }
+.pr dd { margin:0 }
+.pr__s { font-size:var(--t-sm); color:var(--ink-3) }
+
+/* ==========================================================================
+   FAQ
+   ========================================================================== */
+.faq { padding-block:var(--s9) }
+.qlist { max-width:52rem; margin-block-start:var(--s5) }
+.q { border-block-start:1px solid var(--line-2) }
+.q:last-child { border-block-end:1px solid var(--line-2) }
+.q summary {
+  display:flex; align-items:flex-start; gap:var(--s4);
+  padding-block:var(--s4); cursor:pointer; list-style:none;
+  transition:color var(--q1) var(--e);
+}
+.q summary::-webkit-details-marker { display:none }
+.q summary h3 { font-size:var(--t-b); font-weight:700; letter-spacing:.02em; line-height:1.6; flex:1; margin:0 }
+.q summary::after {
+  content:""; flex:0 0 auto; width:12px; height:12px; margin-block-start:.6em;
+  background:
+    linear-gradient(var(--ink-3),var(--ink-3)) center/100% 1.5px no-repeat,
+    linear-gradient(var(--ink-3),var(--ink-3)) center/1.5px 100% no-repeat;
+  transition:transform var(--q3) var(--e);
+}
+.q[open] summary::after { transform:rotate(135deg) }
+.q summary:hover { color:var(--navy) }
+.q__a { padding-block-end:var(--s5); padding-inline-end:var(--s6) }
+.q__a p { color:var(--ink-2); font-size:var(--t-sm); line-height:2 }
+
+/* ==========================================================================
+   CONTACT
+   ========================================================================== */
+.reach { background:var(--dark); color:var(--on-dark); padding-block:var(--s9) }
+.reach__grid { display:grid; gap:var(--s7); grid-template-columns:1fr }
+.reach__h {
+  font-family:var(--mincho); font-size:var(--t-xl); font-weight:700;
+  letter-spacing:.06em; margin-block-end:var(--s4); color:var(--on-dark);
+  padding-inline-start:var(--s4); border-inline-start:4px solid var(--navy-lo);
+}
+.reach__p { color:var(--on-dark-2); max-width:32rem }
+.phone {
+  display:block; text-decoration:none; padding:var(--s5) var(--s6);
+  background:var(--dark-2); border:1px solid var(--line-d); border-radius:var(--r3);
+  transition:border-color var(--q2) var(--e), background var(--q2) var(--e);
+}
+.phone:hover { border-color:var(--navy-lo); background:oklch(28% .014 60) }
+.phone__l { display:block; font-size:var(--t-xs); letter-spacing:.14em; color:var(--on-dark-2); margin-block-end:var(--s2) }
+.phone__v {
+  display:block; font-family:var(--mono);
+  font-size:clamp(1.625rem,1.2rem + 2vw,2.5rem); font-weight:500;
+  line-height:1.2; color:var(--on-dark); letter-spacing:.01em;
+}
+.reach__fax { margin-block-start:var(--s3); font-size:var(--t-sm); color:var(--on-dark-2) }
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.end { background:var(--page-2); border-block-start:1px solid var(--line); padding-block-start:var(--s8) }
+.end__grid { display:grid; gap:var(--s6); grid-template-columns:1fr; padding-block-end:var(--s7) }
+.end__n { font-family:var(--mincho); font-size:var(--t-m); font-weight:700; letter-spacing:.08em; margin-block-end:var(--s3) }
+.end__a { font-size:var(--t-sm); color:var(--ink-2); line-height:1.9 }
+.end__a a { color:var(--navy); text-decoration:none; display:inline-flex; align-items:center; min-height:44px }
+.end__a a:hover { text-decoration:underline }
+.end__nav ul { display:grid; gap:0 }
+.end__nav li + li { border-block-start:1px solid var(--line) }
+.end__nav a {
+  font-size:var(--t-sm); color:var(--ink-2); text-decoration:none;
+  display:flex; align-items:center; min-height:44px; width:100%;
+  transition:color var(--q1) var(--e);
+}
+.end__nav a:hover { color:var(--navy) }
+.end__c { font-family:var(--mono); font-size:var(--t-xs); color:var(--ink-3); line-height:1.9 }
+.end__since { color:var(--ink-2) }
+.end__base { border-block-start:1px solid var(--line); padding-block:var(--s4) }
+.end__base p { font-size:var(--t-xs); color:var(--ink-3) }
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (min-width:40rem) {
+  .range__d { grid-template-columns:repeat(2,1fr) }
+  .mat, .makes__l li { grid-template-columns:14rem 1fr }
+  .creds { grid-template-columns:repeat(2,1fr) }
+  .soft { grid-template-columns:repeat(3,1fr) }
+  .mshots { grid-template-columns:repeat(3,minmax(0,1fr)) }
+  .pr { grid-template-columns:9rem 1fr }
+  .party { grid-template-columns:repeat(2,1fr) }
+}
+/* the capability strip needs real room; below this it competes with the nav
+   and squeezes the links together (measured at 1440) */
+@media (min-width:86rem) { .mast__cap { display:flex } }
+
+@media (min-width:62rem) {
+  .range__d { grid-template-columns:repeat(4,1fr) }
+  .mshots { grid-template-columns:repeat(6,minmax(0,1fr)) }
+  .reach__grid { grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:center }
+  .end__grid { grid-template-columns:1.6fr 1fr 1fr }
+  .cr { grid-template-columns:5rem 1fr }
+  .cr--key::before { width:5rem }
+}
+
+@media (max-width:61.999rem) {
+  .burger { display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; margin-inline-end:-.5rem }
+  .nav {
+    position:absolute; inset-inline:0; top:100%; margin:0;
+    background:var(--page); border-block-end:1px solid var(--line); box-shadow:var(--sh);
+    display:grid; grid-template-rows:0fr; transition:grid-template-rows var(--q3) var(--e);
+  }
+  .nav--show { grid-template-rows:1fr }
+  .nav ul { overflow:hidden; flex-direction:column; align-items:stretch; gap:0; padding-inline:var(--gut) }
+  .nav--show ul { padding-block:var(--s2) var(--s4) }
+  .nav li { border-block-start:1px solid var(--line) }
+  .nav li:first-child { border-block-start:0 }
+  .nav a { font-size:var(--t-b); min-height:3rem }
+  .nav a:not(.nav__go)::after { display:none }
+  .nav__go { justify-content:center; margin-block-start:var(--s3) }
+  html:not(.js) .nav { grid-template-rows:1fr; position:static; box-shadow:none }
+  html:not(.js) .burger { display:none }
+}
+
+/* ==========================================================================
+   MOTION — transform-only reveals (never opacity: see build-1 measurement,
+   where `animation-timeline: view()` + `fill: both` left 12/12 elements
+   invisible to anyone who did not scroll).
+   ========================================================================== */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .js [data-up] {
+      animation:up linear both; animation-timeline:view(); animation-range:entry 0% entry 55%;
+    }
+    .js .cr--key::before {
+      animation:draw linear both; animation-timeline:view(); animation-range:entry 0% entry 50%;
+    }
+    .js .span__line {
+      animation:widen linear both; animation-timeline:view(); animation-range:entry 5% cover 30%;
+    }
+  }
+}
+@keyframes up    { from { transform:translateY(.8rem) } to { transform:none } }
+@keyframes draw  { from { transform:scaleX(0) }        to { transform:scaleX(1) } }
+@keyframes widen { from { transform:scaleX(.04) }      to { transform:scaleX(1) } }
+
+@supports not (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .js [data-up] { transform:translateY(.8rem); transition:transform var(--q4) var(--e2) }
+    .js [data-up].seen { transform:none }
+    .js .cr--key.seen::before { transform:scaleX(1); transition:transform var(--q3) var(--e) }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration:.001ms !important; animation-iteration-count:1 !important;
+    transition-duration:.001ms !important; scroll-behavior:auto !important;
+  }
+  .js [data-up] { transform:none !important }
+  .js .cr--key::before, .js .span__line { transform:scaleX(1) !important }
+}
+
+@media print {
+  .map iframe { display:none }
+  .mast, .burger, .nav, .lead__act { display:none }
+  body, .material, .trust, .reach { background:#fff; color:#000 }
+  .sec__h--pale, .sec__p--pale, .mat__n, .mat__d, .cred__t, .cred__d,
+  .party__h, .party__l li, .reach__h, .reach__p, .phone__v { color:#000 }
+  .q__a { display:block !important }
+}
+
+/* ==========================================================================
+   MAP (MEO) — a direct lazy iframe per address.
+   `?output=embed` needs no API key; the Static Maps API returns 403 without one.
+
+   These sit inside grid rows (a <dl> row, a card), so without an explicit
+   span they land in the narrow label column — measured at 96x60, unreadable.
+   `grid-column: 1 / -1` makes the map take the whole row wherever it lands.
+   ========================================================================== */
+.map {
+  display:block; width:100%; padding-block-start:.75rem;
+  grid-column: 1 / -1;      /* full width of any grid parent */
+}
+.map iframe {
+  display:block; width:100%;
+  height:clamp(15rem, 26vw, 20rem);
+  border:0; border-radius:8px; background:rgba(128,128,128,.15);
+}

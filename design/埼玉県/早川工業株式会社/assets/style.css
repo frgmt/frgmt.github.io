@@ -1,0 +1,250 @@
+/* =========================================================
+   早川工業株式会社 — リニューアル提案
+   現行サイトの大面積色は #068097 → oklch(55.3% .097 216.4)。
+   面 oklch(43% .095 216) / 文字 oklch(37% .088 216)。色相差 -0.4°。
+   彩度は .097 のまま（既に上限 .16 以下）。明度のみ落として AA を取る。
+   ロゴ header-logo.png は青 #086898 と緑 #38c808 の二色だが、
+   緑は oklch(72.8% .235 140) と彩度が sRGB の端にあり面には使えない。
+   **緑は「加工できる」印にだけ** 使う（彩度 .235 → .13、明度も落とす）。
+
+   注：hue 216 は ヒノデメタル(185) と31°離れており、色相で分離できる。
+   ・地：白。暗い全幅帯は置かない
+   ・署名的装置：**材質×工法の板厚マトリクス**（その板厚が切れるか）
+   ・書体：**BIZ UDPGothic**（UDゴシック）。数表が主役なので可読性優先
+   ・第二色：ロゴの緑を「対応可」の印にだけ
+   ・角丸：**3px**
+   ========================================================= */
+
+:root{
+  --bg:        oklch(100% 0 0);
+  --steel:     oklch(96.6% .005 216);
+  --steel2:    oklch(93.2% .008 216);
+  --rule:      oklch(87% .008 216);
+  --rule-thin: oklch(93.2% .005 216);
+
+  --ink:       oklch(22% .012 216);
+  --ink-mid:   oklch(42% .011 216);
+  --ink-low:   oklch(50% .01 216);
+
+  --cut:       oklch(43% .095 216);
+  --cut-ink:   oklch(37% .088 216);
+  --cut-wash:  oklch(96.8% .014 216);
+
+  /* ロゴの緑。「対応可」の印にだけ。彩度は .235 → .13 に落とす */
+  --ok:        oklch(45% .13 140);
+  --ok-wash:   oklch(96.6% .022 140);
+
+  --ff-d: "BIZ UDPGothic", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  --ff-t: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  --ff-n: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --fs-h1: clamp(1.78rem, 1.04rem + 2.9vw, 2.84rem);
+  --fs-h2: clamp(1.3rem, 1.04rem + 1.26vw, 1.76rem);
+  --fs-h3: clamp(1.02rem, .94rem + .4vw, 1.16rem);
+  --fs-b:  clamp(.95rem, .9rem + .22vw, 1.02rem);
+  --fs-s:  clamp(.82rem, .79rem + .14vw, .88rem);
+
+  --gut: clamp(1.15rem, .5rem + 2.6vw, 3.4rem);
+  --bay: clamp(3.4rem, 2rem + 5.2vw, 6.4rem);
+  --r-s: 3px;
+
+  --ez: cubic-bezier(.24,.7,.3,1);
+  --t1: 130ms; --t2: 220ms; --t3: 340ms;
+}
+
+*,*::before,*::after{ box-sizing:border-box }
+html{ -webkit-text-size-adjust:100% }
+body{ margin:0; background:var(--bg); color:var(--ink); font-family:var(--ff-t); font-size:var(--fs-b); line-height:1.85; font-feature-settings:"palt" 1; -webkit-font-smoothing:antialiased }
+img,iframe{ max-width:100%; display:block }
+h1,h2,h3{ line-height:1.36; font-weight:700; margin:0 }
+p{ margin:0 }
+:focus-visible{ outline:3px solid var(--cut); outline-offset:3px }
+
+.hold{ width:min(100% - var(--gut)*2, 1130px); margin-inline:auto }
+.leap{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); background:var(--cut-ink); color:#fff; padding:.7rem 1.1rem; z-index:99; white-space:nowrap }
+.leap:focus{ position:fixed; left:0; top:0; width:auto; height:auto; clip:auto; overflow:visible }
+
+/* ══ ヘッダー ══ */
+.cap{ position:sticky; top:0; z-index:40; background:oklch(100% 0 0 / .95); backdrop-filter:blur(9px); border-bottom:1px solid var(--rule) }
+.cap__bar{ background:var(--cut-ink); color:#fff }
+.cap__bar .hold{ display:flex; flex-wrap:wrap; gap:.3rem 1.2rem; justify-content:space-between; align-items:center; padding-block:.4rem }
+.claim{ margin:0; font-size:var(--fs-s); color:#fff; letter-spacing:.05em }
+.claim b{ font-family:var(--ff-n); font-weight:700; color:oklch(88% .11 140) }
+.bar__t{ font-size:var(--fs-s); color:#fff; text-decoration:none; font-weight:700; letter-spacing:.04em; min-height:44px; display:inline-flex; align-items:center }
+.bar__t:hover{ text-decoration:underline }
+
+.cap__in{ display:flex; align-items:center; justify-content:space-between; gap:1rem; padding-block:.8rem }
+.sign{ text-decoration:none; color:var(--ink); display:flex; flex-direction:column; justify-content:center; min-height:46px }
+.sign__j{ font-family:var(--ff-d); font-size:clamp(1.18rem, 1rem + .78vw, 1.5rem); font-weight:700; letter-spacing:.06em; line-height:1.2 }
+.sign__r{ font-family:var(--ff-n); font-size:.66rem; color:var(--ink-mid); letter-spacing:.13em; margin-top:.2rem }
+
+.helm{ display:flex; align-items:center; gap:clamp(.85rem, 2vw, 1.5rem) }
+.helm a{ color:var(--ink); text-decoration:none; font-size:var(--fs-s); font-weight:500; letter-spacing:.03em; min-height:44px; display:inline-flex; align-items:center; position:relative }
+.helm a::after{ content:""; position:absolute; left:0; right:100%; bottom:.5rem; height:2px; background:var(--cut); transition:right var(--t2) var(--ez) }
+.helm a:hover::after{ right:0 }
+.helm__go{ background:var(--cut-ink); color:#fff!important; padding:0 1.1rem!important; border-radius:var(--r-s); font-weight:700; transition:background var(--t2) var(--ez) }
+.helm__go::after{ display:none }
+.helm__go:hover{ background:color-mix(in oklab, var(--cut-ink) 80%, #000) }
+
+.tog{ display:none; width:46px; height:46px; border:1px solid var(--rule); background:var(--bg); border-radius:var(--r-s); cursor:pointer; align-items:center; justify-content:center; flex-direction:column; gap:5px }
+.tog span{ display:block; width:19px; height:2px; background:var(--ink) }
+
+/* ══ 幕開け ══ */
+.gate{ padding-block:clamp(2.7rem, 1.8rem + 4.2vw, 5rem) clamp(2.2rem, 1.5rem + 2.6vw, 3.6rem); position:relative; overflow:hidden }
+/* 幕開けはレーザーの走り。水平線を上下端にだけ引く */
+.gate::before{ content:""; position:absolute; inset:0;
+  background:repeating-linear-gradient(180deg, var(--cut-wash) 0 1px, transparent 1px 9px) 0 0 / 100% 30%,
+             repeating-linear-gradient(180deg, var(--cut-wash) 0 1px, transparent 1px 9px) 0 100% / 100% 30%;
+  background-repeat:no-repeat; pointer-events:none }
+.gate .hold{ position:relative }
+.gate__k{ display:inline-block; font-family:var(--ff-n); font-size:.74rem; font-weight:700; letter-spacing:.15em; color:var(--cut-ink); border-left:3px solid var(--cut); padding-left:.7rem; margin-bottom:1.25rem }
+.gate__h{ font-family:var(--ff-d); font-size:var(--fs-h1); letter-spacing:.02em; max-width:19em }
+.gate__h em{ font-style:normal; color:#fff; background:var(--cut-ink); padding:.04em .3em; border-radius:var(--r-s) }
+.gate__h b{ font-family:var(--ff-n); color:var(--ok); font-weight:700 }
+.gate__p{ margin-top:1.35rem; max-width:43em; color:var(--ink-mid); font-size:clamp(1rem, .94rem + .3vw, 1.08rem) }
+.gate__acts{ display:flex; flex-wrap:wrap; gap:.75rem; margin-top:1.9rem }
+.go{ display:inline-flex; align-items:center; gap:.5rem; min-height:48px; padding:.72rem 1.5rem; border-radius:var(--r-s); text-decoration:none; font-weight:700; font-size:var(--fs-s); letter-spacing:.04em; transition:background var(--t2) var(--ez), color var(--t2) var(--ez), border-color var(--t2) var(--ez) }
+.go--on{ background:var(--cut-ink); color:#fff; border:2px solid var(--cut-ink) }
+.go--on:hover{ background:color-mix(in oklab, var(--cut-ink) 80%, #000); border-color:color-mix(in oklab, var(--cut-ink) 80%, #000) }
+.go--edge{ background:var(--bg); color:var(--cut-ink); border:2px solid var(--cut) }
+.go--edge:hover{ background:var(--cut-ink); color:#fff; border-color:var(--cut-ink) }
+
+/* ══ 署名的装置 ── 材質×工法の板厚マトリクス ══
+   板金屋への相談は「その板厚が切れるか」で決まる。
+   現行サイトは工法ごとの説明文の中に数値が埋もれていた。 */
+.matrix{ padding-block:clamp(2.4rem, 1.8rem + 3vw, 4.2rem); background:var(--steel) }
+.matrix__h{ font-family:var(--ff-d); font-size:var(--fs-h2); letter-spacing:.05em }
+.matrix__n{ margin-top:.55rem; font-size:var(--fs-s); color:var(--ink-mid); max-width:47em }
+.grid{ margin-top:1.9rem; overflow-x:auto; -webkit-overflow-scrolling:touch }
+.tbl{ width:100%; min-width:40rem; border-collapse:collapse; font-size:var(--fs-s); background:var(--bg) }
+.tbl caption{ text-align:left; font-size:var(--fs-s); color:var(--ink-low); padding-bottom:.6rem }
+.tbl th,.tbl td{ text-align:left; padding:.7rem .8rem; border-bottom:1px solid var(--rule-thin); vertical-align:top }
+.tbl thead th{ background:var(--cut-ink); color:#fff; font-weight:700; letter-spacing:.05em; border-bottom:0 }
+.tbl tbody th{ font-family:var(--ff-d); font-weight:700; white-space:nowrap }
+.tbl td{ font-family:var(--ff-n); font-size:.82rem; color:var(--ink) }
+.tbl td small{ display:block; font-family:var(--ff-t); font-size:.72rem; color:var(--ink-low); margin-top:.15rem }
+.tbl td.na{ color:var(--ink-low) }
+.tbl tbody tr:hover{ background:var(--cut-wash) }
+.mm{ font-weight:700; color:var(--cut-ink) }
+.mm--top{ color:var(--ok) }
+
+/* 板厚の帯 */
+.thick{ margin-top:1.9rem; display:grid; grid-template-columns:7.4rem 1fr minmax(4.2rem,auto); gap:.5rem .9rem; align-items:center }
+.th__k{ font-family:var(--ff-d); font-size:.82rem; font-weight:700; color:var(--ink); text-align:right; white-space:nowrap }
+.th__t{ display:block; position:relative; height:18px; background:var(--steel2); border-radius:2px; overflow:hidden }
+.th__f{ display:block; position:absolute; inset-block:0; left:0; background:var(--cut) }
+.th__f--max{ background:var(--ok) }
+.th__n{ font-family:var(--ff-n); font-size:.78rem; font-weight:700; color:var(--cut-ink); white-space:nowrap }
+.matrix__f{ margin-top:1.3rem; font-size:var(--fs-s); color:var(--ink-mid) }
+.matrix__f b{ font-family:var(--ff-n); color:var(--cut-ink); font-weight:700 }
+
+/* ══ 節 ══ */
+.bay{ padding-block:var(--bay) }
+.bay--tint{ background:var(--steel) }
+.hd{ font-family:var(--ff-d); font-size:var(--fs-h2); letter-spacing:.05em }
+.hd__n{ display:block; font-family:var(--ff-n); font-size:.74rem; font-weight:700; letter-spacing:.15em; color:var(--cut-ink); margin-bottom:.5rem }
+.hd__p{ margin-top:.9rem; color:var(--ink-mid); max-width:45em }
+
+/* 工法カード */
+.ways{ margin-top:2.3rem; display:grid; grid-template-columns:1fr; gap:1.2rem }
+.ways > *{ min-width:0 }
+.way{ border:1px solid var(--rule); border-top:3px solid var(--cut); padding:1.3rem 1.25rem; background:var(--bg); border-radius:var(--r-s) }
+.way__r{ font-family:var(--ff-n); font-size:.66rem; letter-spacing:.14em; color:var(--ink-low); font-weight:700 }
+.way__t{ font-family:var(--ff-d); font-size:var(--fs-h3); font-weight:700; margin-top:.28rem; letter-spacing:.04em }
+.way__d{ margin-top:.6rem; color:var(--ink-mid); font-size:var(--fs-s) }
+
+/* 実績 */
+.jobs{ margin-top:2.3rem; display:grid; grid-template-columns:1fr; gap:0; border-top:2px solid var(--ink) }
+.job{ display:grid; grid-template-columns:1fr; gap:.3rem; padding:1.1rem 0; border-bottom:1px solid var(--rule) }
+.job__t{ font-family:var(--ff-d); font-size:var(--fs-h3); font-weight:700; letter-spacing:.04em }
+.job__d{ font-size:var(--fs-s); color:var(--ink-mid) }
+.job__d b{ color:var(--ok); font-weight:700 }
+
+/* 台帳 */
+.gear{ margin-top:1.6rem; border-top:2px solid var(--ink) }
+.gear__r{ display:grid; grid-template-columns:1fr auto; gap:.3rem 1rem; align-items:baseline; padding:.68rem 0; border-bottom:1px solid var(--rule-thin) }
+.gear__n{ font-size:var(--fs-s) }
+.gear__v{ font-family:var(--ff-n); font-weight:700; color:var(--cut-ink); text-align:right; white-space:nowrap }
+
+/* 会社概要 */
+.book{ margin:2.3rem 0 0; border-top:2px solid var(--ink) }
+.book__r{ display:grid; grid-template-columns:minmax(7rem,13rem) 1fr; gap:0 clamp(1rem,3vw,2.2rem); border-bottom:1px solid var(--rule-thin); padding:1.05rem 0 }
+.book dt{ font-size:var(--fs-s); font-weight:700; letter-spacing:.06em; color:var(--cut-ink) }
+.book dd{ margin:0 }
+.book dd small{ display:block; color:var(--ink-mid); font-size:var(--fs-s); margin-top:.2rem }
+.book dd a{ min-height:44px; display:inline-flex; align-items:center; font-weight:700; color:var(--cut-ink); text-decoration:none }
+.book dd a:hover{ text-decoration:underline }
+
+/* 問い */
+.ask{ margin-top:2.3rem; border-top:1px solid var(--rule) }
+.ask details{ border-bottom:1px solid var(--rule-thin) }
+.ask summary{ cursor:pointer; list-style:none; padding:1.1rem 2.6rem 1.1rem 0; position:relative; font-weight:700; font-size:var(--fs-h3); min-height:44px; display:flex; align-items:center }
+.ask summary::-webkit-details-marker{ display:none }
+.ask summary::after{ content:""; position:absolute; right:.5rem; top:50%; width:11px; height:11px; border-right:2px solid var(--cut); border-bottom:2px solid var(--cut); translate:0 -60%; rotate:45deg; transition:rotate var(--t2) var(--ez) }
+.ask details[open] summary::after{ rotate:225deg; translate:0 -25% }
+.ask summary:hover{ color:var(--cut-ink) }
+.ask__a{ padding:0 0 1.25rem; color:var(--ink-mid); max-width:52em }
+
+.spot{ margin-top:2.3rem; border:1px solid var(--rule); padding:1.5rem; background:var(--bg); border-radius:var(--r-s) }
+.spot__n{ font-size:var(--fs-h3); font-weight:700 }
+.spot__a{ margin-top:.6rem; color:var(--ink-mid); font-size:var(--fs-s); font-style:normal; line-height:2 }
+.spot__a a{ color:var(--cut-ink); font-weight:700; text-decoration:none; min-height:44px; display:inline-flex; align-items:center }
+.spot__a a:hover{ text-decoration:underline }
+.map{ display:block; width:100%; margin-top:1.1rem }
+.map iframe{ display:block; width:100%; height:clamp(15rem, 26vw, 20rem); border:0; border-radius:var(--r-s) }
+
+.foot{ background:var(--ink); color:oklch(92% .011 216); padding-block:clamp(2.3rem, 1.6rem + 3vw, 3.5rem) }
+.foot__in{ display:grid; grid-template-columns:1fr; gap:1.7rem }
+.foot__n{ font-family:var(--ff-d); font-size:1.2rem; letter-spacing:.06em; color:#fff }
+.foot__a{ margin-top:.7rem; font-style:normal; font-size:var(--fs-s); line-height:2.05; color:oklch(92% .011 216) }
+.foot__a a{ color:#fff; font-weight:700; text-decoration:none; min-height:44px; display:inline-flex; align-items:center }
+.foot__a a:hover{ text-decoration:underline }
+.foot__l{ list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:.5rem 1.4rem }
+.foot__l a{ color:oklch(92% .011 216); text-decoration:none; font-size:var(--fs-s); min-height:44px; display:inline-flex; align-items:center }
+.foot__l a:hover{ color:#fff; text-decoration:underline }
+.foot__c{ margin-top:1.9rem; padding-top:1.1rem; border-top:1px solid oklch(100% 0 0 / .18); font-size:.78rem; color:oklch(87% .011 216) }
+
+@media (min-width:700px){ .ways{ grid-template-columns:1fr 1fr } }
+@media (min-width:760px){ .job{ grid-template-columns:11rem 1fr; gap:.3rem 1.4rem } }
+@media (min-width:768px){ .foot__in{ grid-template-columns:1.35fr 1fr } }
+@media (max-width:860px){
+  .tog{ display:flex }
+  .helm{ position:absolute; inset:100% 0 auto; background:var(--bg); border-bottom:1px solid var(--rule); flex-direction:column; align-items:stretch; gap:0; padding:.5rem var(--gut) 1.15rem; box-shadow:0 8px 26px oklch(22% .012 216 / .1) }
+  .helm[hidden]{ display:none }
+  .helm a{ border-bottom:1px solid var(--rule-thin) }
+  .helm a::after{ display:none }
+  .helm__go{ justify-content:center; margin-top:.8rem; border-bottom:0; padding-block:.7rem!important }
+}
+@media (min-width:861px){ .helm{ display:flex!important } }
+@media (max-width:600px){
+  .book__r{ grid-template-columns:1fr; gap:.3rem }
+  .thick{ grid-template-columns:5.8rem 1fr minmax(3.8rem,auto); gap:.4rem .5rem }
+  .th__k{ font-size:.74rem }
+}
+
+/* ══ 動き ══ */
+.js [data-up]{ opacity:0; translate:0 1.1rem }
+.js [data-up].is-in{ opacity:1; translate:0 0; transition:opacity var(--t3) var(--ez), translate var(--t3) var(--ez) }
+.js [data-up].is-in[style*="--d"]{ transition-delay:var(--d) }
+.cap{ transition:box-shadow var(--t2) var(--ez) }
+.cap.is-lift{ box-shadow:0 2px 18px oklch(22% .012 216 / .1) }
+
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion: no-preference){
+    .th__f{ clip-path:inset(0 100% 0 0); animation:slit linear both; animation-timeline:view(); animation-range:entry 14% cover 36% }
+  }
+}
+@keyframes slit{ to{ clip-path:inset(0 0 0 0) } }
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{ animation-duration:.001ms!important; animation-iteration-count:1!important; transition-duration:.001ms!important }
+  .js [data-up]{ opacity:1!important; translate:none!important }
+  .th__f{ clip-path:none!important }
+}
+@media print{
+  .cap,.leap,.map,.gate__acts{ display:none }
+  body{ color:#000 }
+  .foot{ background:#fff!important; color:#000!important }
+  .foot *{ color:#000!important }
+  .tbl thead th{ background:#fff!important; color:#000!important; border-bottom:2px solid #000 }
+}

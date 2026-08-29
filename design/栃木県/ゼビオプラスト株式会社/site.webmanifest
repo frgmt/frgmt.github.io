@@ -1,0 +1,15 @@
+{
+  "name": "ゼビオプラスト株式会社",
+  "short_name": "ゼビオプラスト",
+  "description": "栃木県さくら市。水処理・空調用プラスチック製品の製造販売。押出・射出・FRP引抜など6工法。",
+  "lang": "ja",
+  "start_url": "index.html",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#f7fafb",
+  "theme_color": "#0d2430",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}

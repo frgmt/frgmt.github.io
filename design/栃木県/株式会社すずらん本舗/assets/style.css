@@ -1,0 +1,479 @@
+@charset "utf-8";
+/* ==========================================================================
+   株式会社すずらん本舗
+   Art direction: a wagashi shop — warm paper, mincho headings, and the deep
+   azuki crimson the existing site already uses. Product photography is the
+   one place colour is allowed to be loud.
+   Signature device: the store index — four shops with their real addresses,
+   hours, parking and a map each, as crawlable text rather than JPEGs.
+   ========================================================================== */
+
+:root {
+  /* azuki crimson — sampled from the existing hpbsite.css → #630d1c
+     (OKLCH H 18°). The site's neutral #484741 becomes the warm ink. */
+  --crim:      oklch(40% 0.135 18);
+  --crim-lo:   oklch(50% 0.115 18);
+  --crim-tint: oklch(95% 0.028 18);
+
+  --dark:   oklch(96.5% 0.012 25);
+  --dark-2: oklch(95.0% 0.012 25);
+  --paper:  oklch(100% 0 75);
+  --paper-2:oklch(95.2% 0.012 75);
+  --ink:    oklch(24% 0.012 60);
+  --ink-2:  oklch(37% 0.011 60);
+  --ink-3:  oklch(48% 0.010 60);       /* 4.5:1 on --paper */
+  --on-dk:  oklch(24% 0.006 60);
+  --on-dk-2:oklch(45% 0.012 40);       /* 4.5:1+ on --dark */
+
+  --ln:   oklch(89% 0.008 70);
+  --ln-2: oklch(80% 0.011 70);
+  --ln-d: oklch(38% 0.026 25);
+
+  --yr: oklch(52% 0.014 40);
+
+  --mc: "Shippori Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --gt: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+
+  --z1: clamp(.6875rem, .66rem + .12vw, .75rem);
+  --z2: clamp(.8125rem, .79rem + .12vw, .875rem);
+  --z3: clamp(.9375rem, .9rem + .2vw, 1.0625rem);
+  --z4: clamp(1.0625rem, 1rem + .3vw, 1.25rem);
+  --z5: clamp(1.3125rem, 1.1rem + .9vw, 1.75rem);
+  --z6: clamp(1.625rem, 1.25rem + 1.7vw, 2.375rem);
+  --z7: clamp(2rem, 1.35rem + 3vw, 3.5rem);
+
+  --e1:.25rem; --e2:.5rem; --e3:.75rem; --e4:1rem;
+  --e5:1.5rem; --e6:2rem;  --e7:3rem;   --e8:4rem;
+  --e9: clamp(3.25rem, 2rem + 5.5vw, 6rem);
+
+  --gp: clamp(1.25rem, 1rem + 2vw, 1.75rem);
+  --mx: 74rem;
+
+  --r1:3px; --r2:8px; --r3:16px;
+  --sh: 0 2px 12px oklch(24% .02 40 / .10);
+
+  --t1:130ms; --t2:210ms; --t3:330ms; --t4:470ms;
+  --ez:  cubic-bezier(.25,.8,.35,1);
+  --ez2: cubic-bezier(.16,1,.3,1);
+}
+
+*, *::before, *::after { box-sizing:border-box }
+html { -webkit-text-size-adjust:100%; scroll-behavior:smooth; scroll-padding-top:5.5rem }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto } }
+body {
+  margin:0; font-family:var(--gt); font-size:var(--z3); line-height:1.95;
+  color:var(--ink); background:var(--paper);
+  -webkit-font-smoothing:antialiased; font-feature-settings:"palt" 1;
+  overflow-wrap:anywhere;
+}
+h1,h2,h3,p,dl,dd,ul,ol,figure { margin:0 }
+ul,ol { padding:0; list-style:none }
+img { max-width:100%; height:auto; display:block }
+a { color:inherit }
+button { font:inherit; color:inherit; background:none; border:0; cursor:pointer }
+
+:focus-visible { outline:2px solid var(--crim); outline-offset:3px; border-radius:var(--r1) }
+.vis-hidden {
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip-path:inset(50%); white-space:nowrap; border:0;
+}
+.tobody {
+  position:absolute; left:var(--e4); top:-4rem; z-index:200;
+  padding:var(--e3) var(--e5); background:var(--dark); color:var(--ink);
+  font-size:var(--z2); text-decoration:none; border-radius:var(--r2);
+  transition:top var(--t2) var(--ez);
+}
+.tobody:focus { top:var(--e4) }
+
+.hold { width:100%; max-width:var(--mx); margin-inline:auto; padding-inline:var(--gp) }
+
+/* ==========================================================================
+   HEADER
+   ========================================================================== */
+.head {
+  position:sticky; top:0; z-index:100;
+  background:oklch(98.2% .008 75 / .95);
+  backdrop-filter:saturate(1.3) blur(10px);
+  border-block-end:1px solid var(--ln);
+  transition:box-shadow var(--t3) var(--ez);
+}
+.slid .head { box-shadow:var(--sh) }
+.head__row {
+  display:flex; align-items:center; justify-content:space-between; gap:var(--e4);
+  min-height:4.5rem; transition:min-height var(--t3) var(--ez);
+}
+.slid .head__row { min-height:3.75rem }
+
+.name { text-decoration:none; display:inline-flex; flex-direction:column; justify-content:center; min-height:44px; gap:.05rem }
+.name__n {
+  font-family:var(--mc); font-size:clamp(1.1875rem,1rem + .9vw,1.5rem);
+  font-weight:700; letter-spacing:.14em; color:var(--crim); line-height:1.15;
+}
+.name__s { font-size:var(--z1); letter-spacing:.1em; color:var(--ink-3) }
+
+.burg { display:none }
+.burg__l, .burg__l::before, .burg__l::after {
+  display:block; width:20px; height:1.5px; background:var(--ink); border-radius:2px;
+  transition:transform var(--t2) var(--ez), opacity var(--t1) var(--ez);
+}
+.burg__l { position:relative }
+.burg__l::before, .burg__l::after { content:""; position:absolute; left:0 }
+.burg__l::before { top:-6px } .burg__l::after { top:6px }
+.burg[aria-expanded="true"] .burg__l { background:transparent }
+.burg[aria-expanded="true"] .burg__l::before { transform:translateY(6px) rotate(45deg) }
+.burg[aria-expanded="true"] .burg__l::after  { transform:translateY(-6px) rotate(-45deg) }
+
+.nav ul { display:flex; align-items:center; column-gap:1.2rem; row-gap:0 }
+.nav li { flex:0 0 auto }
+.nav a {
+  white-space:nowrap; text-decoration:none; font-size:var(--z2); font-weight:500;
+  color:var(--ink-2); display:inline-flex; align-items:center; min-height:44px;
+  position:relative; transition:color var(--t1) var(--ez);
+}
+.nav a:not(.nav__go)::after {
+  content:""; position:absolute; inset-inline:0; bottom:.65rem; height:2px;
+  background:var(--crim); transform:scaleX(0); transform-origin:left;
+  transition:transform var(--t2) var(--ez);
+}
+.nav a:not(.nav__go):hover { color:var(--ink) }
+.nav a:not(.nav__go):hover::after { transform:scaleX(1) }
+.nav__go {
+  background:var(--crim); color:#fff !important; padding-inline:1.1rem;
+  border-radius:999px; transition:background var(--t2) var(--ez);
+}
+.nav__go:hover { background: color-mix(in oklab, var(--crim) 82%, #000) }
+
+/* ==========================================================================
+   HERO
+   ========================================================================== */
+.open { padding-block: clamp(2.25rem,1.5rem + 3.5vw,4rem) var(--e9) }
+.open__grid { display:grid; gap:var(--e6) var(--e7); grid-template-columns:1fr; align-items:center }
+.open__pin { font-size:var(--z2); color:var(--ink-3); letter-spacing:.1em; margin-block-end:var(--e4) }
+.open__h {
+  font-family:var(--mc); font-size:var(--z7); font-weight:700;
+  line-height:1.35; letter-spacing:.04em; margin-block-end:var(--e5); text-wrap:balance;
+}
+.open__p { font-size:var(--z4); color:var(--ink-2); line-height:2.1; max-width:34rem; margin-block-end:var(--e6) }
+.open__b { display:flex; flex-wrap:wrap; gap:var(--e3) }
+.btn {
+  display:inline-flex; align-items:center; justify-content:center;
+  min-height:3rem; padding:.8rem 1.85rem; background:var(--crim); color:#fff;
+  text-decoration:none; font-size:var(--z2); font-weight:700; letter-spacing:.05em;
+  border-radius:999px; transition:background var(--t2) var(--ez);
+}
+.btn:hover { background: color-mix(in oklab, var(--crim) 82%, #000); color: #fff }
+.btn--o { background:transparent; color:var(--ink); box-shadow:inset 0 0 0 1.5px var(--ln-2) }
+.btn--o:hover { background:var(--crim-tint); color:var(--ink); box-shadow:inset 0 0 0 1.5px var(--crim) }
+
+.open__f { margin:0 }
+.open__f img { width:100%; border-radius:var(--r3); box-shadow:var(--sh) }
+.open__f figcaption {
+  margin-block-start:var(--e3); text-align:center;
+  font-family:var(--mc); font-size:var(--z2); color:var(--ink-3); letter-spacing:.1em;
+}
+
+/* ==========================================================================
+   shared title
+   ========================================================================== */
+.ttl {
+  font-family:var(--mc); font-size:var(--z6); font-weight:700;
+  letter-spacing:.1em; line-height:1.3; margin-block-end:var(--e3);
+  padding-inline-start:var(--e4); border-inline-start:4px solid var(--crim);
+}
+.ttl__p { color:var(--ink-2); max-width:44rem; margin-block-end:var(--e7); padding-inline-start:var(--e4) }
+.ttl--rev { color:var(--on-dk); border-inline-start-color:var(--crim-lo) }
+.ttl__p--rev { color:var(--on-dk-2) }
+
+/* ==========================================================================
+   KASHI
+   ========================================================================== */
+.kashi { padding-block:var(--e9); border-block-start:1px solid var(--ln) }
+.cats { display:grid; gap:var(--e4); grid-template-columns:1fr }
+.cat {
+  background:#fff; border:1px solid var(--ln); border-radius:var(--r2);
+  padding:var(--e5); display:grid; gap:var(--e2); align-content:start;
+}
+.cat__h { font-family:var(--mc); font-size:var(--z5); font-weight:700; letter-spacing:.08em; color:var(--crim) }
+.cat__n { font-size:var(--z1); color:var(--ink-3); letter-spacing:.08em }
+.cat__l { display:grid; gap:var(--e1); margin-block-start:var(--e2) }
+.cat__l li {
+  font-size:var(--z2); color:var(--ink-2); line-height:1.8;
+  position:relative; padding-inline-start:1em;
+}
+.cat__l li::before {
+  content:""; position:absolute; left:0; top:1.05em; width:5px; height:5px;
+  border-radius:50%; background:var(--crim-lo);
+}
+.cat--mark { border-color:var(--crim); border-width:2px; background:var(--crim-tint) }
+
+.gallery { display:grid; gap:var(--e4); grid-template-columns:1fr; margin-block-start:var(--e7) }
+.gallery img { width:100%; border-radius:var(--r2); background:var(--paper-2) }
+.gallery figcaption {
+  margin-block-start:var(--e2); font-family:var(--mc);
+  font-size:var(--z2); color:var(--ink-3); letter-spacing:.08em;
+}
+
+/* ==========================================================================
+   SHOPS — the store index (signature)
+   ========================================================================== */
+.shops { background:var(--dark); color:var(--on-dk); padding-block:var(--e9) }
+.stores { display:grid; gap:var(--e5); grid-template-columns:1fr }
+.st {
+  background:var(--dark-2); border:1px solid var(--ln-d); border-radius:var(--r3);
+  padding:var(--e5); display:grid; gap:var(--e3); align-content:start;
+}
+.st__tag {
+  display:inline-block; justify-self:start;
+  font-family:var(--mc); font-size:var(--z2); letter-spacing:.16em;
+  color:var(--dark); background:var(--crim-lo);
+  padding:.25em .9em; border-radius:999px;
+}
+.st__h { font-family:var(--mc); font-size:var(--z5); font-weight:700; letter-spacing:.06em; color:var(--on-dk); line-height:1.5 }
+.st__p { font-size:var(--z2); color:var(--on-dk-2); line-height:1.9 }
+.st__d { display:grid; gap:0 }
+.st__d > div {
+  display:grid; grid-template-columns:4.5rem 1fr; gap:var(--e3);
+  padding-block:var(--e2); border-block-start:1px solid var(--ln-d);
+}
+.st__d > div:last-child { border-block-end:1px solid var(--ln-d) }
+.st__d dt { font-size:var(--z1); color:var(--crim-lo); letter-spacing:.1em }
+.st__d dd { margin:0; font-size:var(--z2); color:var(--on-dk-2); line-height:1.7 }
+.st__d a { color:var(--on-dk); text-decoration:none; display:inline-flex; align-items:center; min-height:44px }
+.st__d a:hover { text-decoration:underline }
+.st__note { font-size:var(--z1); color:var(--on-dk-2) }
+.st--honten { border-color:var(--crim-lo); border-width:2px }
+
+
+/* ==========================================================================
+   STORY
+   ========================================================================== */
+.story { padding-block:var(--e9) }
+.story__grid { display:grid; gap:var(--e8) var(--e7); grid-template-columns:1fr }
+.line { margin-block-start:var(--e5) }
+.ln {
+  display:grid; grid-template-columns:5.5rem 1fr; gap:var(--e4);
+  padding-block:var(--e4); border-block-start:1px solid var(--ln); position:relative;
+}
+.ln:last-child { border-block-end:1px solid var(--ln) }
+.ln__y {
+  font-family:var(--mc); font-size:var(--z2); color:var(--yr);
+  letter-spacing:.04em; padding-block-start:.15em; display:grid; gap:.1rem;
+}
+.ln__y i { font-style:normal; font-family:var(--gt); font-size:.82em; color:var(--ink-3) }
+.ln__t { font-size:var(--z2); color:var(--ink-2); line-height:1.85 }
+.ln--k .ln__y { color:var(--crim) }
+.ln--k .ln__t { color:var(--ink); font-weight:500 }
+.ln--k::before {
+  content:""; position:absolute; inset-block-start:-1px; inset-inline-start:0;
+  width:5.5rem; height:2px; background:var(--crim);
+  transform:scaleX(0); transform-origin:left;
+}
+
+.side { align-self:start }
+.side__h {
+  font-family:var(--mc); font-size:var(--z2); font-weight:700; letter-spacing:.14em;
+  color:var(--ink-3); padding-block-end:var(--e2);
+  border-block-end:2px solid var(--ink); margin-block-end:var(--e3);
+}
+.side__h--2 { margin-block-start:var(--e6) }
+.mini { display:grid; gap:0 }
+.mini > div { display:grid; grid-template-columns:5rem 1fr; gap:var(--e3); padding-block:var(--e2); border-block-end:1px solid var(--ln) }
+.mini dt { font-size:var(--z1); color:var(--ink-3); letter-spacing:.06em }
+.mini dd { margin:0; font-size:var(--z2); line-height:1.7 }
+.grp { display:grid; gap:var(--e2) }
+.grp li { font-size:var(--z2); color:var(--ink-2); display:flex; flex-wrap:wrap; gap:.6em; align-items:baseline }
+.grp li span { font-size:var(--z1); color:var(--ink-3) }
+
+/* ==========================================================================
+   ORDER
+   ========================================================================== */
+.order { padding-block:var(--e9); background:var(--paper-2); border-block:1px solid var(--ln) }
+.pay { display:grid; gap:var(--e5); grid-template-columns:1fr }
+.pay__b { background:var(--paper); border:1px solid var(--ln); border-radius:var(--r2); padding:var(--e5) }
+.pay__h { font-family:var(--mc); font-size:var(--z5); font-weight:700; letter-spacing:.08em; color:var(--crim); margin-block-end:var(--e4) }
+.pay__t { font-size:var(--z3); font-weight:700; margin-block:var(--e3) var(--e2) }
+.pay__p { font-size:var(--z2); color:var(--ink-2); line-height:1.95 }
+.pay__u { display:grid; gap:var(--e2) }
+.pay__u li {
+  font-size:var(--z2); color:var(--ink-2); line-height:1.9;
+  position:relative; padding-inline-start:1.1em;
+}
+.pay__u li::before {
+  content:""; position:absolute; left:0; top:.95em; width:6px; height:2px;
+  background:var(--crim); border-radius:2px;
+}
+.pay__c {
+  margin-block-start:var(--e4); padding-block-start:var(--e3);
+  border-block-start:1px solid var(--ln);
+  font-size:var(--z2); color:var(--ink-2); line-height:1.9;
+}
+.pay__c a { color:var(--crim); text-decoration:none; display:inline-flex; align-items:center; min-height:44px }
+.pay__c a:hover { text-decoration:underline }
+
+/* ==========================================================================
+   FAQ
+   ========================================================================== */
+.faq { padding-block:var(--e9) }
+.qs { max-width:52rem; margin-block-start:var(--e5) }
+.q { border-block-start:1px solid var(--ln-2) }
+.q:last-child { border-block-end:1px solid var(--ln-2) }
+.q summary {
+  display:flex; align-items:flex-start; gap:var(--e4);
+  padding-block:var(--e4); cursor:pointer; list-style:none;
+  transition:color var(--t1) var(--ez);
+}
+.q summary::-webkit-details-marker { display:none }
+.q summary h3 { font-size:var(--z3); font-weight:700; line-height:1.6; flex:1; margin:0 }
+.q summary::after {
+  content:""; flex:0 0 auto; width:12px; height:12px; margin-block-start:.6em;
+  background:
+    linear-gradient(var(--ink-3),var(--ink-3)) center/100% 1.5px no-repeat,
+    linear-gradient(var(--ink-3),var(--ink-3)) center/1.5px 100% no-repeat;
+  transition:transform var(--t3) var(--ez);
+}
+.q[open] summary::after { transform:rotate(135deg) }
+.q summary:hover { color:var(--crim) }
+.q__a { padding-block-end:var(--e5); padding-inline-end:var(--e6) }
+.q__a p { color:var(--ink-2); font-size:var(--z2); line-height:2 }
+
+/* ==========================================================================
+   CONTACT
+   ========================================================================== */
+/* the CTA was a full-bleed saturated crimson slab; a pale tint reads cleaner
+   on a corporate page and keeps the brand hue. */
+.ask { background:var(--crim-tint); color:var(--ink); padding-block:var(--e9) }
+.ask__grid { display:grid; gap:var(--e7); grid-template-columns:1fr }
+.ask__h { font-family:var(--mc); font-size:var(--z6); font-weight:700; letter-spacing:.1em; margin-block-end:var(--e4); color:var(--crim) }
+.ask__p { color:var(--ink-2); max-width:30rem }
+.tel {
+  display:block; text-decoration:none; padding:var(--e5) var(--e6);
+  background:#fff; border:1px solid var(--crim); border-radius:var(--r3);
+  transition:background var(--t2) var(--ez);
+}
+.tel:hover { background:var(--crim-tint) }
+.tel__l { display:block; font-size:var(--z1); letter-spacing:.14em; color:var(--ink-3); margin-block-end:var(--e2) }
+.tel__v {
+  display:block; font-family:var(--mc); font-size:clamp(1.625rem,1.2rem + 2vw,2.5rem);
+  font-weight:700; line-height:1.2; color:var(--crim); letter-spacing:.04em;
+}
+.tel__h { display:block; font-size:var(--z1); color:var(--ink-3); margin-block-start:var(--e2) }
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.foot { background:var(--paper-2); border-block-start:1px solid var(--ln); padding-block-start:var(--e8) }
+.foot__grid { display:grid; gap:var(--e6); grid-template-columns:1fr; padding-block-end:var(--e7) }
+.foot__n { font-family:var(--mc); font-size:var(--z4); font-weight:700; letter-spacing:.1em; color:var(--crim); margin-block-end:var(--e3) }
+.foot__a { font-size:var(--z2); color:var(--ink-2); line-height:1.9 }
+.foot__a + .foot__a { margin-block-start:var(--e3) }
+.foot__a a { color:var(--crim); text-decoration:none; display:inline-flex; align-items:center; min-height:44px }
+.foot__a a:hover { text-decoration:underline }
+.foot__nav ul { display:grid; gap:0 }
+.foot__nav li + li { border-block-start:1px solid var(--ln) }
+.foot__nav a {
+  font-size:var(--z2); color:var(--ink-2); text-decoration:none;
+  display:flex; align-items:center; min-height:44px; width:100%;
+  transition:color var(--t1) var(--ez);
+}
+.foot__nav a:hover { color:var(--crim) }
+.foot__c { font-size:var(--z1); color:var(--ink-3); line-height:1.9 }
+.foot__y { color:var(--ink-2) }
+.foot__e { border-block-start:1px solid var(--ln); padding-block:var(--e4) }
+.foot__e p { font-size:var(--z1); color:var(--ink-3) }
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (min-width:40rem) {
+  .cats { grid-template-columns:repeat(2,1fr) }
+  .gallery { grid-template-columns:repeat(2,1fr) }
+  .stores { grid-template-columns:repeat(2,1fr) }
+  .pay { grid-template-columns:repeat(2,1fr) }
+}
+@media (min-width:64rem) {
+  .open__grid { grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) }
+  .cats { grid-template-columns:repeat(3,1fr) }
+  .gallery { grid-template-columns:repeat(4,1fr) }
+  .story__grid { grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) }
+  .ask__grid { grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:center }
+  .foot__grid { grid-template-columns:1.6fr 1fr 1fr }
+}
+
+@media (max-width:63.999rem) {
+  .burg { display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px }
+  .nav {
+    position:absolute; inset-inline:0; top:100%;
+    background:var(--paper); border-block-end:1px solid var(--ln); box-shadow:var(--sh);
+    display:grid; grid-template-rows:0fr; transition:grid-template-rows var(--t3) var(--ez);
+  }
+  .nav--m { grid-template-rows:1fr }
+  .nav ul { overflow:hidden; flex-direction:column; align-items:stretch; column-gap:0; padding-inline:var(--gp) }
+  .nav--m ul { padding-block:var(--e2) var(--e4) }
+  .nav li { border-block-start:1px solid var(--ln) }
+  .nav li:first-child { border-block-start:0 }
+  .nav a { font-size:var(--z3); min-height:3rem }
+  .nav a:not(.nav__go)::after { display:none }
+  .nav__go { justify-content:center; margin-block-start:var(--e3) }
+  html:not(.js) .nav { grid-template-rows:1fr; position:static; box-shadow:none }
+  html:not(.js) .burg { display:none }
+}
+
+/* ==========================================================================
+   MOTION — transform-only reveals; opacity is never animated on content.
+   ========================================================================== */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .js [data-lift] {
+      animation:rise linear both; animation-timeline:view(); animation-range:entry 0% entry 55%;
+    }
+    .js .ln--k::before {
+      animation:draw linear both; animation-timeline:view(); animation-range:entry 0% entry 50%;
+    }
+  }
+}
+@keyframes rise { from { transform:translateY(.85rem) } to { transform:none } }
+@keyframes draw { from { transform:scaleX(0) }         to { transform:scaleX(1) } }
+
+@supports not (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .js [data-lift] { transform:translateY(.85rem); transition:transform var(--t4) var(--ez2) }
+    .js [data-lift].on { transform:none }
+    .js .ln--k.on::before { transform:scaleX(1); transition:transform var(--t3) var(--ez) }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration:.001ms !important; animation-iteration-count:1 !important;
+    transition-duration:.001ms !important; scroll-behavior:auto !important;
+  }
+  .js [data-lift] { transform:none !important }
+  .js .ln--k::before { transform:scaleX(1) !important }
+}
+
+@media print {
+  .head, .burg, .nav, .open__b { display:none }
+  .map iframe { display:none }
+  body, .shops, .ask { background:#fff; color:#000 }
+  .ttl--rev, .ttl__p--rev, .st__h, .st__p, .st__d dd, .st__note,
+  .ask__h, .ask__p, .tel__v, .tel__l, .tel__h { color:#000 }
+  .q__a { display:block !important }
+}
+
+/* ==========================================================================
+   MAP (MEO) — a direct lazy iframe per address.
+   `?output=embed` needs no API key; the Static Maps API returns 403 without one.
+
+   These sit inside grid rows (a <dl> row, a card), so without an explicit
+   span they land in the narrow label column — measured at 96x60, unreadable.
+   `grid-column: 1 / -1` makes the map take the whole row wherever it lands.
+   ========================================================================== */
+.map {
+  display:block; width:100%; padding-block-start:.75rem;
+  grid-column: 1 / -1;      /* full width of any grid parent */
+}
+.map iframe {
+  display:block; width:100%;
+  height:clamp(15rem, 26vw, 20rem);
+  border:0; border-radius:8px; background:rgba(128,128,128,.15);
+}

@@ -1,0 +1,15 @@
+{
+  "name": "株式会社デュプラス",
+  "short_name": "デュプラス",
+  "description": "栃木県宇都宮市。商品企画から設計・量産・最終梱包まで一貫対応。IoT機器から竹繊維製品、縫合シミュレータまで。",
+  "lang": "ja",
+  "start_url": "index.html",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#fbfaf7",
+  "theme_color": "#2b2126",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}

@@ -1,0 +1,222 @@
+/* =========================================================
+   ウチヤ・サーモスタット株式会社 — リニューアル提案
+   アクセントは和文ロゴ（UCHIYAwabunRogo.gif）から画素採取した #d81818。
+   oklch(56.2% .22 28.2) → 面 oklch(48% .16 28) / 文字 oklch(44% .155 28)
+   色相差 0.2°。彩度は .22 → .16（白地での振動を抑えるため上限まで）。
+
+   注：アイテック（37°）と色相が近いため、地の温度・署名的装置・
+   書体・構成で差を付けている。こちらは「安全部品メーカー」なので
+   地は完全な無彩色にし、赤は警告色として面積を絞る。
+   ========================================================= */
+
+:root{
+  --bg:        oklch(100% 0 0);
+  --sheet:     oklch(96.5% 0 0);      /* 無彩色。アイテックの暖色地と対照 */
+  --sheet-deep:oklch(93% 0 0);
+  --rule:      oklch(87% 0 0);
+  --rule-thin: oklch(93% 0 0);
+
+  --ink:       oklch(22% 0 0);
+  --ink-mid:   oklch(42% 0 0);
+  --ink-low:   oklch(50% 0 0);
+
+  --sig:       oklch(48% .16 28);
+  --sig-ink:   oklch(44% .155 28);
+  --sig-wash:  oklch(97% .012 28);
+  --sig-lift:  oklch(60% .19 28);
+
+  --ff-d: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", sans-serif;
+  --ff-t: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  --ff-n: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --fs-h1: clamp(1.8rem, 1.05rem + 3vw, 2.9rem);
+  --fs-h2: clamp(1.32rem, 1.05rem + 1.3vw, 1.8rem);
+  --fs-h3: clamp(1.02rem, .94rem + .4vw, 1.18rem);
+  --fs-b:  clamp(.95rem, .9rem + .22vw, 1.02rem);
+  --fs-s:  clamp(.82rem, .79rem + .14vw, .88rem);
+
+  --gut: clamp(1.15rem, .5rem + 2.6vw, 3.4rem);
+  --bay: clamp(3.4rem, 2rem + 5.2vw, 6.4rem);
+  --r-s: 2px;
+  --r-m: 6px;
+
+  --ez: cubic-bezier(.24,.7,.3,1);
+  --t1: 130ms; --t2: 220ms; --t3: 340ms;
+}
+
+*,*::before,*::after{ box-sizing:border-box }
+html{ -webkit-text-size-adjust:100% }
+body{ margin:0; background:var(--bg); color:var(--ink); font-family:var(--ff-t); font-size:var(--fs-b); line-height:1.85; font-feature-settings:"palt" 1; -webkit-font-smoothing:antialiased }
+img,iframe{ max-width:100%; display:block }
+h1,h2,h3{ line-height:1.34; font-weight:700; margin:0 }
+p{ margin:0 }
+:focus-visible{ outline:3px solid var(--sig); outline-offset:3px; border-radius:2px }
+
+.hold{ width:min(100% - var(--gut)*2, 1160px); margin-inline:auto }
+.leap{ position:absolute; left:-9999px; background:var(--sig-ink); color:#fff; padding:.7rem 1.1rem; z-index:99 }
+.leap:focus{ left:0; top:0 }
+
+/* ══ ヘッダー：識別＝「掲げるのは社是ではなく役割」 ══ */
+.cap{ position:sticky; top:0; z-index:40; background:oklch(100% 0 0 / .95); backdrop-filter:blur(9px); border-bottom:1px solid var(--rule) }
+.cap__bar{ background:var(--ink); color:#fff }
+.cap__bar .hold{ display:flex; flex-wrap:wrap; gap:.3rem 1.2rem; justify-content:space-between; align-items:center; padding-block:.4rem }
+.role{ margin:0; font-size:var(--fs-s); color:#fff; letter-spacing:.06em }
+.role b{ color:oklch(78% .16 28); font-weight:700 }
+.bar__t{ font-size:var(--fs-s); color:#fff; text-decoration:none; font-weight:700; letter-spacing:.04em; min-height:44px; display:inline-flex; align-items:center }
+.bar__t:hover{ text-decoration:underline }
+
+.cap__in{ display:flex; align-items:center; justify-content:space-between; gap:1rem; padding-block:.8rem }
+.sign{ text-decoration:none; color:var(--ink); display:flex; flex-direction:column; justify-content:center; min-height:46px }
+.sign__j{ font-family:var(--ff-d); font-size:clamp(1.18rem, .98rem + .78vw, 1.54rem); font-weight:700; letter-spacing:.06em; line-height:1.2 }
+.sign__r{ font-family:var(--ff-n); font-size:.66rem; color:var(--ink-mid); letter-spacing:.16em; margin-top:.2rem }
+
+.helm{ display:flex; align-items:center; gap:clamp(.85rem, 2vw, 1.5rem) }
+.helm a{ color:var(--ink); text-decoration:none; font-size:var(--fs-s); font-weight:500; letter-spacing:.03em; min-height:44px; display:inline-flex; align-items:center; position:relative }
+.helm a::after{ content:""; position:absolute; left:0; right:100%; bottom:.5rem; height:2px; background:var(--sig); transition:right var(--t2) var(--ez) }
+.helm a:hover::after{ right:0 }
+.helm__go{ background:var(--sig-ink); color:#fff!important; padding:0 1.1rem!important; border-radius:var(--r-s); font-weight:700; transition:background var(--t2) var(--ez) }
+.helm__go::after{ display:none }
+.helm__go:hover{ background:color-mix(in oklab, var(--sig-ink) 80%, #000) }
+
+.tog{ display:none; width:46px; height:46px; border:1px solid var(--rule); background:var(--bg); border-radius:var(--r-s); cursor:pointer; align-items:center; justify-content:center; flex-direction:column; gap:5px }
+.tog span{ display:block; width:19px; height:2px; background:var(--ink) }
+
+/* ══ 幕開け ══ */
+.gate{ padding-block:clamp(2.7rem, 1.8rem + 4.2vw, 5rem) clamp(2.2rem, 1.5rem + 2.6vw, 3.6rem); position:relative; overflow:hidden }
+.gate::before{ content:""; position:absolute; inset:0; background:linear-gradient(177deg, var(--sig-wash), transparent 52%); pointer-events:none }
+.gate .hold{ position:relative }
+.gate__k{ display:inline-block; font-family:var(--ff-n); font-size:.74rem; font-weight:700; letter-spacing:.15em; color:var(--sig-ink); border-left:3px solid var(--sig); padding-left:.7rem; margin-bottom:1.25rem }
+.gate__h{ font-family:var(--ff-d); font-size:var(--fs-h1); letter-spacing:.02em; max-width:19em }
+.gate__h em{ font-style:normal; color:var(--sig-ink) }
+.gate__p{ margin-top:1.35rem; max-width:43em; color:var(--ink-mid); font-size:clamp(1rem, .94rem + .3vw, 1.08rem) }
+.gate__acts{ display:flex; flex-wrap:wrap; gap:.75rem; margin-top:1.9rem }
+.go{ display:inline-flex; align-items:center; gap:.5rem; min-height:48px; padding:.72rem 1.5rem; border-radius:var(--r-s); text-decoration:none; font-weight:700; font-size:var(--fs-s); letter-spacing:.04em; transition:background var(--t2) var(--ez), color var(--t2) var(--ez), border-color var(--t2) var(--ez) }
+.go--on{ background:var(--sig-ink); color:#fff; border:2px solid var(--sig-ink) }
+.go--on:hover{ background:color-mix(in oklab, var(--sig-ink) 80%, #000); border-color:color-mix(in oklab, var(--sig-ink) 80%, #000) }
+.go--edge{ background:var(--bg); color:var(--sig-ink); border:2px solid var(--sig) }
+.go--edge:hover{ background:var(--sig-ink); color:#fff; border-color:var(--sig-ink) }
+
+/* ══ 署名的装置 ── 動作温度で選ぶ製品表 ══
+   技術者はシリーズ名ではなく「動作温度」と「開閉容量」で選ぶ。
+   だから最初の列を温度にした比較表を置く。 */
+.pick{ padding-block:clamp(2.4rem, 1.8rem + 3vw, 4.2rem); background:var(--sheet) }
+.pick__h{ font-family:var(--ff-d); font-size:var(--fs-h2); letter-spacing:.05em }
+.pick__n{ margin-top:.55rem; font-size:var(--fs-s); color:var(--ink-mid); max-width:46em }
+.matrix{ width:100%; border-collapse:collapse; margin-top:1.9rem; font-size:var(--fs-s); background:var(--bg) }
+.matrix caption{ text-align:left; color:var(--ink-mid); padding-bottom:.7rem; font-size:var(--fs-s) }
+.matrix th,.matrix td{ padding:.8rem .75rem; border-bottom:1px solid var(--rule); text-align:left; vertical-align:top }
+.matrix thead th{ font-size:.73rem; letter-spacing:.11em; border-bottom:2px solid var(--ink); white-space:nowrap; background:var(--bg) }
+.matrix tbody th{ font-family:var(--ff-n); font-weight:700; white-space:nowrap; color:var(--sig-ink); font-size:.95rem }
+.matrix .rng{ font-family:var(--ff-n); white-space:nowrap; font-weight:700 }
+.matrix .cap2{ font-family:var(--ff-n); font-size:.8rem; white-space:nowrap }
+.matrix tbody tr:hover{ background:var(--sig-wash) }
+.matrix .use{ color:var(--ink-mid) }
+.wide{ overflow-x:auto }
+.pick__f{ margin-top:1.1rem; font-size:var(--fs-s); color:var(--ink-mid) }
+
+/* 温度スパンを視覚化する細い帯 */
+.span{ display:block; height:6px; border-radius:3px; background:linear-gradient(90deg, oklch(72% .1 240), oklch(78% .13 70) 50%, var(--sig-lift)); margin-top:.35rem }
+
+/* ══ 強み ── 番号付きの主張 ══ */
+.bay{ padding-block:var(--bay) }
+.bay--tint{ background:var(--sheet) }
+.hd{ font-family:var(--ff-d); font-size:var(--fs-h2); letter-spacing:.05em }
+.hd__n{ display:block; font-family:var(--ff-n); font-size:.74rem; font-weight:700; letter-spacing:.15em; color:var(--sig-ink); margin-bottom:.5rem }
+.hd__p{ margin-top:.9rem; color:var(--ink-mid); max-width:45em }
+
+.claims{ list-style:none; margin:2.4rem 0 0; padding:0; border-top:2px solid var(--ink) }
+.claims li{ display:grid; grid-template-columns:1fr; gap:.4rem 2rem; padding:clamp(1.25rem,2.3vw,1.9rem) 0; border-bottom:1px solid var(--rule) }
+.claims__t{ font-size:var(--fs-h3); font-weight:700 }
+.claims__t b{ color:var(--sig-ink) }
+.claims__d{ color:var(--ink-mid) }
+.claims__d code{ font-family:var(--ff-n); font-size:.88em; background:var(--sheet); padding:.05em .4em; border-radius:2px }
+
+/* ══ 拠点 ── 3つ横並び ══ */
+.sites{ margin-top:2.3rem; display:grid; grid-template-columns:1fr; gap:1rem }
+.site{ border:1px solid var(--rule); border-top:3px solid var(--sig); border-radius:var(--r-m); padding:1.3rem 1.25rem; background:var(--bg) }
+.site__r{ font-family:var(--ff-n); font-size:.68rem; letter-spacing:.15em; color:var(--ink-low); font-weight:700 }
+.site__n{ font-size:var(--fs-h3); font-weight:700; margin-top:.3rem }
+.site__a{ margin-top:.55rem; font-size:var(--fs-s); color:var(--ink-mid); font-style:normal; line-height:1.95 }
+.site__a a{ color:var(--sig-ink); font-weight:700; text-decoration:none; min-height:44px; display:inline-flex; align-items:center }
+.site__a a:hover{ text-decoration:underline }
+
+/* ══ 会社概要 ══ */
+.book{ margin:2.3rem 0 0; border-top:2px solid var(--ink) }
+.book__r{ display:grid; grid-template-columns:minmax(7rem,13rem) 1fr; gap:0 clamp(1rem,3vw,2.2rem); border-bottom:1px solid var(--rule); padding:1.05rem 0 }
+.book dt{ font-size:var(--fs-s); font-weight:700; letter-spacing:.06em; color:var(--sig-ink) }
+.book dd{ margin:0 }
+.book dd small{ display:block; color:var(--ink-mid); font-size:var(--fs-s); margin-top:.2rem }
+.book dd a{ min-height:44px; display:inline-flex; align-items:center; font-weight:700; color:var(--sig-ink); text-decoration:none }
+.book dd a:hover{ text-decoration:underline }
+
+/* ══ 注意喚起 ── この会社が実際に出している警告 ══ */
+.warn{ margin-top:2.2rem; border:2px solid var(--sig); border-radius:var(--r-m); padding:1.3rem 1.35rem; background:var(--sig-wash) }
+.warn__h{ font-size:var(--fs-h3); font-weight:700; color:var(--sig-ink) }
+.warn__p{ margin-top:.5rem; color:var(--ink-mid); font-size:var(--fs-s) }
+
+/* ══ 問い ══ */
+.ask{ margin-top:2.3rem; border-top:1px solid var(--rule) }
+.ask details{ border-bottom:1px solid var(--rule) }
+.ask summary{ cursor:pointer; list-style:none; padding:1.1rem 2.6rem 1.1rem 0; position:relative; font-weight:700; font-size:var(--fs-h3); min-height:44px; display:flex; align-items:center }
+.ask summary::-webkit-details-marker{ display:none }
+.ask summary::after{ content:""; position:absolute; right:.5rem; top:50%; width:11px; height:11px; border-right:2px solid var(--sig); border-bottom:2px solid var(--sig); translate:0 -60%; rotate:45deg; transition:rotate var(--t2) var(--ez) }
+.ask details[open] summary::after{ rotate:225deg; translate:0 -25% }
+.ask summary:hover{ color:var(--sig-ink) }
+.ask__a{ padding:0 0 1.25rem; color:var(--ink-mid); max-width:52em }
+
+.map{ display:block; width:100%; grid-column:1 / -1; margin-top:1.1rem }
+.map iframe{ display:block; width:100%; height:clamp(15rem, 26vw, 20rem); border:0; border-radius:var(--r-s) }
+
+.foot{ background:var(--ink); color:oklch(92% 0 0); padding-block:clamp(2.3rem, 1.6rem + 3vw, 3.5rem) }
+.foot__in{ display:grid; grid-template-columns:1fr; gap:1.7rem }
+.foot__n{ font-family:var(--ff-d); font-size:1.2rem; letter-spacing:.06em; color:#fff }
+.foot__a{ margin-top:.7rem; font-style:normal; font-size:var(--fs-s); line-height:2.05; color:oklch(92% 0 0) }
+.foot__a a{ color:#fff; font-weight:700; text-decoration:none; min-height:44px; display:inline-flex; align-items:center }
+.foot__a a:hover{ text-decoration:underline }
+.foot__l{ list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:.5rem 1.4rem }
+.foot__l a{ color:oklch(92% 0 0); text-decoration:none; font-size:var(--fs-s); min-height:44px; display:inline-flex; align-items:center }
+.foot__l a:hover{ color:#fff; text-decoration:underline }
+.foot__c{ margin-top:1.9rem; padding-top:1.1rem; border-top:1px solid oklch(100% 0 0 / .18); font-size:.78rem; color:oklch(87% 0 0) }
+
+@media (min-width:700px){ .sites{ grid-template-columns:repeat(2,1fr) } }
+@media (min-width:1000px){ .sites{ grid-template-columns:repeat(4,1fr) } }
+@media (min-width:768px){
+  .claims li{ grid-template-columns:minmax(12rem,19rem) 1fr }
+  .foot__in{ grid-template-columns:1.35fr 1fr }
+}
+@media (max-width:860px){
+  .tog{ display:flex }
+  .helm{ position:absolute; inset:100% 0 auto; background:var(--bg); border-bottom:1px solid var(--rule); flex-direction:column; align-items:stretch; gap:0; padding:.5rem var(--gut) 1.15rem; box-shadow:0 8px 26px oklch(22% 0 0 / .1) }
+  .helm[hidden]{ display:none }
+  .helm a{ border-bottom:1px solid var(--rule-thin) }
+  .helm a::after{ display:none }
+  .helm__go{ justify-content:center; margin-top:.8rem; border-bottom:0; padding-block:.7rem!important }
+}
+@media (min-width:861px){ .helm{ display:flex!important } }
+@media (max-width:600px){ .book__r{ grid-template-columns:1fr; gap:.3rem } }
+
+/* ══ 動き ══ */
+.js [data-up]{ opacity:0; translate:0 1.1rem }
+.js [data-up].is-in{ opacity:1; translate:0 0; transition:opacity var(--t3) var(--ez), translate var(--t3) var(--ez) }
+.js [data-up].is-in[style*="--d"]{ transition-delay:var(--d) }
+.cap{ transition:box-shadow var(--t2) var(--ez) }
+.cap.is-lift{ box-shadow:0 2px 18px oklch(22% 0 0 / .1) }
+
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion: no-preference){
+    .span{ clip-path:inset(0 100% 0 0); animation:widen linear both; animation-timeline:view(); animation-range:entry 15% cover 38% }
+  }
+}
+@keyframes widen{ to{ clip-path:inset(0 0 0 0) } }
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{ animation-duration:.001ms!important; animation-iteration-count:1!important; transition-duration:.001ms!important }
+  .js [data-up]{ opacity:1!important; translate:none!important }
+  .span{ clip-path:none!important }
+}
+@media print{
+  .cap,.leap,.map,.gate__acts{ display:none }
+  body{ color:#000 }
+  .foot{ background:#fff!important; color:#000!important }
+  .foot *{ color:#000!important }
+}

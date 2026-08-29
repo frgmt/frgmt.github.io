@@ -1,0 +1,216 @@
+/* =========================================================
+   株式会社エステック — リニューアル提案
+   アクセントは現行 base.css の #f60 とボタン画像の #f06000 を採取。
+   oklch(69.6% .204 43.5) → 面 oklch(55% .155 44) / 文字 oklch(46% .14 44)
+   色相差 0.5°。
+
+   注：アイテック(37°)・ウチヤ(28°)と暖色が続いたため、
+   ここは「地を濃いインクにせず、罫を極太にする図面的な構成」で分ける。
+   区画の分離は地色ではなく 3px の実線で行う。
+   ========================================================= */
+
+:root{
+  --bg:        oklch(100% 0 0);
+  --draft:     oklch(97% .006 44);
+  --rule:      oklch(86% .011 44);
+  --rule-thin: oklch(93% .007 44);
+  --rule-bold: oklch(22% .012 44);
+
+  --ink:       oklch(22% .012 44);
+  --ink-mid:   oklch(42% .011 44);
+  --ink-low:   oklch(50% .01 44);
+
+  --cut:       oklch(55% .155 44);
+  --cut-ink:   oklch(46% .14 44);
+  --cut-wash:  oklch(97.4% .015 44);
+  --cut-lift:  oklch(68% .19 44);
+
+  --ff-d: "M PLUS 1p", "Hiragino Kaku Gothic ProN", sans-serif;
+  --ff-t: "M PLUS 1p", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  --ff-n: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --fs-h1: clamp(1.8rem, 1.05rem + 3vw, 2.9rem);
+  --fs-h2: clamp(1.32rem, 1.05rem + 1.3vw, 1.8rem);
+  --fs-h3: clamp(1.02rem, .94rem + .4vw, 1.18rem);
+  --fs-b:  clamp(.95rem, .9rem + .22vw, 1.02rem);
+  --fs-s:  clamp(.82rem, .79rem + .14vw, .88rem);
+
+  --gut: clamp(1.15rem, .5rem + 2.6vw, 3.4rem);
+  --bay: clamp(3.2rem, 2rem + 5vw, 6rem);
+  --r-s: 2px;
+
+  --ez: cubic-bezier(.24,.7,.3,1);
+  --t1: 130ms; --t2: 220ms; --t3: 340ms;
+}
+
+*,*::before,*::after{ box-sizing:border-box }
+html{ -webkit-text-size-adjust:100% }
+body{ margin:0; background:var(--bg); color:var(--ink); font-family:var(--ff-t); font-size:var(--fs-b); line-height:1.85; font-feature-settings:"palt" 1; -webkit-font-smoothing:antialiased }
+img,iframe{ max-width:100%; display:block }
+h1,h2,h3{ line-height:1.34; font-weight:700; margin:0 }
+p{ margin:0 }
+:focus-visible{ outline:3px solid var(--cut); outline-offset:3px; border-radius:2px }
+
+.hold{ width:min(100% - var(--gut)*2, 1120px); margin-inline:auto }
+.leap{ position:absolute; left:-9999px; background:var(--cut-ink); color:#fff; padding:.7rem 1.1rem; z-index:99 }
+.leap:focus{ left:0; top:0 }
+
+/* ══ ヘッダー：識別＝「認証と規模を並べる」 ══ */
+.cap{ position:sticky; top:0; z-index:40; background:oklch(100% 0 0 / .96); backdrop-filter:blur(9px); border-bottom:3px solid var(--rule-bold) }
+.cap__bar{ background:var(--cut-ink); color:#fff }
+.cap__bar .hold{ display:flex; flex-wrap:wrap; gap:.3rem 1.2rem; justify-content:space-between; align-items:center; padding-block:.4rem }
+.tagline{ margin:0; font-size:var(--fs-s); color:#fff; letter-spacing:.05em }
+.tagline b{ font-weight:700 }
+.bar__t{ font-size:var(--fs-s); color:#fff; text-decoration:none; font-weight:700; letter-spacing:.04em; min-height:44px; display:inline-flex; align-items:center }
+.bar__t:hover{ text-decoration:underline }
+
+.cap__in{ display:flex; align-items:center; justify-content:space-between; gap:1rem; padding-block:.8rem }
+.sign{ text-decoration:none; color:var(--ink); display:flex; flex-direction:column; justify-content:center; min-height:46px }
+.sign__j{ font-family:var(--ff-d); font-size:clamp(1.24rem, 1rem + .82vw, 1.6rem); font-weight:700; letter-spacing:.06em; line-height:1.2 }
+.sign__r{ font-family:var(--ff-n); font-size:.66rem; color:var(--ink-mid); letter-spacing:.15em; margin-top:.2rem }
+
+.helm{ display:flex; align-items:center; gap:clamp(.85rem, 2vw, 1.5rem) }
+.helm a{ color:var(--ink); text-decoration:none; font-size:var(--fs-s); font-weight:500; letter-spacing:.03em; min-height:44px; display:inline-flex; align-items:center; position:relative }
+.helm a::after{ content:""; position:absolute; left:0; right:100%; bottom:.5rem; height:2px; background:var(--cut); transition:right var(--t2) var(--ez) }
+.helm a:hover::after{ right:0 }
+.helm__go{ background:var(--cut-ink); color:#fff!important; padding:0 1.1rem!important; border-radius:var(--r-s); font-weight:700; transition:background var(--t2) var(--ez) }
+.helm__go::after{ display:none }
+.helm__go:hover{ background:color-mix(in oklab, var(--cut-ink) 80%, #000) }
+
+.tog{ display:none; width:46px; height:46px; border:2px solid var(--rule-bold); background:var(--bg); border-radius:var(--r-s); cursor:pointer; align-items:center; justify-content:center; flex-direction:column; gap:5px }
+.tog span{ display:block; width:19px; height:2px; background:var(--ink) }
+
+/* ══ 幕開け ══ */
+.gate{ padding-block:clamp(2.6rem, 1.8rem + 4vw, 4.8rem) clamp(2rem, 1.5rem + 2.4vw, 3.4rem) }
+.gate__k{ display:inline-block; font-family:var(--ff-n); font-size:.74rem; font-weight:700; letter-spacing:.15em; color:var(--cut-ink); border-left:3px solid var(--cut); padding-left:.7rem; margin-bottom:1.2rem }
+.gate__h{ font-family:var(--ff-d); font-size:var(--fs-h1); letter-spacing:.02em; max-width:19em }
+.gate__h em{ font-style:normal; color:var(--cut-ink) }
+.gate__p{ margin-top:1.3rem; max-width:43em; color:var(--ink-mid); font-size:clamp(1rem, .94rem + .3vw, 1.08rem) }
+.gate__acts{ display:flex; flex-wrap:wrap; gap:.75rem; margin-top:1.8rem }
+.go{ display:inline-flex; align-items:center; gap:.5rem; min-height:48px; padding:.72rem 1.5rem; border-radius:var(--r-s); text-decoration:none; font-weight:700; font-size:var(--fs-s); letter-spacing:.04em; transition:background var(--t2) var(--ez), color var(--t2) var(--ez), border-color var(--t2) var(--ez) }
+.go--on{ background:var(--cut-ink); color:#fff; border:2px solid var(--cut-ink) }
+.go--on:hover{ background:color-mix(in oklab, var(--cut-ink) 80%, #000); border-color:color-mix(in oklab, var(--cut-ink) 80%, #000) }
+.go--edge{ background:var(--bg); color:var(--cut-ink); border:2px solid var(--rule-bold) }
+.go--edge:hover{ background:var(--rule-bold); color:#fff }
+
+/* ══ 署名的装置 ── 加工事例の「考えたこと」 ══
+   この会社の現行サイトは、部品ごとに"どう考えて削ったか"を書いている。
+   これは町工場のサイトでは珍しく、そのまま最大の資産になる。 */
+.jobs{ padding-block:clamp(2.2rem, 1.8rem + 2.6vw, 3.6rem); border-top:3px solid var(--rule-bold); border-bottom:3px solid var(--rule-bold) }
+.jobs__h{ font-family:var(--ff-d); font-size:var(--fs-h2); letter-spacing:.04em }
+.jobs__n{ margin-top:.55rem; font-size:var(--fs-s); color:var(--ink-mid); max-width:46em }
+.job{ display:grid; grid-template-columns:1fr; gap:.55rem 2rem; padding:clamp(1.35rem,2.4vw,2rem) 0; border-bottom:1px solid var(--rule) }
+.job:last-of-type{ border-bottom:0; padding-bottom:0 }
+.jobs__list{ margin-top:1.9rem }
+.job__t{ font-size:var(--fs-h3); font-weight:700 }
+.job__m{ display:flex; flex-wrap:wrap; gap:.3rem; margin-top:.45rem }
+.job__m span{ font-family:var(--ff-n); font-size:.72rem; letter-spacing:.03em; color:var(--cut-ink); border:1px solid var(--cut); border-radius:2px; padding:.1rem .5rem }
+.job__d{ color:var(--ink-mid) }
+.job__d b{ color:var(--ink); font-weight:700 }
+.job__d code{ font-family:var(--ff-n); font-size:.9em; color:var(--cut-ink); font-weight:700 }
+
+/* ══ 設備 ── 極太罫で仕切る図面的な一覧 ══ */
+.bay{ padding-block:var(--bay) }
+.bay--tint{ background:var(--draft) }
+.hd{ font-family:var(--ff-d); font-size:var(--fs-h2); letter-spacing:.04em }
+.hd__n{ display:block; font-family:var(--ff-n); font-size:.74rem; font-weight:700; letter-spacing:.15em; color:var(--cut-ink); margin-bottom:.5rem }
+.hd__p{ margin-top:.9rem; color:var(--ink-mid); max-width:45em }
+
+.gear{ margin-top:2.3rem; border-top:3px solid var(--rule-bold) }
+.gear__i{ display:grid; grid-template-columns:1fr; gap:.5rem 2rem; padding:1.2rem 0; border-bottom:1px solid var(--rule) }
+.gear__n{ font-family:var(--ff-n); font-weight:700; font-size:1rem; color:var(--ink) }
+.gear__n small{ display:block; font-family:var(--ff-t); font-size:.72rem; font-weight:500; color:var(--cut-ink); letter-spacing:.1em; margin-top:.2rem }
+.gear__d{ color:var(--ink-mid); font-size:var(--fs-s) }
+.gear__x{ margin-top:1.3rem; padding-top:1.1rem; border-top:1px solid var(--rule); font-size:var(--fs-s); color:var(--ink-mid) }
+.gear__x b{ color:var(--ink) }
+
+/* ══ 沿革 ══ */
+.rail{ list-style:none; margin:2.2rem 0 0; padding:0 0 0 1.5rem; border-left:3px solid var(--rule-bold) }
+.rail li{ position:relative; padding:0 0 1.35rem }
+.rail li::before{ content:""; position:absolute; left:calc(-1.5rem - 7px); top:.62rem; width:11px; height:11px; background:var(--cut); border:2px solid var(--bg) }
+.rail__y{ font-family:var(--ff-n); font-weight:700; color:var(--cut-ink); font-size:.92rem; letter-spacing:.01em }
+.rail__t{ color:var(--ink-mid); margin-top:.12rem }
+
+/* ══ 会社概要 ══ */
+.book{ margin:2.2rem 0 0; border-top:3px solid var(--rule-bold) }
+.book__r{ display:grid; grid-template-columns:minmax(7rem,12rem) 1fr; gap:0 clamp(1rem,3vw,2.2rem); border-bottom:1px solid var(--rule); padding:1rem 0 }
+.book dt{ font-size:var(--fs-s); font-weight:700; letter-spacing:.06em; color:var(--cut-ink) }
+.book dd{ margin:0 }
+.book dd small{ display:block; color:var(--ink-mid); font-size:var(--fs-s); margin-top:.2rem }
+.book dd a{ min-height:44px; display:inline-flex; align-items:center; font-weight:700; color:var(--cut-ink); text-decoration:none }
+.book dd a:hover{ text-decoration:underline }
+
+/* ══ 検査の姿勢 ══ */
+.stance{ margin-top:2.2rem; border-left:5px solid var(--cut); padding:1.1rem 0 1.1rem 1.3rem }
+.stance__h{ font-size:var(--fs-h3); font-weight:700 }
+.stance__p{ margin-top:.5rem; color:var(--ink-mid) }
+
+/* ══ 問い ══ */
+.ask{ margin-top:2.2rem; border-top:3px solid var(--rule-bold) }
+.ask details{ border-bottom:1px solid var(--rule) }
+.ask summary{ cursor:pointer; list-style:none; padding:1.05rem 2.6rem 1.05rem 0; position:relative; font-weight:700; font-size:var(--fs-h3); min-height:44px; display:flex; align-items:center }
+.ask summary::-webkit-details-marker{ display:none }
+.ask summary::after{ content:""; position:absolute; right:.5rem; top:50%; width:11px; height:11px; border-right:2px solid var(--cut); border-bottom:2px solid var(--cut); translate:0 -60%; rotate:45deg; transition:rotate var(--t2) var(--ez) }
+.ask details[open] summary::after{ rotate:225deg; translate:0 -25% }
+.ask summary:hover{ color:var(--cut-ink) }
+.ask__a{ padding:0 0 1.2rem; color:var(--ink-mid); max-width:52em }
+
+.spot{ margin-top:2.2rem; border:3px solid var(--rule-bold); padding:1.4rem; background:var(--bg) }
+.spot__n{ font-size:var(--fs-h3); font-weight:700 }
+.spot__a{ margin-top:.55rem; color:var(--ink-mid); font-size:var(--fs-s); font-style:normal; line-height:2 }
+.spot__a a{ color:var(--cut-ink); font-weight:700; text-decoration:none; min-height:44px; display:inline-flex; align-items:center }
+.spot__a a:hover{ text-decoration:underline }
+.map{ display:block; width:100%; grid-column:1 / -1; margin-top:1.1rem }
+.map iframe{ display:block; width:100%; height:clamp(15rem, 26vw, 20rem); border:0 }
+
+.foot{ background:var(--ink); color:oklch(92% .01 44); padding-block:clamp(2.2rem, 1.6rem + 2.8vw, 3.3rem) }
+.foot__in{ display:grid; grid-template-columns:1fr; gap:1.6rem }
+.foot__n{ font-family:var(--ff-d); font-size:1.2rem; letter-spacing:.06em; color:#fff }
+.foot__a{ margin-top:.7rem; font-style:normal; font-size:var(--fs-s); line-height:2.05; color:oklch(92% .01 44) }
+.foot__a a{ color:#fff; font-weight:700; text-decoration:none; min-height:44px; display:inline-flex; align-items:center }
+.foot__a a:hover{ text-decoration:underline }
+.foot__l{ list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:.5rem 1.4rem }
+.foot__l a{ color:oklch(92% .01 44); text-decoration:none; font-size:var(--fs-s); min-height:44px; display:inline-flex; align-items:center }
+.foot__l a:hover{ color:#fff; text-decoration:underline }
+.foot__c{ margin-top:1.8rem; padding-top:1.1rem; border-top:1px solid oklch(100% 0 0 / .18); font-size:.78rem; color:oklch(87% .01 44) }
+
+@media (min-width:768px){
+  .job{ grid-template-columns:minmax(12rem,19rem) 1fr }
+  .gear__i{ grid-template-columns:minmax(11rem,17rem) 1fr }
+  .foot__in{ grid-template-columns:1.35fr 1fr }
+}
+@media (max-width:860px){
+  .tog{ display:flex }
+  .helm{ position:absolute; inset:100% 0 auto; background:var(--bg); border-bottom:3px solid var(--rule-bold); flex-direction:column; align-items:stretch; gap:0; padding:.5rem var(--gut) 1.15rem; box-shadow:0 8px 26px oklch(22% .012 44 / .1) }
+  .helm[hidden]{ display:none }
+  .helm a{ border-bottom:1px solid var(--rule-thin) }
+  .helm a::after{ display:none }
+  .helm__go{ justify-content:center; margin-top:.8rem; border-bottom:0; padding-block:.7rem!important }
+}
+@media (min-width:861px){ .helm{ display:flex!important } }
+@media (max-width:600px){ .book__r{ grid-template-columns:1fr; gap:.3rem } }
+
+/* ══ 動き ══ */
+.js [data-up]{ opacity:0; translate:0 1.1rem }
+.js [data-up].is-in{ opacity:1; translate:0 0; transition:opacity var(--t3) var(--ez), translate var(--t3) var(--ez) }
+.js [data-up].is-in[style*="--d"]{ transition-delay:var(--d) }
+.cap{ transition:box-shadow var(--t2) var(--ez) }
+.cap.is-lift{ box-shadow:0 2px 18px oklch(22% .012 44 / .12) }
+
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion: no-preference){
+    .job__t{ background-image:linear-gradient(var(--cut-lift),var(--cut-lift)); background-repeat:no-repeat; background-position:0 100%; background-size:0% 2px; animation:mark linear both; animation-timeline:view(); animation-range:entry 22% cover 44% }
+  }
+}
+@keyframes mark{ to{ background-size:100% 2px } }
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{ animation-duration:.001ms!important; animation-iteration-count:1!important; transition-duration:.001ms!important }
+  .js [data-up]{ opacity:1!important; translate:none!important }
+}
+@media print{
+  .cap,.leap,.map,.gate__acts{ display:none }
+  body{ color:#000 }
+  .foot{ background:#fff!important; color:#000!important }
+  .foot *{ color:#000!important }
+}

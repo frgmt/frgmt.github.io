@@ -1,0 +1,15 @@
+{
+  "name": "株式会社すずらん本舗",
+  "short_name": "すずらん本舗",
+  "description": "栃木県宇都宮市の和菓子店。栃木県初の甘納豆製造販売店として昭和51年創業。4店舗。",
+  "lang": "ja",
+  "start_url": "index.html",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#fdfaf6",
+  "theme_color": "#fdfaf6",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}

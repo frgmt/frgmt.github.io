@@ -1,0 +1,345 @@
+/* 株式会社タクモス精機 — 「二つのロングセラー」を軸にした一枚もの
+   主色はロゴ・製品筐体と共通の青 rgb(48,112,176)（oklch 53.5% .12 251.1）。
+   TDシリーズの機体そのものがこの青で塗られており、色と製品が一致する。
+   面用と文字用の2トークンに分けている。 */
+
+:root{
+  --bl-br:   oklch(53.5% .12 251);   /* ロゴ・機体と同色。罫・面用 */
+  --bl:      oklch(45% .115 251);    /* 同色相・文字用 */
+  --bl-dk:   oklch(34% .095 251);
+  --bl-pl:   oklch(96.8% .014 251);
+  --bl-md:   oklch(88.5% .038 253);
+  --am:      oklch(78% .155 74);     /* 原サイト #ffaa00。極小の差し色 */
+
+  --pg:      oklch(100% 0 0);
+  --bd:      oklch(97.8% .003 251);
+  --ln:      oklch(89.5% .006 251);
+  --ln-f:    oklch(94.2% .004 251);
+
+  --k1:      oklch(23% .011 251);
+  --k2:      oklch(40.5% .01 251);
+  --k3:      oklch(53% .008 251);
+
+  --sa: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif;
+  --mo: "SFMono-Regular", Menlo, Consolas, "Courier New", monospace;
+
+  --e1: cubic-bezier(.24,.6,.36,1);
+  --e2: cubic-bezier(.16,1,.3,1);
+
+  --gp: clamp(1.15rem, .6rem + 2.4vw, 3rem);
+  --mx: 76rem;
+}
+
+*,*::before,*::after{ box-sizing:border-box }
+html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth }
+@media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto } }
+
+body{
+  margin:0; background:var(--pg); color:var(--k1);
+  font-family:var(--sa); font-size:1rem; line-height:1.9;
+  font-feature-settings:"palt" 1; -webkit-font-smoothing:antialiased;
+}
+img{ max-width:100%; height:auto; display:block }
+a{ color:inherit }
+h1,h2,h3{ margin:0; line-height:1.4; font-weight:700; letter-spacing:.02em }
+p{ margin:0 }
+.skip{ position:absolute; left:-9999px; top:0; z-index:100; background:var(--bl); color:#fff; padding:.7rem 1.1rem }
+.skip:focus{ left:0 }
+:focus-visible{ outline:2px solid var(--bl); outline-offset:3px }
+
+.wrap{ max-width:var(--mx); margin-inline:auto; padding-inline:var(--gp) }
+.nb{ display:none }
+@media (min-width:56rem){ .nb{ display:inline } }
+
+/* ── ヘッダー ───────────────────────────── */
+.hd{
+  position:sticky; top:0; z-index:40; background:rgba(255,255,255,.95);
+  -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+  border-block-end:1px solid var(--ln);
+}
+.hd__in{
+  max-width:var(--mx); margin-inline:auto; padding:.5rem var(--gp);
+  display:flex; align-items:center; justify-content:space-between; column-gap:1rem;
+}
+.mk{ display:flex; flex-direction:column; text-decoration:none; min-block-size:44px; justify-content:center }
+.mk__n{ font-size:1.08rem; font-weight:700; letter-spacing:.1em; color:var(--bl); line-height:1.25 }
+.mk__e{ font-family:var(--mo); font-size:.57rem; letter-spacing:.22em; color:var(--k3) }
+
+.nv{ display:none }
+@media (min-width:62rem){
+  .nv{ display:flex; align-items:center; column-gap:1.1rem }
+  .nv a{
+    text-decoration:none; font-size:.82rem; letter-spacing:.05em; color:var(--k2);
+    min-block-size:44px; display:inline-flex; align-items:center;
+    transition:color .18s var(--e1);
+  }
+  .nv a:not(.nv__go):hover{ color:var(--bl) }
+}
+.nv__go{
+  background:var(--bl); color:#fff !important; border-radius:4px;
+  padding:.5rem 1rem; font-weight:700; min-block-size:0 !important;
+  transition:background .18s var(--e1);
+}
+.nv__go:hover{ background:color-mix(in oklab, var(--bl) 82%, #000) }
+
+.bt{
+  display:grid; place-content:center; gap:4px; inline-size:44px; block-size:44px;
+  padding:0; background:none; border:1px solid var(--ln); border-radius:4px; cursor:pointer;
+}
+.bt span{ display:block; inline-size:17px; block-size:1.5px; background:var(--k1); transition:transform .25s var(--e1), opacity .18s }
+.bt[aria-expanded="true"] span:nth-child(1){ transform:translateY(5.5px) rotate(45deg) }
+.bt[aria-expanded="true"] span:nth-child(2){ opacity:0 }
+.bt[aria-expanded="true"] span:nth-child(3){ transform:translateY(-5.5px) rotate(-45deg) }
+@media (min-width:62rem){ .bt{ display:none } }
+
+@media (max-width:61.99rem){
+  .nv.is-open{
+    display:flex; flex-direction:column; align-items:stretch;
+    position:absolute; inset-inline:0; inset-block-start:100%;
+    background:#fff; border-block-end:1px solid var(--ln);
+    padding:.3rem var(--gp) 1rem;
+  }
+  .nv.is-open a{
+    text-decoration:none; padding:.8rem .2rem; font-size:.94rem;
+    border-block-end:1px solid var(--ln-f); color:var(--k1);
+    min-block-size:44px; display:flex; align-items:center;
+  }
+  .nv.is-open .nv__go{ margin-block-start:.8rem; border:0; justify-content:center }
+}
+
+/* ── 共通 ─────────────────────────────── */
+section{ padding-block:clamp(3.2rem, 1.7rem + 5.6vw, 6rem) }
+.ey{
+  font-family:var(--mo); font-size:.69rem; letter-spacing:.2em; color:var(--bl);
+  margin-block-end:.9rem; font-weight:700;
+}
+.h2{
+  font-size:clamp(1.45rem, 1.02rem + 1.95vw, 2.4rem); line-height:1.4;
+  margin-block-end:1.1rem;
+}
+.h2--c{ text-align:center }
+.tx{ max-width:45rem; color:var(--k2); font-size:clamp(.92rem, .88rem + .18vw, .99rem) }
+.tx strong{ color:var(--bl); font-weight:700 }
+.tx--c{ margin-inline:auto }
+@media (min-width:48rem){ .tx--c{ text-align:center } }
+
+/* ── 冒頭 ─────────────────────────────── */
+.top{ padding-block:clamp(2.8rem, 1.4rem + 6vw, 5.2rem) 0 }
+.up{
+  font-size:.75rem; letter-spacing:.13em; color:var(--bl); font-weight:700;
+  margin-block-end:1.15rem; padding-inline-start:1rem; position:relative;
+}
+.up::before{
+  content:""; position:absolute; inset-inline-start:0; inset-block-start:.35em;
+  inline-size:.55rem; block-size:.55rem; background:var(--am); border-radius:1px;
+  transform:rotate(45deg);
+}
+.top__h{
+  font-size:clamp(1.9rem, 1.12rem + 3.6vw, 3.5rem);
+  line-height:1.28; letter-spacing:.01em; margin-block-end:1.45rem;
+}
+.top__p{ max-width:44rem; color:var(--k2); font-size:clamp(.94rem, .89rem + .2vw, 1.01rem) }
+.top__p + .top__p{ margin-block-start:.85rem }
+.top__p strong{ color:var(--bl); font-weight:700 }
+.top__b{ display:flex; flex-wrap:wrap; gap:.7rem; margin-block-start:1.9rem }
+.ac{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-block-size:48px; padding:.7rem 1.6rem; border-radius:4px;
+  text-decoration:none; font-size:.91rem; font-weight:700; letter-spacing:.04em;
+  transition:background .2s var(--e1), border-color .2s var(--e1);
+}
+.ac--f{ background:var(--bl); color:#fff; border:1px solid var(--bl) }
+.ac--f:hover{ background:color-mix(in oklab, var(--bl) 82%, #000); border-color:color-mix(in oklab, var(--bl) 82%, #000) }
+.ac--l{ background:#fff; color:var(--k1); border:1px solid var(--ln) }
+.ac--l:hover{ background:var(--bl-pl); border-color:var(--bl) }
+
+.fx{
+  list-style:none; margin:clamp(2.4rem, 1.4rem + 3.6vw, 3.8rem) auto 0;
+  max-width:var(--mx); padding:0 var(--gp);
+  display:grid; grid-template-columns:repeat(2,1fr);
+  border-block-start:3px solid var(--bl-br);
+}
+@media (min-width:52rem){ .fx{ grid-template-columns:repeat(4,1fr) } }
+.fx li{
+  /* 区切り罫が右端にあるので、左にも内側の余白を取る。
+     0 のままだと2列目以降の数字が罫に貼りつき、左に寄って見える。 */
+  padding:1.2rem 1rem 1.35rem 1rem; border-inline-end:1px solid var(--ln);
+  display:flex; flex-direction:column; row-gap:.05rem;
+}
+.fx li:last-child{ border-inline-end:0 }
+/* 各行の1列目だけ左パディングを外す。2列表示と4列表示で
+   「行頭」になるセルが変わるため、幅ごとに指定を分ける。 */
+@media (min-width:52rem){ .fx li:nth-child(4n+1){ padding-inline-start:0 } }
+@media (max-width:51.99rem){
+  .fx li:nth-child(2n+1){ padding-inline-start:0 }
+  .fx li:nth-child(2n){ border-inline-end:0 }
+  .fx li:nth-child(-n+2){ border-block-end:1px solid var(--ln) }
+}
+.fx b{
+  font-family:var(--mo); font-size:clamp(1.4rem, 1.05rem + 1.3vw, 2rem);
+  font-weight:700; color:var(--bl); line-height:1.2; letter-spacing:-.02em;
+}
+.fx em{ font-style:normal; font-family:var(--mo); font-size:.75rem; color:var(--k3) }
+.fx span{ font-size:.74rem; color:var(--k3); margin-block-start:.2rem }
+
+/* ── 二つの主力（この案件の見せ場） ────────── */
+.duo{ background:var(--bd); border-block:1px solid var(--ln) }
+.pair{
+  margin-block-start:clamp(2rem, 1.2rem + 2.8vw, 3rem);
+  display:grid; gap:clamp(1rem, .6rem + 1.4vw, 1.6rem);
+}
+@media (min-width:56rem){ .pair{ grid-template-columns:repeat(2,1fr) } }
+.pd{
+  background:#fff; border:1px solid var(--ln); border-radius:8px;
+  padding:1.7rem 1.7rem 1.85rem; display:flex; flex-direction:column; row-gap:.5rem;
+  border-block-start:4px solid var(--am);
+}
+.pd--td{ border-block-start-color:var(--bl-br) }
+.pd__y{ font-family:var(--mo); font-size:.72rem; letter-spacing:.14em; color:var(--k3) }
+.pd__h{ font-size:clamp(1.35rem, 1.1rem + 1vw, 1.75rem); color:var(--bl); letter-spacing:.04em }
+.pd__k{ font-size:.83rem; color:var(--k3); font-weight:700; margin-block-end:.4rem }
+.pd__p{ font-size:.89rem; color:var(--k2); line-height:1.92 }
+.pd__p strong{ color:var(--bl); font-weight:700 }
+.pd__n{
+  margin-block-start:.6rem; padding-block-start:.75rem; border-block-start:1px solid var(--ln-f);
+  font-size:.81rem; color:var(--k3);
+}
+
+/* ── TDシリーズ 仕様 ──────────────────── */
+.tdg{
+  margin-block-start:clamp(1.6rem, 1rem + 2vw, 2.4rem);
+  display:grid; gap:clamp(1.4rem, .9rem + 1.8vw, 2.4rem);
+}
+@media (min-width:58rem){ .tdg{ grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); align-items:start } }
+.td__f{ margin:0; display:flex; flex-direction:column; row-gap:.55rem }
+.td__f img{
+  inline-size:100%; aspect-ratio:360/330; object-fit:contain;
+  border-radius:8px; border:1px solid var(--ln); background:#0b0b0b; padding:.5rem;
+}
+.td__f figcaption{ font-size:.76rem; color:var(--k3) }
+.td__b .tx{ margin-block-end:1.2rem }
+.spec{ margin:0; border-block-start:2px solid var(--bl-br) }
+.spec > div{ display:grid; border-block-end:1px solid var(--ln-f); padding-block:.8rem }
+@media (min-width:34rem){ .spec > div{ grid-template-columns:11rem minmax(0,1fr); column-gap:1.4rem } }
+.spec dt{ font-size:.79rem; color:var(--k3); letter-spacing:.04em; padding-block-start:.2rem }
+.spec dd{ margin:0; font-size:.9rem; color:var(--k1) }
+.spec b{ font-family:var(--mo); font-size:1.25rem; font-weight:700; color:var(--bl); letter-spacing:-.01em }
+.spec__n{ display:block; font-size:.75rem; color:var(--k3); margin-block-start:.2rem }
+
+/* ── 受託設計 ─────────────────────────── */
+.custom{ background:var(--bd); border-block:1px solid var(--ln) }
+.menu{
+  list-style:none; margin:clamp(2rem, 1.2rem + 2.8vw, 3rem) 0 0; padding:0;
+  display:grid; gap:1px; background:var(--ln);
+  border:1px solid var(--ln); border-radius:8px; overflow:hidden;
+}
+@media (min-width:44rem){ .menu{ grid-template-columns:repeat(2,1fr) } }
+@media (min-width:70rem){ .menu{ grid-template-columns:repeat(4,1fr) } }
+.menu li{ background:#fff; padding:1.4rem 1.4rem 1.55rem; display:flex; flex-direction:column; row-gap:.45rem }
+.menu__h{ font-size:1rem; color:var(--bl) }
+.menu__p{ font-size:.85rem; color:var(--k2); line-height:1.86 }
+
+/* ── 設備 ─────────────────────────────── */
+.tw{ overflow-x:auto; -webkit-overflow-scrolling:touch; margin-block-start:clamp(1.8rem, 1.1rem + 2.4vw, 2.6rem) }
+.tb{ inline-size:100%; border-collapse:collapse; font-size:.84rem; min-inline-size:44rem; background:#fff }
+.tb__c{ text-align:left; font-size:.73rem; color:var(--k3); padding-block-end:.5rem; letter-spacing:.05em }
+.tb th, .tb td{ padding:.6rem .85rem; text-align:left; border-block-end:1px solid var(--ln-f) }
+.tb thead th{
+  background:var(--bl); color:#fff; font-size:.74rem; letter-spacing:.07em; white-space:nowrap;
+}
+.tb tbody th{
+  font-weight:700; color:var(--bl); white-space:nowrap; vertical-align:top;
+  background:var(--bl-pl); border-inline-end:1px solid var(--ln-f);
+}
+.tb tbody td{ color:var(--k2) }
+.tb tbody td:nth-child(2){ font-family:var(--mo); white-space:nowrap }
+.tb tbody td:nth-child(4){ font-family:var(--mo); text-align:center; inline-size:3.5rem }
+.tb tbody tr:hover td{ background:var(--bl-pl) }
+
+/* ── FAQ ──────────────────────────────── */
+.qw{ margin-block-start:clamp(1.4rem, .9rem + 1.8vw, 2rem); border-block-start:1px solid var(--ln) }
+.qi{ border-block-end:1px solid var(--ln) }
+.qi summary{
+  cursor:pointer; list-style:none; padding:1.05rem 2.4rem 1.05rem 0;
+  font-weight:700; font-size:.92rem; position:relative; min-block-size:44px;
+  display:flex; align-items:center; transition:color .18s var(--e1);
+}
+.qi summary::-webkit-details-marker{ display:none }
+.qi summary:hover{ color:var(--bl) }
+.qi summary::after{
+  content:""; position:absolute; inset-inline-end:.7rem; inset-block-start:50%;
+  inline-size:8px; block-size:8px; margin-block-start:-5px;
+  border-inline-end:1.5px solid var(--bl); border-block-end:1.5px solid var(--bl);
+  transform:rotate(45deg); transition:transform .25s var(--e1);
+}
+.qi[open] summary::after{ transform:rotate(-135deg); margin-block-start:-2px }
+.qi p{ padding-block:0 1.2rem; color:var(--k2); font-size:.87rem; max-width:50rem }
+
+/* ── 会社概要 ─────────────────────────── */
+.firm{ background:var(--bd); border-block:1px solid var(--ln) }
+.fg{ display:grid; gap:clamp(1.4rem, .8rem + 2.2vw, 2.4rem); margin-block-start:clamp(1.4rem, .9rem + 1.8vw, 2rem) }
+@media (min-width:60rem){ .fg{ grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr); align-items:start } }
+.rows{ margin:0; border-block-start:3px solid var(--bl-br); background:#fff }
+.rows > div{ display:grid; border-block-end:1px solid var(--ln-f); padding:.85rem 1rem }
+@media (min-width:34rem){ .rows > div{ grid-template-columns:7rem minmax(0,1fr); column-gap:1.4rem } }
+.rows dt{ font-size:.78rem; color:var(--k3); letter-spacing:.06em; padding-block-start:.15rem }
+.rows dd{ margin:0; font-size:.89rem }
+.rows a{ color:var(--bl); display:inline-flex; align-items:center; min-block-size:44px; text-underline-offset:2px; word-break:break-all }
+.mp{ display:block; inline-size:100% }
+.mp iframe{
+  display:block; inline-size:100%; block-size:clamp(15rem, 26vw, 20rem);
+  border:0; border-radius:8px; background:var(--bl-pl);
+}
+
+/* ── 連絡 ─────────────────────────────── */
+.ways{
+  margin-block-start:clamp(1.8rem, 1.1rem + 2.4vw, 2.6rem);
+  display:grid; gap:clamp(.8rem, .5rem + 1vw, 1.1rem);
+  grid-template-columns:repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+}
+.wy{
+  background:#fff; border:1px solid var(--ln); border-radius:8px;
+  padding:1.3rem 1.5rem 1.45rem; text-decoration:none;
+  display:flex; flex-direction:column; row-gap:.3rem; min-block-size:44px;
+  transition:border-color .22s var(--e1), transform .22s var(--e2);
+}
+a.wy:hover{ border-color:var(--bl); transform:translateY(-2px) }
+.wy--main{ background:var(--bl-pl); border-color:var(--bl-md) }
+.wy__k{ font-family:var(--mo); font-size:.71rem; letter-spacing:.15em; color:var(--k3) }
+.wy__v{
+  font-family:var(--mo); font-weight:700; color:var(--bl);
+  font-size:clamp(1.1rem, .95rem + .7vw, 1.45rem); letter-spacing:-.01em; line-height:1.4;
+}
+.wy__v--m{ font-size:clamp(.82rem, .74rem + .36vw, .97rem); word-break:break-all; letter-spacing:0 }
+.wy:not(a) .wy__v{ color:var(--k2) }
+.wy__s{ font-size:.76rem; color:var(--k3) }
+
+/* ── フッター ─────────────────────────── */
+.ft{ background:#fff; border-block-start:3px solid var(--bl-br); padding-block:2.5rem 1.3rem }
+.ft__in{ display:grid; gap:1.5rem }
+@media (min-width:54rem){ .ft__in{ grid-template-columns:minmax(0,1fr) auto; column-gap:2.5rem; align-items:start } }
+.ft__n{ font-weight:700; letter-spacing:.1em; color:var(--bl); margin-block-end:.45rem }
+.ft__a{ font-size:.79rem; color:var(--k3); line-height:1.95 }
+.ft__v{ display:flex; flex-wrap:wrap; gap:.2rem 1.05rem }
+.ft__v a{
+  font-size:.79rem; color:var(--k2); text-decoration:none;
+  display:inline-flex; align-items:center; min-block-size:44px;
+  transition:color .18s var(--e1);
+}
+.ft__v a:hover{ color:var(--bl); text-decoration:underline; text-underline-offset:3px }
+.ft__c{
+  max-width:var(--mx); margin:1.6rem auto 0; padding:1rem var(--gp) 0;
+  border-block-start:1px solid var(--ln-f);
+  font-family:var(--mo); font-size:.69rem; letter-spacing:.06em; color:var(--k3);
+}
+
+/* ── スクロール演出（transform のみ） ─────── */
+@media (prefers-reduced-motion: no-preference){
+  @supports (animation-timeline: view()){
+    .js [data-reveal]{
+      animation:tk linear both; animation-timeline:view();
+      animation-range:entry 5% cover 24%;
+    }
+    @keyframes tk{ from{ transform:translateY(14px) } to{ transform:none } }
+  }
+}
