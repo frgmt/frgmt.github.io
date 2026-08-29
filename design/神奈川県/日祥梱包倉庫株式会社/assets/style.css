@@ -225,3 +225,11 @@ p{ margin:0 }
   .foot{ background:#fff!important; color:#000!important }
   .foot *{ color:#000!important }
 }
+
+/* 事業を表す線画（インラインSVG）。色は currentColor で継ぐ。 */
+.trade-fig{margin:clamp(2rem, 1.2rem + 3vw, 3.5rem) auto 0;max-inline-size:min(560px,100%);
+  padding:clamp(1rem, 0.6rem + 1.6vw, 1.75rem);border:1px solid currentColor;border-radius:2px}
+.trade-fig svg{display:block;inline-size:100%;block-size:auto}
+.trade-fig figcaption{margin-block-start:.75rem;font-size:.7rem;letter-spacing:.14em;
+  text-transform:uppercase;opacity:.65;text-align:center}
+@media (max-width:600px){.trade-fig{margin-inline:0;padding:.9rem}}
