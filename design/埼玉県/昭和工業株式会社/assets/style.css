@@ -1,0 +1,197 @@
+@charset "UTF-8";
+/* ============================================================
+   昭和工業株式会社 — コーポレートサイト リニューアル案
+   Art direction: 「層」。基布に薬品を塗り、熱で被膜にする仕事。
+   横に伸びる帯（レイヤー）を主役に据え、断面図の目線で構成する。
+   1934年創業・染色から産業資材への転換を、縦の年表ではなく
+   積層として見せる。
+   ============================================================ */
+
+:root{
+  color-scheme: light;
+
+  --ff-d:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+  --ff-t:"Noto Sans JP","Hiragino Kaku Gothic ProN",sans-serif;
+  --ff-n:"Roboto Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+
+  --s-2xs:clamp(.7rem, .68rem + .08vw, .75rem);
+  --s-xs: clamp(.76rem, .74rem + .1vw, .82rem);
+  --s-sm: clamp(.85rem, .82rem + .14vw, .92rem);
+  --s-md: clamp(.95rem, .92rem + .16vw, 1.02rem);
+  --s-lg: clamp(1.1rem, 1.04rem + .3vw, 1.3rem);
+  --s-xl: clamp(1.35rem, 1.2rem + .7vw, 1.85rem);
+  --s-2xl:clamp(1.7rem, 1.4rem + 1.5vw, 2.9rem);
+  --s-3xl:clamp(2.2rem, 1.6rem + 3vw, 4.4rem);
+
+  /* 布と樹脂。生成りの地に、藍を一点。 */
+  --bg:      oklch(99% .003 90);
+  --surface: oklch(100% 0 0);
+  --band:    oklch(96.4% .008 90);
+  --rule:    oklch(89% .008 90);
+  --rule-fine:oklch(93.5% .006 90);
+
+  --ink:     oklch(26% .012 250);
+  --ink-mid: oklch(43% .010 250);
+  --ink-low: oklch(45% .009 250);
+
+  --key:     oklch(45% .105 235);
+  --key-deep:oklch(37% .10 235);
+  --key-soft:oklch(96% .022 235);
+  --key-fg:  oklch(99% .002 235);
+
+  --wrap: 1180px;
+  --gut: clamp(1.15rem, .7rem + 2.2vw, 3rem);
+  --sec: clamp(3.6rem, 2.4rem + 5vw, 7rem);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--ff-t);font-size:var(--s-md);line-height:1.9;
+  letter-spacing:.02em;font-feature-settings:"palt" 1;
+  -webkit-font-smoothing:antialiased;
+}
+img,svg{max-width:100%}
+a{color:inherit}
+h1,h2,h3,h4{margin:0;line-height:1.36;font-weight:700;font-family:var(--ff-d)}
+p{margin:0}
+ul,ol,dl,dd{margin:0;padding:0}
+li{list-style:none}
+
+.wrap{max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gut)}
+.sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
+  clip-path:inset(50%);white-space:nowrap;border:0}
+.skip{position:absolute;left:-9999px;top:0;z-index:99;background:var(--ink);color:#fff;padding:.7rem 1.1rem}
+.skip:focus{left:.5rem;top:.5rem}
+:focus-visible{outline:2px solid var(--key);outline-offset:3px}
+
+/* ── ヘッダー ───────────────────────────── */
+.mast{position:sticky;top:0;z-index:40;background:color-mix(in oklab,var(--bg) 88%,transparent);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--rule)}
+.mast__in{display:flex;align-items:center;gap:1rem;min-height:66px}
+.mast__id{display:flex;align-items:baseline;gap:.6rem;text-decoration:none;margin-right:auto}
+.mast__n{font-family:var(--ff-d);font-size:var(--s-lg);letter-spacing:.03em}
+.mast__e{font-family:var(--ff-n);font-size:var(--s-2xs);letter-spacing:.2em;color:var(--ink-low)}
+.mast__nav{display:flex;gap:clamp(.8rem,.3rem + 1.4vw,1.7rem)}
+.mast__nav a{font-size:var(--s-sm);text-decoration:none;color:var(--ink-mid);padding-block:.4rem}
+.mast__nav a:hover{color:var(--key)}
+.mast__tel{font-family:var(--ff-n);font-weight:700;font-size:var(--s-md);
+  color:var(--key);text-decoration:none;white-space:nowrap;
+  display:inline-flex;align-items:center;min-height:44px;padding-inline:.3rem}
+@media(max-width:860px){
+  .mast__nav{display:none}
+  .mast__in{min-height:58px}
+}
+
+/* ── 冒頭 ───────────────────────────────── */
+.open{padding-block:clamp(2.6rem,1.6rem + 4vw,5.4rem) 0}
+.open__grid{display:grid;gap:clamp(2rem,1rem + 4vw,3.6rem);
+  grid-template-columns:minmax(0,1fr) minmax(0,.92fr);align-items:center}
+@media(max-width:900px){.open__grid{grid-template-columns:1fr}}
+.open__k{font-family:var(--ff-n);font-size:var(--s-2xs);letter-spacing:.24em;
+  color:var(--key);display:flex;align-items:center;gap:.65rem}
+.open__k::before{content:"";inline-size:30px;block-size:2px;background:var(--key)}
+.open__h{font-size:var(--s-3xl);letter-spacing:.005em;line-height:1.28;margin-top:1.5rem;
+  word-break:keep-all;overflow-wrap:anywhere}
+.open__h em{font-style:normal;color:var(--key)}
+.open__b{margin-top:1.6rem;color:var(--ink-mid);max-width:34em}
+.open__meta{margin-top:2rem;display:flex;flex-wrap:wrap;gap:.5rem .55rem}
+.open__meta span{font-size:var(--s-xs);border:1px solid var(--rule);border-radius:999px;
+  padding:.35rem .85rem;color:var(--ink-mid);background:var(--surface)}
+
+/* 署名的装置：コーティング断面 */
+.xsec{border:1px solid var(--rule);background:var(--surface);padding:clamp(1rem,.6rem + 1.4vw,1.6rem)}
+.xsec svg{display:block;inline-size:100%;block-size:auto}
+.xsec__cap{margin-top:.8rem;font-family:var(--ff-n);font-size:var(--s-2xs);
+  letter-spacing:.16em;color:var(--ink-low);text-align:center}
+
+/* ── 帯（層）で見せる数値 ───────────────── */
+.strata{margin-top:var(--sec);border-block:1px solid var(--rule);background:var(--band)}
+.strata__in{display:grid;grid-template-columns:repeat(4,1fr)}
+@media(max-width:820px){.strata__in{grid-template-columns:repeat(2,1fr)}}
+.stratum{padding:clamp(1.4rem,1rem + 1.6vw,2.2rem) 1rem;text-align:center;
+  border-left:1px solid var(--rule-fine)}
+.stratum:first-child{border-left:0}
+@media(max-width:820px){
+  .stratum:nth-child(3){border-left:0}
+  .stratum:nth-child(n+3){border-top:1px solid var(--rule-fine)}
+}
+.stratum__v{font-family:var(--ff-n);font-weight:700;font-size:var(--s-2xl);
+  color:var(--key);line-height:1.1}
+.stratum__v small{font-size:.42em;color:var(--ink-mid);margin-left:.25em;font-weight:400}
+.stratum__l{margin-top:.5rem;font-size:var(--s-xs);color:var(--ink-mid);letter-spacing:.05em}
+
+/* ── 節 ─────────────────────────────────── */
+.sec{padding-block:var(--sec)}
+.sec--tint{background:var(--band);border-block:1px solid var(--rule)}
+.sec__k{font-family:var(--ff-n);font-size:var(--s-2xs);letter-spacing:.22em;color:var(--key)}
+.sec__h{font-size:var(--s-2xl);margin-top:.6rem;letter-spacing:.01em}
+.sec__b{margin-top:1.2rem;color:var(--ink-mid);max-width:44em}
+
+/* 用途（層の重なりで見せる） */
+.uses{margin-top:clamp(1.8rem,1.2rem + 2vw,3rem);display:grid;gap:1px;background:var(--rule)}
+.use{background:var(--surface);padding:clamp(1.3rem,1rem + 1.4vw,2rem);
+  display:grid;grid-template-columns:auto minmax(0,1fr);gap:1.2rem;align-items:start}
+.use__n{font-family:var(--ff-n);font-size:var(--s-sm);font-weight:700;color:var(--key);
+  border:1px solid var(--key);border-radius:2px;padding:.15rem .5rem;line-height:1.5}
+.use__t{font-family:var(--ff-d);font-size:var(--s-lg)}
+.use__d{margin-top:.5rem;color:var(--ink-mid);font-size:var(--s-sm)}
+
+/* 設備 */
+.kit{margin-top:1.8rem;display:grid;gap:.85rem;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.kit li{background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--key);
+  padding:1rem 1.15rem;font-size:var(--s-sm)}
+
+/* 沿革（積層） */
+.hist{margin-top:2rem;border-top:1px solid var(--rule)}
+.hist__r{display:grid;grid-template-columns:11rem minmax(0,1fr);gap:1.2rem;
+  padding:1.05rem 0;border-bottom:1px solid var(--rule-fine)}
+@media(max-width:700px){.hist__r{grid-template-columns:1fr;gap:.3rem}}
+.hist__y{font-family:var(--ff-n);font-size:var(--s-sm);color:var(--key);font-weight:700}
+.hist__d{font-size:var(--s-sm);color:var(--ink-mid)}
+.hist__d b{color:var(--ink);font-weight:700}
+
+/* 会社概要 */
+.facts{margin-top:2rem;border-top:2px solid var(--ink)}
+.facts__r{display:grid;grid-template-columns:12rem minmax(0,1fr);gap:1.2rem;
+  padding:1rem 0;border-bottom:1px solid var(--rule-fine)}
+@media(max-width:700px){.facts__r{grid-template-columns:1fr;gap:.25rem}}
+.facts dt{font-size:var(--s-sm);color:var(--ink-low);letter-spacing:.06em}
+.facts dd{font-size:var(--s-sm)}
+
+.bases{margin-top:2.4rem;display:grid;gap:1rem;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.base{border:1px solid var(--rule);background:var(--surface);padding:1.25rem}
+.base__t{font-family:var(--ff-d);font-size:var(--s-md)}
+.base__m{margin-top:.5rem;font-size:var(--s-xs);color:var(--ink-mid);line-height:1.8}
+
+.map-box{margin-top:2rem;position:relative;aspect-ratio:16/9;
+  border:1px solid var(--rule);overflow:hidden;background:var(--band)}
+.map-box iframe{position:absolute;inset:0;inline-size:100%;block-size:100%;border:0}
+
+/* 問い合わせ */
+.cta{background:var(--key);color:var(--key-fg);padding-block:var(--sec)}
+.cta__h{font-size:var(--s-2xl)}
+.cta__b{margin-top:1rem;opacity:.92;max-width:40em}
+.cta__row{margin-top:2rem;display:flex;flex-wrap:wrap;gap:1rem 2.2rem;align-items:center}
+.cta__tel{font-family:var(--ff-n);font-weight:700;font-size:clamp(1.5rem,1.1rem + 1.8vw,2.4rem);
+  color:var(--key-fg);text-decoration:none;letter-spacing:.02em;
+  display:inline-flex;align-items:center;min-height:48px}
+.cta__note{font-size:var(--s-xs);opacity:.85}
+.cta__mail{display:inline-block;background:var(--key-fg);color:var(--key-deep);
+  text-decoration:none;font-weight:700;padding:.85rem 1.6rem;border-radius:2px;font-size:var(--s-sm)}
+
+.foot{background:var(--ink);color:oklch(92% .004 250);padding-block:2.6rem}
+.foot__in{display:flex;flex-wrap:wrap;gap:1.2rem 2.5rem;justify-content:space-between}
+.foot__n{font-family:var(--ff-d);font-size:var(--s-md);color:#fff}
+.foot__a{margin-top:.5rem;font-size:var(--s-xs);opacity:.78;line-height:1.85}
+.foot__c{font-family:var(--ff-n);font-size:var(--s-2xs);opacity:.6;align-self:end}
+
+@media (prefers-reduced-motion:no-preference){
+  [data-up]{opacity:0;transform:translateY(14px);
+    transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1);
+    transition-delay:var(--d,0ms)}
+  .is-in[data-up],.is-in [data-up]{opacity:1;transform:none}
+}
