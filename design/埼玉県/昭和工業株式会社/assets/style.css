@@ -129,6 +129,17 @@ li{list-style:none}
 .sec__h{font-size:var(--s-2xl);margin-top:.6rem;letter-spacing:.01em}
 .sec__b{margin-top:1.2rem;color:var(--ink-mid);max-width:44em}
 
+/* 工程写真 */
+.shots{margin-top:clamp(1.8rem, 1.2rem + 2vw, 2.6rem);display:grid;gap:1rem;
+  grid-template-columns:auto auto;justify-content:start;align-items:start}
+.shots img{border:1px solid var(--rule);background:var(--surface);
+  block-size:auto;display:block;max-inline-size:100%}
+/* 元画像が小さいため拡大しない（264px / 189px が原寸） */
+.shots img:first-of-type{inline-size:min(340px, 100%)}
+.shots img:nth-of-type(2){inline-size:min(244px, 100%)}
+.shots figcaption{grid-column:1/-1;font-size:var(--s-2xs);color:var(--ink-low);letter-spacing:.04em}
+@media(max-width:560px){.shots{grid-template-columns:1fr}}
+
 /* 用途（層の重なりで見せる） */
 .uses{margin-top:clamp(1.8rem,1.2rem + 2vw,3rem);display:grid;gap:1px;background:var(--rule)}
 .use{background:var(--surface);padding:clamp(1.3rem,1rem + 1.4vw,2rem);
