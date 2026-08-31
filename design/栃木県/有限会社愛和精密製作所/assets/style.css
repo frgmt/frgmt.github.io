@@ -1,0 +1,267 @@
+@charset "UTF-8";
+/* ============================================================
+   有限会社愛和精密製作所 — コーポレートサイト リニューアル案
+   Art direction: 「削れた形」。インコネルのインペラ、チタン、
+   ステアリングナックル。現行サイトには加工品の写真が74点あり、
+   すべてalt付きで整理されている。図を描く必要はまったくない。
+   基調色は現行サイトの紺 rgb(0,63,147) = oklch(39.0% .150 258.8)。
+   ほぼそのまま明度36%・彩度.140で使う。
+   地は無彩に近いごく淡いグレーで、金属の色を邪魔しない。
+   ============================================================ */
+
+:root{
+  color-scheme: light;
+
+  --ff-d:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+  --ff-t:"Noto Sans JP","Hiragino Kaku Gothic ProN",sans-serif;
+  --ff-n:"Roboto Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+
+  --s-2xs:clamp(.7rem, .68rem + .08vw, .75rem);
+  --s-xs: clamp(.77rem, .75rem + .1vw, .83rem);
+  --s-sm: clamp(.86rem, .83rem + .14vw, .93rem);
+  --s-md: clamp(.96rem, .93rem + .16vw, 1.03rem);
+  --s-lg: clamp(1.12rem, 1.06rem + .3vw, 1.32rem);
+  --s-xl: clamp(1.35rem, 1.2rem + .7vw, 1.85rem);
+  --s-2xl:clamp(1.68rem, 1.38rem + 1.5vw, 2.75rem);
+  --s-3xl:clamp(2.05rem, 1.45rem + 3vw, 4.1rem);
+
+  --bg:      oklch(97.6% .002 250);
+  --surface: oklch(100% 0 0);
+  --band:    oklch(94.8% .005 250);
+  --rule:    oklch(87% .005 250);
+  --rule-fine:oklch(92.5% .004 250);
+
+  --ink:     oklch(22% .008 250);
+  --ink-mid: oklch(42% .007 250);
+  --ink-low: oklch(45% .006 250);
+
+  --key:     oklch(36% .140 258);
+  --key-deep:oklch(27% .110 258);
+  --key-soft:oklch(95% .026 258);
+  --key-fg:  oklch(99% .004 258);
+
+  --wrap: 1150px;
+  --gut: clamp(1.15rem, .7rem + 2.2vw, 3rem);
+  --sec: clamp(3.6rem, 2.4rem + 5vw, 7rem);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--ff-t);font-size:var(--s-md);line-height:1.9;
+  letter-spacing:.015em;font-feature-settings:"palt" 1;-webkit-font-smoothing:antialiased}
+img,svg{max-width:100%}
+a{color:inherit}
+h1,h2,h3,h4{margin:0;line-height:1.38;font-weight:700;font-family:var(--ff-d)}
+p{margin:0}
+ul,ol,dl,dd{margin:0;padding:0}
+li{list-style:none}
+table{border-collapse:collapse}
+
+.wrap{max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gut)}
+.sr{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.skip{position:absolute;left:-9999px;top:0;z-index:99;background:var(--ink);color:#fff;padding:.7rem 1.1rem}
+.skip:focus{left:.5rem;top:.5rem}
+:focus-visible{outline:2px solid var(--key);outline-offset:3px}
+
+.bar{position:sticky;top:0;z-index:40;background:color-mix(in oklab,var(--bg) 90%,transparent);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--rule)}
+.bar__in{display:flex;align-items:center;gap:1rem;min-height:66px}
+.bar__id{display:flex;align-items:center;gap:.6rem;text-decoration:none;
+  margin-right:auto;min-block-size:44px}
+.bar__n{font-family:var(--ff-d);font-size:var(--s-lg);letter-spacing:.02em}
+.bar__e{font-family:var(--ff-n);font-size:var(--s-2xs);letter-spacing:.12em;color:var(--ink-low)}
+.bar__nav{display:flex;gap:clamp(.8rem, .3rem + 1.4vw, 1.7rem)}
+.bar__nav a{font-size:var(--s-sm);text-decoration:none;color:var(--ink-mid);
+  display:inline-flex;align-items:center;min-block-size:44px}
+.bar__nav a:hover{color:var(--key)}
+.bar__tel{font-family:var(--ff-n);font-weight:700;font-size:var(--s-md);color:var(--key);
+  text-decoration:none;white-space:nowrap;display:inline-flex;align-items:center;
+  min-block-size:44px;padding-inline:.3rem}
+@media(max-width:920px){.bar__nav{display:none}.bar__in{min-height:58px}}
+
+.lead{padding-block:clamp(2.6rem, 1.6rem + 4vw, 5.4rem) 0}
+.lead__grid{display:grid;gap:clamp(2rem, 1rem + 4vw, 3.4rem);
+  grid-template-columns:minmax(0,1fr) minmax(0,.9fr);align-items:center}
+@media(max-width:940px){.lead__grid{grid-template-columns:1fr}}
+.lead__k{font-family:var(--ff-n);font-size:var(--s-2xs);letter-spacing:.05em;color:var(--key);
+  display:flex;align-items:center;gap:.65rem}
+.lead__k::before{content:"";inline-size:30px;block-size:2px;background:var(--key)}
+.lead__h{font-size:var(--s-3xl);line-height:1.28;margin-top:1.5rem;
+  word-break:keep-all;overflow-wrap:anywhere;letter-spacing:.015em}
+.lead__h em{font-style:normal;color:var(--key)}
+.lead__b{margin-top:1.6rem;color:var(--ink-mid);max-width:34em}
+.lead__tags{margin-top:2rem;display:flex;flex-wrap:wrap;gap:.5rem .55rem}
+.lead__tags span{font-size:var(--s-xs);border:1px solid var(--rule);border-radius:999px;
+  padding:.35rem .85rem;color:var(--ink-mid);background:var(--surface)}
+
+/* 主役写真：現行サイトの実写を使う。図を描くより実物のほうが強い */
+/* 元画像が345px幅なので、それを超えて引き伸ばさない */
+.hero-fig{margin:0;max-inline-size:345px}
+@media(max-width:940px){.hero-fig{max-inline-size:520px;margin-inline:auto}}
+.hero-fig img{display:block;inline-size:100%;block-size:auto;
+  aspect-ratio:914/578;object-fit:cover;background:var(--band);border:1px solid var(--rule)}
+.hero-fig figcaption{margin-top:.7rem;font-size:var(--s-xs);color:var(--ink-low);line-height:1.7}
+
+/* 工程写真 6点 */
+.flow{display:grid;gap:clamp(.8rem, .5rem + 1vw, 1.3rem);
+  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));margin-top:2rem}
+.flow > *{min-inline-size:0}
+.step{background:var(--surface);border:1px solid var(--rule)}
+.step img{display:block;inline-size:100%;block-size:auto;
+  aspect-ratio:522/342;object-fit:cover;background:var(--band)}
+.step__b{padding:.9rem 1rem 1.1rem}
+/* span を並べているので、明示的に block にしないと1段落に流れてしまう */
+.step__n{display:block;font-family:var(--ff-n);font-size:var(--s-2xs);
+  color:var(--key);letter-spacing:.08em}
+.step__t{display:block;font-family:var(--ff-d);font-size:var(--s-md);margin-top:.2rem}
+.step__d{display:block;margin-top:.5rem;font-size:var(--s-xs);
+  color:var(--ink-mid);line-height:1.8}
+
+/* 本文中の写真。元画像は914px幅なので、それを超えて引き伸ばさない */
+.shot{margin:0;max-inline-size:914px}
+.shot img{display:block;inline-size:100%;block-size:auto;
+  aspect-ratio:914/578;object-fit:cover;background:var(--band);border:1px solid var(--rule)}
+.shot figcaption{margin-top:.6rem;font-size:var(--s-xs);color:var(--ink-low);line-height:1.7}
+
+.scale{margin-top:var(--sec);border-block:1px solid var(--rule);background:var(--band)}
+.scale__in{display:grid;grid-template-columns:repeat(4,1fr)}
+@media(max-width:840px){.scale__in{grid-template-columns:repeat(2,1fr)}}
+.tick{padding:clamp(1.4rem, 1rem + 1.6vw, 2.2rem) 1rem;text-align:center;
+  border-left:1px solid var(--rule-fine);min-inline-size:0}
+.tick:first-child{border-left:0}
+@media(max-width:840px){.tick:nth-child(3){border-left:0}
+  .tick:nth-child(n+3){border-top:1px solid var(--rule-fine)}}
+.tick__v{font-family:var(--ff-n);font-weight:700;font-size:var(--s-2xl);color:var(--key);line-height:1.12}
+.tick__v small{font-size:.4em;color:var(--ink-mid);margin-left:.22em;font-weight:400}
+.tick__l{margin-top:.5rem;font-size:var(--s-xs);color:var(--ink-mid)}
+
+.sec{padding-block:var(--sec)}
+.sec--tint{background:var(--band);border-block:1px solid var(--rule)}
+.sec__k{font-family:var(--ff-n);font-size:var(--s-2xs);letter-spacing:.05em;color:var(--key)}
+.sec__h{font-size:var(--s-2xl);margin-top:.6rem;letter-spacing:.015em}
+.sec__b{margin-top:1.2rem;color:var(--ink-mid);max-width:44em}
+.sec__g{display:grid;gap:clamp(1rem, .6rem + 1.4vw, 1.6rem);
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));margin-top:2rem}
+/* グリッド項目は既定で min-width:auto。中の表に押し広げられるため 0 を明示 */
+.sec__g > *{min-inline-size:0}
+
+.use{border:1px solid var(--rule);border-top:3px solid var(--key);
+  background:var(--surface);padding:1.4rem}
+.use__t{font-family:var(--ff-d);font-size:var(--s-md)}
+.use__d{margin-top:.6rem;font-size:var(--s-sm);color:var(--ink-mid);line-height:1.85}
+.use__l{margin-top:.8rem;display:flex;flex-wrap:wrap;gap:.35rem}
+.use__l span{font-family:var(--ff-n);font-size:var(--s-2xs);background:var(--key-soft);
+  color:var(--key-deep);padding:.18rem .5rem;border-radius:2px}
+
+.tw{margin-top:2rem;overflow-x:auto;border:1px solid var(--rule);background:var(--surface)}
+.tb{inline-size:100%;min-inline-size:640px;font-size:var(--s-sm)}
+.tb caption{text-align:left;padding:1rem 1.1rem;font-size:var(--s-xs);
+  color:var(--ink-low);border-bottom:1px solid var(--rule-fine)}
+.tb th,.tb td{padding:.7rem 1.1rem;text-align:left;border-bottom:1px solid var(--rule-fine);
+  vertical-align:top}
+.tb thead th{background:var(--band);font-size:var(--s-xs);letter-spacing:.03em;
+  color:var(--ink-mid);font-weight:700;white-space:nowrap}
+.tb td.n{font-family:var(--ff-n);font-size:var(--s-xs);color:var(--ink-mid);white-space:nowrap}
+.tb tbody tr:last-child th,.tb tbody tr:last-child td{border-bottom:0}
+
+.hist{margin-top:2rem;border-top:2px solid var(--ink)}
+.hist__r{display:grid;grid-template-columns:9rem minmax(0,1fr);gap:1.2rem;
+  padding:.8rem 0;border-bottom:1px solid var(--rule-fine)}
+@media(max-width:620px){.hist__r{grid-template-columns:1fr;gap:.2rem}}
+.hist dt{font-family:var(--ff-n);font-size:var(--s-xs);color:var(--key);padding-top:.15em}
+.hist dd{font-size:var(--s-sm)}
+
+.facts{margin-top:2rem;border-top:2px solid var(--ink)}
+.facts__r{display:grid;grid-template-columns:11rem minmax(0,1fr);gap:1.2rem;
+  padding:1rem 0;border-bottom:1px solid var(--rule-fine)}
+@media(max-width:700px){.facts__r{grid-template-columns:1fr;gap:.25rem}}
+.facts dt{font-size:var(--s-sm);color:var(--ink-low);letter-spacing:.03em}
+.facts dd{font-size:var(--s-sm)}
+/* 本文中の電話・メールリンクは、どの器の中でも44pxを確保する */
+.use__d a[href^="tel:"],.use__d a[href^="mailto:"],
+.facts dd a[href^="tel:"],.facts dd a[href^="mailto:"]{display:inline-flex;align-items:center;
+  min-block-size:44px;color:var(--key);text-underline-offset:.2em}
+
+.map-box{margin-top:1.2rem;position:relative;aspect-ratio:16/9;
+  border:1px solid var(--rule);overflow:hidden;background:var(--band)}
+.map-box iframe{position:absolute;inset:0;inline-size:100%;block-size:100%;border:0}
+
+.cta{background:var(--key);color:var(--key-fg);padding-block:var(--sec)}
+.cta__h{font-size:var(--s-2xl)}
+.cta__b{margin-top:1rem;color:oklch(96.5% .012 258);max-width:40em}
+.cta__row{margin-top:2rem;display:flex;flex-wrap:wrap;gap:1rem 2.2rem;align-items:center}
+.cta__tel{font-family:var(--ff-n);font-weight:700;font-size:clamp(1.5rem, 1.1rem + 1.8vw, 2.4rem);
+  color:var(--key-fg);text-decoration:none;display:inline-flex;align-items:center;min-block-size:48px}
+.cta__note{font-size:var(--s-xs);color:oklch(94% .014 258)}
+
+.foot{background:var(--ink);color:oklch(92% .005 250);padding-block:2.6rem}
+.foot__in{display:flex;flex-wrap:wrap;gap:1.2rem 2.5rem;justify-content:space-between}
+.foot__n{font-family:var(--ff-d);font-size:var(--s-md);color:#fff}
+.foot__a{margin-top:.5rem;font-size:var(--s-xs);color:oklch(81% .005 250);line-height:1.85}
+.foot__c{font-family:var(--ff-n);font-size:var(--s-2xs);color:oklch(70% .005 250);align-self:end}
+
+/* 動きは JS が有効なときだけ。無効なら本文はそのまま見える */
+.js [data-up]{opacity:0;transform:translateY(14px)}
+.js [data-up].is-in{opacity:1;transform:none;
+  transition:opacity .62s ease var(--d,0ms),
+             transform .62s cubic-bezier(.22,.7,.3,1) var(--d,0ms)}
+@media (prefers-reduced-motion:reduce){
+  .js [data-up]{opacity:1;transform:none}
+  .js [data-up].is-in{transition:none}
+}
+
+/* 実績の箇条書き */
+.list{margin-top:1.4rem;display:grid;gap:.45rem;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.list li{font-size:var(--s-sm);color:var(--ink-mid);padding-left:1.1em;position:relative}
+.list li::before{content:"";position:absolute;left:0;top:.72em;
+  inline-size:5px;block-size:5px;background:var(--key)}
+
+/* 製品カード：写真が主役。青い台に部品を並べた撮り方をそのまま活かす */
+.pcard{background:var(--surface);border:1px solid var(--rule)}
+.pcard img{display:block;inline-size:100%;block-size:auto;
+  aspect-ratio:345/240;object-fit:cover;background:var(--band)}
+.pcard__b{padding:1rem 1.1rem 1.2rem}
+.pcard__t{font-family:var(--ff-d);font-size:var(--s-md);display:block}
+.pcard__d{display:block;margin-top:.5rem;font-size:var(--s-xs);
+  color:var(--ink-mid);line-height:1.85}
+.pcard__n{display:block;margin-top:.6rem;font-family:var(--ff-n);font-size:var(--s-2xs);
+  color:var(--key-deep);background:var(--key-soft);padding:.2rem .5rem;border-radius:2px;
+  inline-size:fit-content}
+
+/* 設備の集計表 */
+.eq{inline-size:100%;min-inline-size:560px;font-size:var(--s-sm)}
+.eq caption{text-align:left;padding:1rem 1.1rem;font-size:var(--s-xs);
+  color:var(--ink-low);border-bottom:1px solid var(--rule-fine)}
+.eq th,.eq td{padding:.65rem 1rem;border-bottom:1px solid var(--rule-fine);text-align:left}
+.eq td.n{font-family:var(--ff-n);font-size:var(--s-xs);color:var(--ink-mid);
+  text-align:right;white-space:nowrap}
+.eq thead th{background:var(--band);font-size:var(--s-xs);color:var(--ink-mid);font-weight:700}
+.eq thead th.n{text-align:right}
+.eq tbody tr:last-child th,.eq tbody tr:last-child td{border-bottom:0}
+.eq tfoot th,.eq tfoot td{padding:.7rem 1rem;border-top:2px solid var(--ink);
+  font-weight:700;background:var(--band)}
+.eq tfoot td{font-family:var(--ff-n);text-align:right}
+
+/* 取扱商品：24分類をタグとして並べる */
+.cats{margin-top:1.6rem;display:flex;flex-wrap:wrap;gap:.5rem}
+.cats li{font-size:var(--s-xs);border:1px solid var(--rule);border-radius:3px;
+  padding:.4rem .8rem;color:var(--ink-mid);background:var(--surface)}
+
+/* 拠点カード */
+.site{border:1px solid var(--rule);border-top:3px solid var(--key);
+  background:var(--surface);padding:1.3rem}
+.site__t{font-family:var(--ff-d);font-size:var(--s-md)}
+.site__a{margin-top:.6rem;font-size:var(--s-xs);color:var(--ink-mid);line-height:1.9}
+.site__a a{color:var(--key);display:inline-flex;align-items:center;min-block-size:44px}
+
+/* 材質のタグ */
+.mats{margin-top:1.2rem;display:flex;flex-wrap:wrap;gap:.45rem}
+.mats li{font-family:var(--ff-n);font-size:var(--s-xs);border:1px solid var(--key);
+  border-radius:3px;padding:.3rem .7rem;color:var(--key-deep);background:var(--key-soft)}
+
+/* 認証マーク */
+.cert{margin-top:1.4rem;display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap}
+.cert img{inline-size:190px;block-size:auto;border:1px solid var(--rule)}
+.cert p{font-size:var(--s-xs);color:var(--ink-mid);line-height:1.85;max-width:34em}
