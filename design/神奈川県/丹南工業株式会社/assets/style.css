@@ -1,0 +1,224 @@
+@charset "UTF-8";
+/* ============================================================
+   丹南工業株式会社 — コーポレートサイト リニューアル案
+   Art direction: 「型と鋳肌」。溶けた金属を型に流して形にする会社。
+   輪郭のはっきりした矩形（型）と、その中の面（鋳肌）で組む。
+   角丸を使わず、罫も直線だけにする。
+   色はロゴの赤（#FF0000 = oklch 62.8% .258 29）を継ぐ。
+   同じ色相帯の北陸軽金属（28）TOMOE（30）トチセン（32）とは、
+   地を寒色の灰に振り、見出しを角の立った書体にして分ける。
+   ============================================================ */
+
+:root{
+  color-scheme: light;
+
+  --ff-d:"Zen Kaku Gothic Antique","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+  --ff-t:"Noto Sans JP","Hiragino Kaku Gothic ProN",sans-serif;
+  --ff-n:"Roboto Condensed",ui-monospace,SFMono-Regular,Menlo,monospace;
+
+  --s-2xs:clamp(.7rem, .68rem + .08vw, .75rem);
+  --s-xs: clamp(.76rem, .74rem + .1vw, .82rem);
+  --s-sm: clamp(.85rem, .82rem + .14vw, .92rem);
+  --s-md: clamp(.95rem, .92rem + .16vw, 1.02rem);
+  --s-lg: clamp(1.1rem, 1.04rem + .3vw, 1.3rem);
+  --s-xl: clamp(1.3rem, 1.16rem + .68vw, 1.8rem);
+  --s-2xl:clamp(1.6rem, 1.32rem + 1.4vw, 2.6rem);
+  --s-3xl:clamp(1.95rem, 1.4rem + 2.75vw, 3.8rem);
+
+  /* 地：寒色寄りの灰。赤系の既存3社が暖色の地なので、ここで分ける */
+  --bg:      oklch(97.8% .002 250);
+  --surface: oklch(100% 0 0);
+  --band:    oklch(95.2% .003 250);
+  --rule:    oklch(86.5% .004 250);
+  --rule-fine:oklch(92% .003 250);
+
+  --ink:     oklch(25% .008 250);
+  --ink-mid: oklch(42% .006 250);
+  --ink-low: oklch(46% .005 250);
+
+  /* ロゴの赤。色相29は動かさず、白地でAAを満たす明度まで落とす */
+  --key:     oklch(48% .185 29);
+  --key-deep:oklch(38% .150 29);
+  --key-soft:oklch(96% .020 29);
+  --key-fg:  oklch(99% .004 29);
+
+  --wrap: 1140px;
+  --gut: clamp(1.15rem, .7rem + 2.2vw, 3rem);
+  --sec: clamp(3.6rem, 2.4rem + 5vw, 7rem);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--ff-t);font-size:var(--s-md);line-height:1.9;
+  letter-spacing:.025em;font-feature-settings:"palt" 1;-webkit-font-smoothing:antialiased}
+img,svg{max-width:100%}
+a{color:inherit}
+h1,h2,h3,h4{margin:0;line-height:1.38;font-weight:700;font-family:var(--ff-d)}
+p{margin:0}
+ul,ol,dl,dd{margin:0;padding:0}
+li{list-style:none}
+
+.wrap{max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gut)}
+.sr{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.skip{position:absolute;left:-9999px;top:0;z-index:99;background:var(--ink);color:#fff;padding:.7rem 1.1rem}
+.skip:focus{left:.5rem;top:.5rem}
+:focus-visible{outline:2px solid var(--key);outline-offset:3px}
+
+/* ヘッダー */
+.cap{position:sticky;top:0;z-index:40;background:color-mix(in oklab,var(--bg) 92%,transparent);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--rule);transition:box-shadow .3s}
+.cap.is-lift{box-shadow:0 1px 14px oklch(25% .008 250 / .08)}
+.cap__in{display:flex;align-items:center;gap:1rem;min-height:68px}
+.cap__id{display:flex;align-items:baseline;gap:.6rem;text-decoration:none;
+  margin-right:auto;min-width:0;flex-wrap:wrap;min-height:44px;align-content:center}
+.cap__n{font-family:var(--ff-d);font-size:var(--s-lg);letter-spacing:.05em;white-space:nowrap}
+.cap__e{font-family:var(--ff-n);font-size:var(--s-2xs);letter-spacing:.2em;
+  color:var(--key);white-space:nowrap}
+.cap__nav{display:flex;gap:clamp(.8rem, .3rem + 1.4vw, 1.8rem)}
+.cap__nav a{font-size:var(--s-sm);text-decoration:none;color:var(--ink-mid);
+  display:inline-flex;align-items:center;min-height:44px}
+.cap__nav a:hover{color:var(--key)}
+.cap__tel{font-family:var(--ff-n);font-weight:700;font-size:var(--s-md);color:var(--key);
+  text-decoration:none;white-space:nowrap;display:inline-flex;align-items:center;
+  min-height:44px;padding-inline:.3rem}
+.cap__tog{display:none;background:none;border:1px solid var(--rule);
+  min-width:44px;min-height:44px;align-items:center;justify-content:center;
+  color:var(--ink);font-size:var(--s-sm);cursor:pointer;font-family:inherit}
+@media(max-width:430px){
+  .cap__e{display:none}
+  .cap__tel{display:none}
+  .cap__n{font-size:var(--s-md)}
+}
+@media(max-width:860px){
+  .cap__nav{display:none}
+  .cap__tog{display:inline-flex}
+  .cap__in{min-height:60px}
+  #helm:not([hidden]){display:block;position:absolute;left:0;right:0;top:100%;
+    background:var(--surface);border-bottom:1px solid var(--rule);padding:.6rem var(--gut) 1.1rem}
+  #helm:not([hidden]) .cap__nav{display:flex;flex-direction:column;gap:0}
+  #helm:not([hidden]) .cap__nav a{border-bottom:1px solid var(--rule-fine);min-height:52px}
+}
+
+/* 冒頭 */
+.lead{padding-block:clamp(2.8rem, 1.8rem + 4vw, 5.6rem) 0}
+.lead__grid{display:grid;gap:clamp(2rem, 1rem + 4vw, 3.6rem);
+  grid-template-columns:minmax(0,1.1fr) minmax(0,.8fr);align-items:center}
+@media(max-width:900px){.lead__grid{grid-template-columns:1fr}}
+.lead__k{font-family:var(--ff-n);font-size:var(--s-2xs);letter-spacing:.22em;color:var(--key);
+  display:flex;align-items:center;gap:.65rem}
+.lead__k::before{content:"";inline-size:26px;block-size:3px;background:var(--key)}
+.lead__h{font-size:var(--s-3xl);line-height:1.28;margin-top:1.5rem;
+  word-break:keep-all;overflow-wrap:anywhere}
+.lead__h em{font-style:normal;color:var(--key)}
+.lead__b{margin-top:1.7rem;color:var(--ink-mid);max-width:34em}
+.lead__tags{margin-top:2rem;display:flex;flex-wrap:wrap;gap:.5rem .55rem}
+.lead__tags span{font-size:var(--s-xs);border:1px solid var(--rule);
+  padding:.35rem .85rem;color:var(--ink-mid);background:var(--surface)}
+
+.shot{border:1px solid var(--rule);background:var(--surface);padding:.5rem}
+.shot img{display:block;inline-size:100%;block-size:auto}
+.shot__cap{margin-top:.7rem;margin-inline:.25rem;font-size:var(--s-2xs);
+  color:var(--ink-low);line-height:1.8}
+
+/* 数値の帯 */
+.scale{margin-top:var(--sec);border-block:1px solid var(--rule);background:var(--band)}
+.scale__in{display:grid;grid-template-columns:repeat(4,1fr)}
+@media(max-width:820px){.scale__in{grid-template-columns:repeat(2,1fr)}}
+.tick{padding:clamp(1.4rem, 1rem + 1.6vw, 2.3rem) 1rem;text-align:center;
+  border-left:1px solid var(--rule-fine);min-width:0}
+.tick:first-child{border-left:0}
+@media(max-width:820px){
+  .tick:nth-child(3){border-left:0}
+  .tick:nth-child(n+3){border-top:1px solid var(--rule-fine)}
+}
+.tick__v{font-family:var(--ff-n);font-weight:700;font-size:var(--s-2xl);color:var(--key);line-height:1.15}
+.tick__v small{font-size:.42em;color:var(--ink-mid);margin-left:.22em;font-weight:400}
+.tick__l{margin-top:.5rem;font-size:var(--s-xs);color:var(--ink-mid)}
+
+/* 節 */
+.sec{padding-block:var(--sec)}
+.sec--tint{background:var(--band);border-block:1px solid var(--rule)}
+.sec__k{font-family:var(--ff-n);font-size:var(--s-2xs);letter-spacing:.2em;color:var(--key)}
+.sec__h{font-size:var(--s-2xl);margin-top:.6rem}
+.sec__b{margin-top:1.3rem;color:var(--ink-mid);max-width:44em}
+
+/* 署名的装置：型枠。左に太い赤の辺を立て、中を面として扱う */
+.mold{margin-top:clamp(1.8rem, 1.2rem + 2vw, 2.8rem);display:grid;gap:1px;background:var(--rule)}
+.md{background:var(--surface);padding:clamp(1.3rem, 1rem + 1.4vw, 2rem);
+  border-left:4px solid var(--key)}
+.md__t{font-family:var(--ff-d);font-size:var(--s-lg)}
+.md__d{margin-top:.7rem;color:var(--ink-mid);font-size:var(--s-sm);max-width:52em}
+.md__tags{margin-top:.9rem;display:flex;flex-wrap:wrap;gap:.4rem}
+.md__tags span{font-family:var(--ff-n);font-size:var(--s-xs);background:var(--key-soft);
+  color:var(--key-deep);padding:.2rem .6rem}
+
+/* 設備の表 */
+.tbl-wrap{margin-top:1.8rem;overflow-x:auto;border:1px solid var(--rule);background:var(--surface)}
+.tbl{border-collapse:collapse;inline-size:100%;min-inline-size:340px;font-size:var(--s-sm)}
+.tbl caption{text-align:left;padding:.9rem 1rem;font-size:var(--s-xs);color:var(--ink-low);
+  border-bottom:1px solid var(--rule-fine)}
+.tbl th,.tbl td{padding:.7rem 1rem;border-bottom:1px solid var(--rule-fine);text-align:left}
+.tbl thead th{background:var(--band);font-size:var(--s-xs);color:var(--ink-low);
+  letter-spacing:.06em;font-weight:500}
+.tbl td:last-child,.tbl th:last-child{text-align:right;
+  font-family:var(--ff-n);white-space:nowrap}
+.tbl tbody tr:last-child td{border-bottom:0}
+
+/* 沿革 */
+.hist{margin-top:clamp(1.8rem, 1.2rem + 2vw, 2.8rem);border-top:2px solid var(--ink)}
+.hist__r{display:grid;grid-template-columns:9.5rem minmax(0,1fr);gap:1rem;
+  padding:.75rem 0;border-bottom:1px solid var(--rule-fine)}
+@media(max-width:640px){.hist__r{grid-template-columns:1fr;gap:.15rem}}
+.hist__y{font-family:var(--ff-n);font-size:var(--s-sm);color:var(--key);letter-spacing:.04em}
+.hist__d{font-size:var(--s-sm);color:var(--ink-mid)}
+
+/* 取引先 */
+.cli{margin-top:1.8rem;display:grid;gap:1px;background:var(--rule);
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.cli li{background:var(--surface);padding:.85rem 1.1rem;font-size:var(--s-sm);min-width:0}
+.cli__note{margin-top:1rem;font-size:var(--s-xs);color:var(--ink-low)}
+
+/* 会社概要 */
+.facts{margin-top:2rem;border-top:2px solid var(--ink)}
+.facts__r{display:grid;grid-template-columns:11rem minmax(0,1fr);gap:1.2rem;
+  padding:1rem 0;border-bottom:1px solid var(--rule-fine)}
+@media(max-width:700px){.facts__r{grid-template-columns:1fr;gap:.25rem}}
+.facts dt{font-size:var(--s-sm);color:var(--ink-low);letter-spacing:.06em}
+.facts dd{font-size:var(--s-sm)}
+
+.map-box{margin-top:2rem;position:relative;aspect-ratio:16/9;
+  border:1px solid var(--rule);overflow:hidden;background:var(--band)}
+.map-box iframe{position:absolute;inset:0;inline-size:100%;block-size:100%;border:0}
+
+.cta{background:var(--key);color:var(--key-fg);padding-block:var(--sec)}
+.cta__h{font-size:var(--s-2xl)}
+.cta__b{margin-top:1rem;color:oklch(96.5% .012 29);max-width:40em}
+.cta__row{margin-top:2rem;display:flex;flex-wrap:wrap;gap:1rem 2.2rem;align-items:center}
+.cta__tel{font-family:var(--ff-n);font-weight:700;
+  font-size:clamp(1.45rem, 1.1rem + 1.7vw, 2.3rem);
+  color:var(--key-fg);text-decoration:none;display:inline-flex;align-items:center;min-height:48px}
+.cta__mail{color:var(--key-fg);font-size:var(--s-sm);
+  display:inline-flex;align-items:center;min-height:44px}
+.cta__note{font-size:var(--s-xs);color:oklch(94% .014 29)}
+
+.foot{background:var(--ink);color:oklch(92% .004 250);padding-block:2.6rem}
+.foot__in{display:flex;flex-wrap:wrap;gap:1.2rem 2.5rem;justify-content:space-between}
+.foot__n{font-family:var(--ff-d);font-size:var(--s-md);color:#fff}
+.foot__a{margin-top:.5rem;font-size:var(--s-xs);color:oklch(81% .005 250);line-height:1.85}
+.foot__c{font-family:var(--ff-n);font-size:var(--s-2xs);color:oklch(70% .005 250);align-self:end}
+
+.js [data-up]{opacity:0;transform:translateY(14px)}
+.js [data-up].is-in{opacity:1;transform:none;
+  transition:opacity .62s ease var(--d,0ms),
+             transform .62s cubic-bezier(.22,.7,.3,1) var(--d,0ms)}
+@media (prefers-reduced-motion:reduce){
+  .js [data-up]{opacity:1;transform:none}
+  .js [data-up].is-in{transition:none}
+}
+
+@media print{
+  .cap,.cta,.map-box{display:none}
+  body{background:#fff}
+  .js [data-up]{opacity:1;transform:none}
+}
