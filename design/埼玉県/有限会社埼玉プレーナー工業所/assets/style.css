@@ -248,3 +248,13 @@ p{ margin:0 }
 .trade-fig figcaption{margin-block-start:.75rem;font-size:.7rem;letter-spacing:.14em;
   text-transform:uppercase;opacity:.65;text-align:center}
 @media (max-width:600px){.trade-fig{margin-inline:0;padding:.9rem}}
+
+/* 加工事例の写真。事例の記述の末尾に、その事例そのものを置く。
+   独立した箱にせず、article の地の上にそのまま敷く。 */
+/* 元画像が 640px 程度のものがあるため、表示幅の上限を設けて
+   引き伸ばしを避ける（実寸の1.3倍までしか出さない） */
+.work__f{margin:1.1rem 0 0;max-inline-size:480px}
+.work__f img{display:block;inline-size:100%;block-size:auto;aspect-ratio:16/10;
+  object-fit:cover;background:var(--floor)}
+.work__f figcaption{margin-top:.5rem;font-size:var(--fs-s);
+  color:var(--ink-mid);line-height:1.75}
