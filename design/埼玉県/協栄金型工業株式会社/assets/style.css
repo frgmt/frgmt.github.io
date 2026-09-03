@@ -256,3 +256,12 @@ p{ margin:0 }
   .tbl thead th{ background:#fff!important; color:#000!important; border-bottom:2px solid #000 }
 }
 
+/* 磨き・蒸着の表の直後。その条件で成形された現物を並べる。
+   独立した箱にせず、mirror 節の地の上にそのまま置く。 */
+.shots{ margin-top:1.6rem; display:grid; gap:1rem;
+  grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)) }
+.shots > *{ min-width:0 }
+.shot{ margin:0 }
+.shot img{ display:block; inline-size:100%; block-size:auto;
+  aspect-ratio:4/3; object-fit:cover; background:var(--bg) }
+.shot figcaption{ margin-top:.5rem; font-size:var(--fs-s); color:var(--ink-mid); line-height:1.7 }

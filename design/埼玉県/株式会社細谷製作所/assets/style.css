@@ -192,3 +192,12 @@ table.eq tfoot td.n{color:var(--key)}
   .js [data-up]{opacity:1;transform:none}
   .js [data-up].is-in{transition:none}
 }
+
+/* 製品カードの直後。何を作っているかを現物で見せる。 */
+.shots{margin-top:1.6rem;display:grid;gap:1rem;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.shots > *{min-width:0}
+.shot{margin:0}
+.shot img{display:block;inline-size:100%;block-size:auto;
+  aspect-ratio:5/3;object-fit:cover;background:var(--band)}
+.shot figcaption{margin-top:.5rem;font-size:var(--s-xs);color:var(--ink-low);line-height:1.7}
