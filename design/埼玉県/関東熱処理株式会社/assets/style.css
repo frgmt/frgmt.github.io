@@ -243,3 +243,14 @@ p{ margin:0 }
 .trade-fig figcaption{margin-block-start:.75rem;font-size:.7rem;letter-spacing:.14em;
   text-transform:uppercase;opacity:.65;text-align:center}
 @media (max-width:600px){.trade-fig{margin-inline:0;padding:.9rem}}
+
+/* 元サイトから引いた写真。SVGの枠をそのまま使う */
+.trade-fig{max-inline-size:min(880px,100%)}
+/* 既定の figcaption は opacity:.65 でコントラストが測れない。
+   不透明な色に置き換える（currentColor の 65% 相当を実色で持つ） */
+.trade-fig figcaption{opacity:1;color:color-mix(in oklab,currentColor 68%,transparent);
+  text-transform:none;letter-spacing:.02em;font-size:.76rem;line-height:1.8}
+.trade-shots{display:grid;gap:.5rem;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.trade-shots img{display:block;inline-size:100%;block-size:auto;aspect-ratio:4/3;
+  object-fit:cover;background:#f0f0f0}
+@media (max-width:520px){.trade-shots{grid-template-columns:1fr}}
