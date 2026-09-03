@@ -223,3 +223,15 @@ table.eq tfoot td.n{color:var(--key)}
   .js [data-up]{opacity:1;transform:none}
   .js [data-up].is-in{transition:none}
 }
+
+/* 品質向上の節。文と検査写真を横に並べる。
+   独立した箱を作らず、既存の cards と同じ地の上に置く。 */
+.qual{margin-top:1.2rem;display:grid;gap:clamp(1rem, .6rem + 1.4vw, 1.6rem);
+  grid-template-columns:minmax(0,1.15fr) minmax(0,1fr) minmax(0,1fr);align-items:start}
+@media(max-width:900px){.qual{grid-template-columns:1fr 1fr}
+  .qual__t{grid-column:1/-1}}
+@media(max-width:560px){.qual{grid-template-columns:1fr}}
+.qual__f{margin:0}
+.qual__f img{display:block;inline-size:100%;block-size:auto;aspect-ratio:4/3;
+  object-fit:cover;background:var(--band)}
+.qual__f figcaption{margin-top:.55rem;font-size:var(--s-xs);color:var(--ink-low);line-height:1.75}
