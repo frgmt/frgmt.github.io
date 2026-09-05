@@ -390,3 +390,7 @@ a.wy:hover{ border-color:var(--sea); transform:translateY(-2px) }
   }
 }
 
+/* 系統ごとに、その系統のトレーを1点。節の地の上に置く。 */
+.shot{margin:1.3rem 0 0;max-inline-size:520px}
+.shot img{display:block;inline-size:100%;block-size:auto;aspect-ratio:4/3;object-fit:cover}
+.shot figcaption{margin-top:.5rem;font-size:.82rem;opacity:1;line-height:1.7}
