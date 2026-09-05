@@ -251,3 +251,11 @@ p{ margin:0 }
   .tbl thead th{ background:#fff!important; color:#000!important; border-bottom:2px solid #000 }
 }
 
+/* 設備一覧の直後。溶解から造型までの実際を見せる。 */
+.shots{margin:1.6rem 0 0;display:grid;gap:1rem;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.shots > *{min-width:0}
+.shot{margin:0}
+.shot img{display:block;inline-size:100%;block-size:auto;
+  aspect-ratio:4/3;object-fit:cover;background:var(--floor,#f2f2f2)}
+.shot figcaption{margin-top:.5rem;font-size:var(--fs-s);color:var(--ink-mid);line-height:1.7}
