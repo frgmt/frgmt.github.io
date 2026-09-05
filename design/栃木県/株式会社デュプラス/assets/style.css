@@ -453,4 +453,3 @@ button { font:inherit; color:inherit; background:none; border:0; cursor:pointer 
   height:clamp(15rem, 26vw, 20rem);
   border:0; border-radius:8px; background:rgba(128,128,128,.15);
 }
-

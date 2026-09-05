@@ -496,4 +496,3 @@ table { border-collapse:collapse; width:100% }
 /* in a multi-column card grid the map is only as wide as its card, so key the
    height off the width rather than the viewport (measured: 289px wide cards) */
 .pl .map iframe { height:auto; aspect-ratio:4 / 3 }
-

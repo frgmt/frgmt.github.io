@@ -401,4 +401,3 @@ a.wy:hover{ border-color:var(--ind); transform:translateY(-2px) }
     @keyframes hu{ from{ transform:translateY(14px) } to{ transform:none } }
   }
 }
-

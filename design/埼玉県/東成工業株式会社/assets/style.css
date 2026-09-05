@@ -417,4 +417,3 @@ a.wy:hover{ border-color:var(--cy); transform:translateY(-2px) }
     @keyframes ru{ from{ transform:translateY(14px) } to{ transform:none } }
   }
 }
-

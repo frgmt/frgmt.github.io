@@ -500,4 +500,3 @@ button { font:inherit; color:inherit; background:none; border:0; cursor:pointer 
 /* in a multi-column card grid the map is only as wide as its card, so key the
    height off the width rather than the viewport (measured: 289px wide cards) */
 .pl .map iframe { height:auto; aspect-ratio:4 / 3 }
-

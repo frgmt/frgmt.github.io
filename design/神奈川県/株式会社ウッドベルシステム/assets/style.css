@@ -345,4 +345,3 @@ a.wy:hover{ border-color:var(--bl); transform:translateY(-2px) }
     @keyframes wu{ from{ transform:translateY(14px) } to{ transform:none } }
   }
 }
-

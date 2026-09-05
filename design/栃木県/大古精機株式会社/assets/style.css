@@ -116,6 +116,8 @@ p, li, dd, dt, td, th, figcaption, summary {
 a { color: inherit; }
 img { max-width: 100%; height: auto; display: block; }
 
+.skip{position:absolute;left:-9999px;top:0;z-index:99;background:var(--ink);color:#fff;padding:.7rem 1.1rem}
+.skip:focus{left:.5rem;top:.5rem}
 :focus-visible { outline: 2px solid var(--heat); outline-offset: 3px; }
 
 .hidden {
@@ -451,4 +453,3 @@ img { max-width: 100%; height: auto; display: block; }
   height:clamp(15rem, 26vw, 20rem);
   border:0; border-radius:8px; background:rgba(128,128,128,.15);
 }
-

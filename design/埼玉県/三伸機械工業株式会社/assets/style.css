@@ -344,4 +344,3 @@ a.ln:hover{ border-color:var(--st); transform:translateY(-2px) }
     @keyframes sy{ from{ transform:translateY(14px) } to{ transform:none } }
   }
 }
-

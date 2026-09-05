@@ -185,24 +185,26 @@ li{list-style:none}
 /* 問い合わせ */
 .cta{background:var(--key);color:var(--key-fg);padding-block:var(--sec)}
 .cta__h{font-size:var(--s-2xl)}
-.cta__b{margin-top:1rem;opacity:.92;max-width:40em}
+.cta__b{margin-top:1rem;color:oklch(96.5% .006 250);max-width:40em}
 .cta__row{margin-top:2rem;display:flex;flex-wrap:wrap;gap:1rem 2.2rem;align-items:center}
 .cta__tel{font-family:var(--ff-n);font-weight:700;font-size:clamp(1.5rem,1.1rem + 1.8vw,2.4rem);
   color:var(--key-fg);text-decoration:none;letter-spacing:.02em;
   display:inline-flex;align-items:center;min-height:48px}
-.cta__note{font-size:var(--s-xs);opacity:.85}
+.cta__note{font-size:var(--s-xs);color:oklch(93.5% .008 250)}
 .cta__mail{display:inline-block;background:var(--key-fg);color:var(--key-deep);
   text-decoration:none;font-weight:700;padding:.85rem 1.6rem;border-radius:2px;font-size:var(--s-sm)}
 
 .foot{background:var(--ink);color:oklch(92% .004 250);padding-block:2.6rem}
 .foot__in{display:flex;flex-wrap:wrap;gap:1.2rem 2.5rem;justify-content:space-between}
 .foot__n{font-family:var(--ff-d);font-size:var(--s-md);color:#fff}
-.foot__a{margin-top:.5rem;font-size:var(--s-xs);opacity:.78;line-height:1.85}
-.foot__c{font-family:var(--ff-n);font-size:var(--s-2xs);opacity:.6;align-self:end}
+.foot__a{margin-top:.5rem;font-size:var(--s-xs);color:oklch(81% .006 250);line-height:1.85}
+.foot__c{font-family:var(--ff-n);font-size:var(--s-2xs);color:oklch(70% .006 250);align-self:end}
 
+/* 表示アニメーション。JS が動く環境でだけ隠す。
+   .js を付けずに opacity:0 にすると、JS 無効時に本文が消える。 */
 @media (prefers-reduced-motion:no-preference){
-  [data-up]{opacity:0;transform:translateY(14px);
+  .js [data-up]{opacity:0;transform:translateY(14px);
     transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1);
     transition-delay:var(--d,0ms)}
-  .is-in[data-up],.is-in [data-up]{opacity:1;transform:none}
+  .js .is-in[data-up],.js .is-in [data-up]{opacity:1;transform:none}
 }

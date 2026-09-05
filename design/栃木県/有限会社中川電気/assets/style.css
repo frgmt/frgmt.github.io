@@ -153,6 +153,8 @@ svg {
   display: block;
 }
 
+.skip{position:absolute;left:-9999px;top:0;z-index:99;background:#1a1a1a;color:#fff;padding:.7rem 1.1rem}
+.skip:focus{left:.5rem;top:.5rem}
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
@@ -926,4 +928,3 @@ svg {
   height:clamp(15rem, 26vw, 20rem);
   border:0; border-radius:8px; background:rgba(128,128,128,.15);
 }
-

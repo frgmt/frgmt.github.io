@@ -259,4 +259,3 @@ p{ margin:0 }
 .ways{ margin:1.1rem 0 0; padding:0; list-style:none; border-top:1px solid var(--rule-thin) }
 .ways li{ padding:.55rem 0; border-bottom:1px solid var(--rule-thin); font-size:var(--fs-s); color:var(--ink-mid) }
 .ways b{ color:var(--ink); font-weight:700 }
-

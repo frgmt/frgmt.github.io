@@ -2,10 +2,11 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>東洋電源機器株式会社｜静止型電源・周波数変換器・DC-ACインバータ｜横浜市港北区</title>
 <meta name="description" content="神奈川県横浜市港北区の電源機器メーカー。DC-ACインバータ、周波数変換器（50Hz⇔60Hz）、定電圧電源など特注品を含む静止型電源を設計製作。デンマークDANFYSIK社の高精度直流電源、DANISENSE社の高精度電流センサーの国内販売も行います。第45期・お取引400社以上。">
-<meta name="robots" content="noindex,nofollow">
+<link rel="canonical" href="https://www.toyodengenkiki.co.jp/">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="東洋電源機器株式会社">
@@ -235,11 +236,26 @@
 
 <script>
 (function(){
-  if (!('IntersectionObserver' in window)) return;
+  // JS が動く環境でだけ .js を付ける。JS 無効時は本文がそのまま見える。
+  document.documentElement.classList.add('js');
+  var els = document.querySelectorAll('section, .cv, .imp__c');
+  if (!('IntersectionObserver' in window) ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    for (var i = 0; i < els.length; i++) els[i].classList.add('is-in');
+    return;
+  }
+  // threshold は 0 にする。ビューポートより背の高い要素は
+  // 「面積の5% が見えた」状態に決してならない。
   var io = new IntersectionObserver(function(es){
     es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('is-in'); io.unobserve(e.target); } });
-  }, {rootMargin:'0px 0px -8% 0px', threshold:.05});
-  document.querySelectorAll('section, .cv, .imp__c').forEach(function(el){ io.observe(el); });
+  }, {rootMargin:'0px 0px -5% 0px', threshold:0});
+  els.forEach(function(el){ io.observe(el); });
+  window.addEventListener('load', function(){
+    setTimeout(function(){ els.forEach(function(el){ el.classList.add('is-in'); }); }, 2500);
+  });
+  window.addEventListener('beforeprint', function(){
+    els.forEach(function(el){ el.classList.add('is-in'); });
+  });
 })();
 </script>
 </body>

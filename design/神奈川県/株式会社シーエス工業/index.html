@@ -2,10 +2,11 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>株式会社シーエス工業｜プリント基板実装・土日祝日通常営業の超短納期｜神奈川県平塚市</title>
 <meta name="description" content="神奈川県平塚市のEMS（電子機器受託製造）。プリント基板の設計・部品調達・実装・本体組立配線までを一貫対応。土日祝日も通常営業の24時間体制で、金曜のご依頼を月曜にお届けする超短納期を実現します。SMT2ライン、BGAリワーク対応。1989年創業、従業員65名。ISO14001認定工場。">
-<meta name="robots" content="noindex,nofollow">
+<link rel="canonical" href="http://www.cs-kogyo.co.jp/">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="株式会社シーエス工業">
@@ -283,11 +284,26 @@
 
 <script>
 (function(){
-  if (!('IntersectionObserver' in window)) return;
+  // JS が動く環境でだけ .js を付ける。JS 無効時は本文がそのまま見える。
+  document.documentElement.classList.add('js');
+  var els = document.querySelectorAll('section, .fl, .line');
+  if (!('IntersectionObserver' in window) ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    for (var i = 0; i < els.length; i++) els[i].classList.add('is-in');
+    return;
+  }
+  // threshold は 0 にする。ビューポートより背の高い要素は
+  // 「面積の5% が見えた」状態に決してならない。
   var io = new IntersectionObserver(function(es){
     es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('is-in'); io.unobserve(e.target); } });
-  }, {rootMargin:'0px 0px -8% 0px', threshold:.05});
-  document.querySelectorAll('section, .fl, .line').forEach(function(el){ io.observe(el); });
+  }, {rootMargin:'0px 0px -5% 0px', threshold:0});
+  els.forEach(function(el){ io.observe(el); });
+  window.addEventListener('load', function(){
+    setTimeout(function(){ els.forEach(function(el){ el.classList.add('is-in'); }); }, 2500);
+  });
+  window.addEventListener('beforeprint', function(){
+    els.forEach(function(el){ el.classList.add('is-in'); });
+  });
 })();
 </script>
 </body>

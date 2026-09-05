@@ -258,4 +258,3 @@ p{ margin:0 }
 /* 営業品目は3本柱を縦に積む（横並びにすると仕様の行が潰れる） */
 .kilns--one{ grid-template-columns:1fr }
 @media (min-width:800px){ .kilns--one{ grid-template-columns:1fr } }
-

@@ -389,4 +389,3 @@ a.ln:hover{ border-color:var(--ind); transform:translateY(-2px) }
     @keyframes up{ from{ transform:translateY(14px) } to{ transform:none } }
   }
 }
-
