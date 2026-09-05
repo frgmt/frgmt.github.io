@@ -178,3 +178,8 @@ a{ color:var(--nvy-ink); }
 @media (prefers-reduced-motion:reduce){
   .js [data-up]{ opacity:1; transform:none; } .js [data-up].is-in{ transition:none; }
 }
+
+/* 製品カードの下に、実物を横長で1点。カードは分類、写真は現物。 */
+.pr__strip{margin:1.6rem 0 0;max-inline-size:750px}
+.pr__strip img{display:block;inline-size:100%;block-size:auto;background:#fff}
+.pr__strip figcaption{margin-top:.5rem;font-size:var(--s-xs);color:var(--ink-low);line-height:1.7}

@@ -212,3 +212,8 @@ table{border-collapse:collapse}
 .legend{margin-top:.9rem;display:flex;flex-wrap:wrap;gap:.5rem 1.2rem;
   font-size:var(--s-xs);color:var(--ink-mid)}
 .legend b{font-weight:700}
+
+/* 本文の主張を裏づける写真。節の地の上にそのまま置く。 */
+.shot{margin:1.5rem 0 0;max-inline-size:820px}
+.shot img{display:block;inline-size:100%;block-size:auto;background:var(--band)}
+.shot figcaption{margin-top:.5rem;font-size:var(--s-xs);color:var(--ink-low);line-height:1.7}
